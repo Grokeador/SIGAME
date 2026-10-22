@@ -1,6 +1,6 @@
 <p align="center"><img src="logo.png" width="140" alt="SIGAME logo"></p>
 
-# SIGAME — one-click gaming optimizer for Windows 10 and 11
+# SIGAME AUTO — one-click gaming optimizer for Windows 10 and 11
 
 SIGAME scans your PC, finds your games and applies gaming tweaks with one click.
 Every change is saved to a backup **before** it is made, and one button puts everything back.
@@ -12,12 +12,10 @@ the code was written by a **free AI model** (`minimax/minimax-m3.1-flash:free` o
 inside Claude Code, in a race against paid Claude. Based on
 [Chris Titus WinUtil](https://github.com/ChrisTitusTech/winutil) (MIT) — credit and licence below.
 
-## Two versions
+## What it does
 
-| File | What it does |
-|---|---|
-| `SI-GAME-AUTO.bat` | **SIGAME AUTO**: diagnosis of the PC + one button **OTTIMIZZA** that applies the whole hardware-adapted preset and optimizes every detected game |
-| `AVVIA SI GAME.bat` | **SIGAME**: the manual version, one row per tweak with its own Apply / Undo |
+`SI-GAME-AUTO.bat` opens **SIGAME AUTO**: a diagnosis of your PC (hardware profile, applied tweaks, installed games)
+and one button, **OTTIMIZZA**, that applies the whole hardware-adapted preset and optimizes every detected game.
 
 Games are detected from Steam, Epic Games, Battle.net, EA app, Ubisoft Connect, Riot Games and GOG Galaxy,
 and you can add any game by hand. Each game gets: high-performance GPU, fullscreen optimizations off,
@@ -26,7 +24,7 @@ high CPU priority, power throttling off and Auto-Boost.
 ## How to run it
 
 1. Download the repo (green **Code** button → **Download ZIP**) and extract it.
-2. Double-click `SI-GAME-AUTO.bat` (or `AVVIA SI GAME.bat`) and accept the administrator prompt.
+2. Double-click `SI-GAME-AUTO.bat` and accept the administrator prompt.
 3. SIGAME creates a **System Restore point** first, then shows the state of your PC.
 4. Press **OTTIMIZZA**. Restart Windows when it asks.
 5. Want everything back? Press **Undo all** (it reads `SI-GAME-backup.json`) or use the restore point.
@@ -45,8 +43,7 @@ that trade security or power saving for latency. They are all undone by **Undo a
 - Boot settings changed with `bcdedit` (`disabledynamictick`, `tscsyncpolicy`).
 - Some unused services set to Manual, Windows Update paused while gaming, Fast Startup off.
 
-If you do not want these, pick the **Streaming** or **Session only** mode before pressing the button,
-or use the manual version.
+If you do not want these, pick one of the other modes (for example **Streaming**) before pressing the button.
 
 SIGAME does not promise a number of FPS: the gain depends on your PC. Measure before and after
 with the built-in **live test** (timer, ping/jitter, free RAM).
