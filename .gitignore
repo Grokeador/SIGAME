@@ -1,0 +1,7 @@
+*.log
+SI-GAME-backup.json
+SI-GAME-measures.json
+SI-GAME-boost.json
+SI-GAME-desktop.flag
+*.bak
+*Copia*
