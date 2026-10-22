@@ -1,4 +1,4 @@
-# ---------------------------------------------------------------------------
+﻿# ---------------------------------------------------------------------------
 #  SIGAME - module 00: the core
 #
 #  The texts of the window, the state that everything shares and the small
@@ -187,7 +187,7 @@ $script:SIText['en'] = @{
     StatusDone       = 'DONE'
     StatusProgress   = '{0} of {1}'
     TrustFooter      = 'Open source. Every change can be undone. Restore point created: {0}'
-    FooterBase       = 'Based on Chris Titus WinUtil (MIT). Log: {0}'
+    FooterBase       = 'SIGAME by SI NEWS. Log: {0}'
     SectionBoost     = 'BOOST LIST'
     SectionGames     = 'YOUR GAMES'
     SectionMachine   = 'YOUR MACHINE'
@@ -257,7 +257,7 @@ $script:SIText['pt-BR'] = @{
     StatusDone       = 'PRONTO'
     StatusProgress   = '{0} de {1}'
     TrustFooter      = 'Codigo aberto. Toda mudanca pode ser desfeita. Ponto de restauracao criado: {0}'
-    FooterBase       = 'Baseado no Chris Titus WinUtil (MIT). Log: {0}'
+    FooterBase       = 'SIGAME by SI NEWS. Log: {0}'
     SectionBoost     = 'LISTA DE BOOST'
     SectionGames     = 'SEUS JOGOS'
     SectionMachine   = 'SEU COMPUTADOR'
@@ -327,7 +327,7 @@ $script:SIText['es'] = @{
     StatusDone       = 'LISTO'
     StatusProgress   = '{0} de {1}'
     TrustFooter      = 'Codigo abierto. Todo cambio se puede deshacer. Punto de restauracion creado: {0}'
-    FooterBase       = 'Basado en Chris Titus WinUtil (MIT). Registro: {0}'
+    FooterBase       = 'SIGAME by SI NEWS. Registro: {0}'
     SectionBoost     = 'LISTA DE BOOST'
     SectionGames     = 'TUS JUEGOS'
     SectionMachine   = 'TU EQUIPO'
@@ -397,7 +397,7 @@ $script:SIText['it'] = @{
     StatusDone       = 'PRONTO'
     StatusProgress   = '{0} di {1}'
     TrustFooter      = 'Codice aperto. Ogni modifica puo essere annullata. Punto di ripristino creato: {0}'
-    FooterBase       = 'Basato su Chris Titus WinUtil (MIT). Log: {0}'
+    FooterBase       = 'SIGAME by SI NEWS. Log: {0}'
     SectionBoost     = 'ELENCO BOOST'
     SectionGames     = 'I TUOI GIOCHI'
     SectionMachine   = 'IL TUO COMPUTER'
@@ -467,7 +467,7 @@ $script:SIText['de'] = @{
     StatusDone       = 'FERTIG'
     StatusProgress   = '{0} von {1}'
     TrustFooter      = 'Quelloffen. Jede Aenderung laesst sich rueckgaengig machen. Wiederherstellungspunkt erstellt: {0}'
-    FooterBase       = 'Basierend auf Chris Titus WinUtil (MIT). Log: {0}'
+    FooterBase       = 'SIGAME by SI NEWS. Log: {0}'
     SectionBoost     = 'BOOST-LISTE'
     SectionGames     = 'DEINE SPIELE'
     SectionMachine   = 'DEIN RECHNER'
@@ -537,7 +537,7 @@ $script:SIText['fr'] = @{
     StatusDone       = 'TERMINE'
     StatusProgress   = '{0} sur {1}'
     TrustFooter      = 'Open source. Chaque changement peut etre annule. Point de restauration cree : {0}'
-    FooterBase       = 'Base sur Chris Titus WinUtil (MIT). Journal : {0}'
+    FooterBase       = 'SIGAME by SI NEWS. Journal : {0}'
     SectionBoost     = 'LISTE DE BOOST'
     SectionGames     = 'VOS JEUX'
     SectionMachine   = 'VOTRE ORDINATEUR'

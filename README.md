@@ -9,8 +9,7 @@ It is plain PowerShell: no `.exe`, nothing hidden. Read every line before you ru
 
 Made for the **SI NEWS** YouTube channel ([@SINEWS-q5x](https://www.youtube.com/@SINEWS-q5x)):
 the code was written by a **free AI model** (`minimax/minimax-m3.1-flash:free` on OpenRouter)
-inside Claude Code, in a race against paid Claude. Based on
-[Chris Titus WinUtil](https://github.com/ChrisTitusTech/winutil) (MIT) — credit and licence below.
+inside Claude Code, in a race against paid Claude.
 
 ## What it does
 
@@ -53,14 +52,7 @@ with the built-in **live test** (timer, ping/jitter, free RAM).
 `SI-GAME.log` (what it did), `SI-GAME-backup.json` (original values, used by Undo),
 `SI-GAME-measures.json` (before/after measures), `SI-GAME-boost.json` (your games).
 
-## Full tweak list
-
-See [docs/TWEAKS.md](docs/TWEAKS.md): every tweak, the registry keys, the source and how the undo works.
-
-## Credits and licence
-
-The tweak set, the registry keys and the apply/undo mechanics come from
-**Chris Titus WinUtil** — https://github.com/ChrisTitusTech/winutil — MIT License, Copyright (c) 2023 Chris Titus.
+## Licence
 
 SIGAME is released under the MIT License (see [LICENSE](LICENSE)). It is provided "as is", without warranty:
 you run it on your own PC at your own risk, so keep the restore point.
