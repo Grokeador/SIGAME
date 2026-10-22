@@ -8,8 +8,8 @@ Every change is saved to a backup **before** it is made, and one button puts eve
 It is plain PowerShell: no `.exe`, nothing hidden. Read every line before you run it.
 
 Made for the **SI NEWS** YouTube channel ([@SINEWS-q5x](https://www.youtube.com/@SINEWS-q5x)):
-the code was written by a **free AI model** (`minimax/minimax-m3.1-flash:free` on OpenRouter)
-inside Claude Code, in a race against paid Claude.
+SIGAME_AUTO started from our first program, SIGAME, and was rebuilt with AI into a fully automatic tool:
+one click does everything.
 
 ## What it does
 
