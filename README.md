@@ -1,8 +1,8 @@
-<p align="center"><img src="logo.png" width="140" alt="SIGAME logo"></p>
+<p align="center"><img src="logo.png" width="140" alt="SIGAME_AUTO logo"></p>
 
-# SIGAME AUTO — one-click gaming optimizer for Windows 10 and 11
+# SIGAME_AUTO — one-click gaming optimizer for Windows 10 and 11
 
-SIGAME scans your PC, finds your games and applies gaming tweaks with one click.
+SIGAME_AUTO scans your PC, finds your games and applies gaming tweaks with one click.
 Every change is saved to a backup **before** it is made, and one button puts everything back.
 
 It is plain PowerShell: no `.exe`, nothing hidden. Read every line before you run it.
@@ -13,7 +13,7 @@ inside Claude Code, in a race against paid Claude.
 
 ## What it does
 
-`SI-GAME-AUTO.bat` opens **SIGAME AUTO**: a diagnosis of your PC (hardware profile, applied tweaks, installed games)
+`SI-GAME-AUTO.bat` opens **SIGAME_AUTO**: a diagnosis of your PC (hardware profile, applied tweaks, installed games)
 and one button, **OTTIMIZZA**, that applies the whole hardware-adapted preset and optimizes every detected game.
 
 Games are detected from Steam, Epic Games, Battle.net, EA app, Ubisoft Connect, Riot Games and GOG Galaxy,
@@ -24,7 +24,7 @@ high CPU priority, power throttling off and Auto-Boost.
 
 1. Download the repo (green **Code** button → **Download ZIP**) and extract it.
 2. Double-click `SI-GAME-AUTO.bat` and accept the administrator prompt.
-3. SIGAME creates a **System Restore point** first, then shows the state of your PC.
+3. SIGAME_AUTO creates a **System Restore point** first, then shows the state of your PC.
 4. Press **OTTIMIZZA**. Restart Windows when it asks.
 5. Want everything back? Press **Undo all** (it reads `SI-GAME-backup.json`) or use the restore point.
 
@@ -33,7 +33,7 @@ Check it yourself on [VirusTotal](https://www.virustotal.com/) and read the code
 
 ## ⚠️ Read this before you press OTTIMIZZA
 
-The default mode of SIGAME AUTO is **Max FPS**. In this mode it also applies "hard" tweaks
+The default mode of SIGAME_AUTO is **Max FPS**. In this mode it also applies "hard" tweaks
 that trade security or power saving for latency. They are all undone by **Undo all**, but you should know them:
 
 - **CPU Spectre/Meltdown mitigations off** (`FeatureSettingsOverride = 3`) and
@@ -44,15 +44,15 @@ that trade security or power saving for latency. They are all undone by **Undo a
 
 If you do not want these, pick one of the other modes (for example **Streaming**) before pressing the button.
 
-SIGAME does not promise a number of FPS: the gain depends on your PC. Measure before and after
+SIGAME_AUTO does not promise a number of FPS: the gain depends on your PC. Measure before and after
 with the built-in **live test** (timer, ping/jitter, free RAM).
 
-## Files SIGAME writes next to itself
+## Files SIGAME_AUTO writes next to itself
 
 `SI-GAME.log` (what it did), `SI-GAME-backup.json` (original values, used by Undo),
 `SI-GAME-measures.json` (before/after measures), `SI-GAME-boost.json` (your games).
 
 ## Licence
 
-SIGAME is released under the MIT License (see [LICENSE](LICENSE)). It is provided "as is", without warranty:
+SIGAME_AUTO is released under the MIT License (see [LICENSE](LICENSE)). It is provided "as is", without warranty:
 you run it on your own PC at your own risk, so keep the restore point.
