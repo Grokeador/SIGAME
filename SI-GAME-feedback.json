@@ -1,0 +1,6 @@
+{
+    "_readme": "TelemetryUrl = the SI NEWS Cloudflare Worker that receives the anonymous stats (game names + hardware class) and REQUESTs. Empty = SIGAME sends nothing.",
+    "TelemetryUrl": "https://sigame-telemetry.sinews.workers.dev/v1/event",
+    "GitHubRepo": "Grokeador/SIGAME",
+    "PresetsRawBase": "https://raw.githubusercontent.com/Grokeador/SIGAME/main/presets/"
+}

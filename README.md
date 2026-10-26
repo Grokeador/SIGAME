@@ -47,10 +47,40 @@ If you do not want these, pick one of the other modes (for example **Streaming**
 SIGAME does not promise a number of FPS: the gain depends on your PC. Measure before and after
 with the built-in **live test** (timer, ping/jitter, free RAM).
 
+## SI PRESETS: the extreme configs from our videos
+
+The configs we build in the SI NEWS videos live in the `presets` folder (`presets/catalog.json` lists them).
+When SIGAME finds one of those games, its card shows **SI PRESET**: one click backs up the game's config and applies it,
+a second click offers **Undo**. **SI PRESETS** lists them all and **Check for new presets** downloads new ones from this repo.
+
+| Preset | Game | What it does |
+|---|---|---|
+| SI ULTRA | Zelda: Ocarina of Time 3D ([Ocarina ReTuned](https://github.com/OTPR26/Ocarina-ReTuned)) | Saves a user preset with 23 graphics values at the highest the port's own code accepts, plus Link run/roll +20% and camera 150% |
+
+## Request a game
+
+No SI PRESET for your game yet, or SIGAME does not see it? Press **REQUEST** on its card or **Request a game / Feedback**,
+write the game and what you want (more FPS, graphics past the menu limits, ultrawide/144 Hz, faster loading...)
+and press SEND. The most requested games get the next SI PRESETS.
+
+## Anonymous stats (you can turn them off)
+
+To choose which games get the next SI PRESETS, SIGAME sends SI NEWS anonymous stats. A line under the games list
+says so, with a **Turn off** link (or set `"Telemetry": false` in `SI-GAME-community.json`). What is sent:
+
+- once a week: the **names and stores of the games** SIGAME found, CPU and GPU model, RAM in GB, Windows build,
+  SIGAME version and language;
+- a game you add by hand (its name, exe file name and folder name), a REQUEST you send, a SI PRESET applied or failed.
+
+Never sent: an id of any kind, file paths, your user name or PC name, files, serial numbers. The data goes to a
+SI NEWS server on Cloudflare that stores only the country (from Cloudflare, not your IP address) and is read only
+by SI NEWS. A REQUEST you send yourself goes out even with the stats off.
+
 ## Files SIGAME writes next to itself
 
 `SI-GAME.log` (what it did), `SI-GAME-backup.json` (original values, used by Undo),
-`SI-GAME-measures.json` (before/after measures), `SI-GAME-boost.json` (your games).
+`SI-GAME-measures.json` (before/after measures), `SI-GAME-boost.json` (your games),
+`SI-GAME-community.json` (stats on/off, the week of the last report, applied presets).
 
 ## Licence
 

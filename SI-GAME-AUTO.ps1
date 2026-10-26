@@ -114,6 +114,7 @@ $script:SIModuleList = @(
     '07-startup.ps1'
     '08-boost.ps1'
     '09-autoboost.ps1'
+    '10-community.ps1'
 )
 
 foreach ($module in $script:SIModuleList) {
@@ -336,6 +337,78 @@ function Set-SIGamePowerThrottlingOff {
     param([Parameter(Mandatory = $true)][string]$ExePath)
     if (-not $ExePath) { return }
     Set-SIRegistryValue -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling' -Name $ExePath -Value 1 -Type 'DWord' | Out-Null
+}
+
+function Get-SIRobloxSettingsPath {
+    return [System.IO.Path]::Combine($env:LOCALAPPDATA, 'Roblox', 'GlobalBasicSettings_13.xml')
+}
+
+function Set-SIRobloxLowQualityProfile {
+    <#
+    .SYNOPSIS
+        Roblox profile: sets the graphics quality to manual level 1 in
+        GlobalBasicSettings_13.xml (Roblox is CPU bound on weak PCs). The
+        original values go to backup['RobloxQuality'] first, UNDO ALL puts
+        them back.
+    #>
+    $file = Get-SIRobloxSettingsPath
+    if (-not [System.IO.File]::Exists($file)) { return $false }
+    if (Get-Process -Name 'RobloxPlayerBeta' -ErrorAction SilentlyContinue) {
+        Write-SILog -Level 'WARN' -Component 'Game' -Message 'Roblox: profilo non applicato, chiudi Roblox e premi di nuovo OPTIMIZE.'
+        return $false
+    }
+    try {
+        $text = [System.IO.File]::ReadAllText($file)
+        $saved = [regex]::Match($text, 'name="SavedQualityLevel">(-?\d+)<')
+        $graphics = [regex]::Match($text, 'name="GraphicsQualityLevel">(-?\d+)<')
+        if (-not $saved.Success -or -not $graphics.Success) { return $false }
+
+        $backup = $script:SIBackup
+        if (-not $backup) { $backup = Get-SIBackup; $script:SIBackup = $backup }
+        # Keep the FIRST original: a second OPTIMIZE must not save our own 1.
+        if (-not $backup.Contains('RobloxQuality')) {
+            $backup['RobloxQuality'] = @{ File = $file; Saved = [int]$saved.Groups[1].Value; Graphics = [int]$graphics.Groups[1].Value }
+            if (-not (Save-SIBackup -Backup $backup)) { return $false }
+        }
+
+        $text = [regex]::Replace($text, '(name="(?:Saved|Graphics)QualityLevel">)-?\d+', '${1}1')
+        [System.IO.File]::WriteAllText($file, $text, (New-Object System.Text.UTF8Encoding($false)))
+        Write-SILog -Level 'OK' -Component 'Game' -Message ("Roblox: qualita grafica manuale 1 (prima: livello {0}, 0 = Automatica). UNDO ALL la rimette com'era." -f $backup['RobloxQuality']['Saved'])
+        return $true
+    } catch {
+        Write-SILog -Level 'WARN' -Component 'Game' -Message "Roblox: profilo non applicato: $($_.Exception.Message)"
+        return $false
+    }
+}
+
+function Restore-SIRobloxQualityProfile {
+    <#
+    .SYNOPSIS
+        Puts back the Roblox graphics quality saved by Set-SIRobloxLowQualityProfile.
+    #>
+    $backup = $script:SIBackup
+    if (-not $backup) { $backup = Get-SIBackup; $script:SIBackup = $backup }
+    if (-not $backup -or -not $backup.Contains('RobloxQuality')) { return $false }
+    $orig = $backup['RobloxQuality']
+    $file = [string]$orig['File']
+    if (-not [System.IO.File]::Exists($file)) { $backup.Remove('RobloxQuality'); [void](Save-SIBackup -Backup $backup); return $false }
+    if (Get-Process -Name 'RobloxPlayerBeta' -ErrorAction SilentlyContinue) {
+        Write-SILog -Level 'WARN' -Component 'Game' -Message 'Roblox e'' aperto: chiudilo e premi di nuovo UNDO ALL per rimettere la qualita grafica.'
+        return $false
+    }
+    try {
+        $text = [System.IO.File]::ReadAllText($file)
+        $text = [regex]::Replace($text, '(name="SavedQualityLevel">)-?\d+', '${1}' + [int]$orig['Saved'])
+        $text = [regex]::Replace($text, '(name="GraphicsQualityLevel">)-?\d+', '${1}' + [int]$orig['Graphics'])
+        [System.IO.File]::WriteAllText($file, $text, (New-Object System.Text.UTF8Encoding($false)))
+        $backup.Remove('RobloxQuality')
+        [void](Save-SIBackup -Backup $backup)
+        Write-SILog -Level 'OK' -Component 'Game' -Message 'Roblox: qualita grafica originale ripristinata.'
+        return $true
+    } catch {
+        Write-SILog -Level 'WARN' -Component 'Game' -Message "Roblox: ripristino non riuscito: $($_.Exception.Message)"
+        return $false
+    }
 }
 
 function Enable-SICpuCoreUnpark {
@@ -691,10 +764,17 @@ function Invoke-SIAddCustomGameDialog {
         if ($res -eq $true -and $dlg.FileName -and [System.IO.File]::Exists($dlg.FileName)) {
             $exe = [string]$dlg.FileName
             [void](Add-SIAutoBoostGame -Path $exe)
+            Send-SICustomGameTelemetry -ExePath $exe
             $script:SIGameLibrary = @(Get-SIExtendedGames)
             Update-SIAutoDashboard
             $gName = [System.IO.Path]::GetFileNameWithoutExtension($exe)
             Set-SIStatusText -Text "Gioco aggiunto alla lista: $gName. Premi OTTIMIZAR o GIOCA per ottimizzarlo."
+            $added = @($script:SIGameLibrary | Where-Object { [string]$_.Exe -ieq $exe }) | Select-Object -First 1
+            if ($added -and -not (Find-SIGamePreset -Game $added)) {
+                if (Show-SIMessage -Window $script:SIWindow -Title 'SI PRESET' -Text ((Get-SICommunityText 'AskAfterAdd') -f $gName)) {
+                    Invoke-SIRequestGame -Game $added
+                }
+            }
         }
     } catch {
         Set-SIStatusText -Text "Impossibile aggiungere il gioco: $($_.Exception.Message)"
@@ -4284,6 +4364,18 @@ function New-SIWindow {
     $btnAddGame.Margin = [System.Windows.Thickness]::new(8, 0, 0, 0)
     [System.Windows.Controls.DockPanel]::SetDock($btnAddGame, 'Right')
     [void]$gameHeaderDock.Children.Add($btnAddGame)
+    $btnRequestGame = New-SIStyleButton -Text (Get-SICommunityText 'BtnFeedback') -StyleKey 'GhostButton' -Window $window
+    $btnRequestGame.Height = 24
+    $btnRequestGame.FontSize = 10.5
+    $btnRequestGame.Margin = [System.Windows.Thickness]::new(8, 0, 0, 0)
+    [System.Windows.Controls.DockPanel]::SetDock($btnRequestGame, 'Right')
+    [void]$gameHeaderDock.Children.Add($btnRequestGame)
+    $btnPresets = New-SIStyleButton -Text (Get-SICommunityText 'BtnPresets') -StyleKey 'AccentButton' -Window $window
+    $btnPresets.Height = 24
+    $btnPresets.FontSize = 10.5
+    $btnPresets.Margin = [System.Windows.Thickness]::new(8, 0, 0, 0)
+    [System.Windows.Controls.DockPanel]::SetDock($btnPresets, 'Right')
+    [void]$gameHeaderDock.Children.Add($btnPresets)
 
     $gamesTitle = [System.Windows.Controls.TextBlock]::new()
     $gamesTitle.Text = (Get-SIHudText 'Card2Title')
@@ -4312,6 +4404,11 @@ function New-SIWindow {
     $script:SINames['GameLibrary'] = $gameListPanel
     [System.Windows.Controls.Grid]::SetRow($gameScroll, 2)
     [void]$rightGrid.Children.Add($gameScroll)
+
+    Add-SIGridRow -Grid $rightGrid -Type 'Auto'
+    $telemetryNotice = New-SITelemetryNotice
+    [System.Windows.Controls.Grid]::SetRow($telemetryNotice, 3)
+    [void]$rightGrid.Children.Add($telemetryNotice)
 
     [System.Windows.Controls.Grid]::SetColumn($rightCard, 1)
     [void]$cardsGrid.Children.Add($rightCard)
@@ -4375,6 +4472,7 @@ function New-SIWindow {
         if (Show-SIMessage -Window $window -Text $msg -Title (Get-SIHudText 'UndoConfirmTitle')) {
             Invoke-SIUndoAll
             Restore-SIHardBcdBootTweaks
+            [void](Restore-SIRobloxQualityProfile)
             Restore-SIUnusedServices
             [void](Set-SIBackgroundHogsPriority -IdleMode $false)
             [void](Set-SIGamingWindowsUpdatePause -Pause $false)
@@ -4390,6 +4488,14 @@ function New-SIWindow {
 
     $null = $btnAddGame.Add_Click({
         Invoke-SIAddCustomGameDialog
+    })
+
+    $null = $btnRequestGame.Add_Click({
+        Invoke-SIRequestGame
+    })
+
+    $null = $btnPresets.Add_Click({
+        Show-SIPresetsWindow
     })
 
     $null = $btnRamNow.Add_Click({
@@ -4553,6 +4659,7 @@ function Update-SIAutoDashboard {
 function Build-SIGameLibrary {
     $panel = Get-SIElement -Name 'GameLibrary'
     if (-not $panel) { return }
+    if (@($script:SIGameLibrary).Count -gt 0) { Invoke-SITelemetryWeekly }
     $c = $script:SIColors
     $panel.Children.Clear()
 
@@ -4586,6 +4693,7 @@ function Build-SIGameLibrary {
         $grid = [System.Windows.Controls.Grid]::new()
         Add-SIGridColumn -Grid $grid -Type 'Auto'
         Add-SIGridColumn -Grid $grid -Type 'Star' -Value 1
+        Add-SIGridColumn -Grid $grid -Type 'Auto'
         Add-SIGridColumn -Grid $grid -Type 'Auto'
         Add-SIGridColumn -Grid $grid -Type 'Auto'
 
@@ -4644,6 +4752,23 @@ function Build-SIGameLibrary {
         }.GetNewClosure())
         [System.Windows.Controls.Grid]::SetColumn($btnPlay, 3)
         [void]$grid.Children.Add($btnPlay)
+
+        # SI PRESET when SI NEWS made one for this game, else REQUEST one.
+        $preset = Find-SIGamePreset -Game $game
+        if ($preset) {
+            $btnSi = New-SIStyleButton -Text (Get-SICommunityText 'BtnPreset') -StyleKey 'AccentButton' -Window $script:SIWindow -Width 76
+            $btnSi.ToolTip = "$($preset.Title): $(Get-SIPresetText -Entry $preset)"
+            $capturedPreset = $preset
+            $null = $btnSi.Add_Click({ Invoke-SIGamePreset -Entry $capturedPreset }.GetNewClosure())
+        } else {
+            $btnSi = New-SIStyleButton -Text (Get-SICommunityText 'BtnRequest') -StyleKey 'GhostButton' -Window $script:SIWindow -Width 76
+            $null = $btnSi.Add_Click({ Invoke-SIRequestGame -Game $capturedGame }.GetNewClosure())
+        }
+        $btnSi.Height = 24
+        $btnSi.FontSize = 10.5
+        $btnSi.Margin = [System.Windows.Thickness]::new(6, 0, 0, 0)
+        [System.Windows.Controls.Grid]::SetColumn($btnSi, 4)
+        [void]$grid.Children.Add($btnSi)
 
         $card.Child = $grid
         [void]$panel.Children.Add($card)
@@ -4822,6 +4947,8 @@ function Invoke-SIAutoOptimizeAll {
             }
             Invoke-SIUIPump
         }
+        # Roblox profile (a settings file, not the registry): graphics quality 1.
+        [void](Set-SIRobloxLowQualityProfile)
 
         # --- PHASE 3B: Competitive eSports & HARD Kernel/BCD/GPU/NVMe/IRQ/RAM/UDP Tweaks ---
         Set-SIProgress -Percent 90 -Step 'Ottimizzazione HARD Kernel/BCD, Anti-Cheat Safe, Monitor Max Hz, P2P OFF, Timer 0.5ms, Standby RAM...'
