@@ -56,6 +56,7 @@ a second click offers **Undo**. **SI PRESETS** lists them all and **Check for ne
 | Preset | Game | What it does |
 |---|---|---|
 | SI ULTRA | Zelda: Ocarina of Time 3D ([Ocarina ReTuned](https://github.com/OTPR26/Ocarina-ReTuned)) | Saves a user preset with 23 graphics values at the highest the port's own code accepts, plus Link run/roll +20% and camera 150% |
+| SI ULTRA | Rayman 3 HD ([Rayman 3 HD Recompiled](https://github.com/MysteriousAeon/rayman3-hd-recompiled)) | Writes two engine keys the port's Settings app does not show, at the highest value its runtime accepts: 16x anisotropic filtering (default 4x) and FXAA Extreme; sets Rendering resolution 2160p |
 
 ## Request a game
 
