@@ -81,6 +81,96 @@
                 "en": "Writes hidden DLSS overrides in the NVIDIA driver's global profile, for every DLSS 2+ game: Super Resolution, Ray Reconstruction and Frame Generation use the latest DLSS the driver has installed, and the model preset is picked for your card (RTX 40 and newer: preset M, which NVIDIA's DLSS guide describes as preset L image quality closer to the speed of J/K; RTX 20/30: preset K, the lighter one). No download, no game file touched. Needs an RTX card. Restart your games after. Backup first, UNDO puts the old values back.",
                 "it": "Scrive override DLSS nascosti nel profilo globale del driver NVIDIA, per ogni gioco DLSS 2+: Super Resolution, Ray Reconstruction e Frame Generation usano il DLSS piu' recente installato dal driver, e il preset del modello e' scelto per la tua scheda (RTX 40 e successive: preset M, che la guida DLSS di NVIDIA descrive come qualita' del preset L con velocita' vicina a J/K; RTX 20/30: preset K, il piu' leggero). Nessun download, nessun file del gioco toccato. Serve una scheda RTX. Riavvia i giochi dopo. Backup prima, UNDO rimette i valori di prima."
             }
+        },
+        {
+            "Id": "cp2077-si-opti",
+            "Game": "Cyberpunk 2077",
+            "Title": "SI OPTI",
+            "Match": "(?i)cyberpunk",
+            "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\Cyberpunk 2077",
+            "Script": "si-opti.ps1",
+            "Version": 1,
+            "Undo": true,
+            "NeedsGame": true,
+            "Args": "-GameKey Cyberpunk-2077 -SteamAppId 1091500 -Dll dxgi.dll -ExeName \"bin\\x64\\Cyberpunk2077.exe\"",
+            "Source": "https://github.com/optiscaler/OptiScaler/wiki/Cyberpunk-2077",
+            "Video": "",
+            "Summary": {
+                "en": "Installs OptiScaler 0.9.4 (official release, 55 MB, SHA-256 checked) next to the game exe and sets it for your GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in every API (+ Windows 10 fix), Intel Arc = XeSS. Wiki: dxgi.dll. In the game avoid DLSS inputs with path tracing on AMD/Intel (pick FSR or XeSS) and avoid FSR-FG inputs. Single player only: refuses folders with anti-cheat. Close the game first. Backup first, UNDO removes it.",
+                "it": "Installa OptiScaler 0.9.4 (release ufficiale, 55 MB, SHA-256 controllato) accanto all'exe del gioco e lo imposta per la tua GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in ogni API (+ fix Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll. Nel gioco evita gli input DLSS con path tracing su AMD/Intel (scegli FSR o XeSS) ed evita gli input FSR-FG. Solo giocatore singolo: rifiuta cartelle con anti-cheat. Chiudi prima il gioco. Backup prima, UNDO lo toglie."
+            }
+        },
+        {
+            "Id": "e33-si-opti",
+            "Game": "Clair Obscur: Expedition 33",
+            "Title": "SI OPTI",
+            "Match": "(?i)expedition.?33|clair.?obscur",
+            "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\Expedition 33",
+            "Script": "si-opti.ps1",
+            "Version": 1,
+            "Undo": true,
+            "NeedsGame": true,
+            "Args": "-GameKey Clair-Obscur-Expedition-33 -SteamAppId 1903340 -Dll dxgi.dll -Skip \"libxess.dll;libxess_dx11.dll;libxess_fg.dll;libxell.dll\"",
+            "Source": "https://github.com/optiscaler/OptiScaler/wiki/Clair-Obscur-Expedition-33",
+            "Video": "",
+            "Summary": {
+                "en": "Installs OptiScaler 0.9.4 (official release, 55 MB, SHA-256 checked) next to the game exe and sets it for your GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in every API (+ Windows 10 fix), Intel Arc = XeSS. Wiki: dxgi.dll next to Sandfall\\Binaries\\Win64; OptiScaler's XeSS/XeLL files are left out so the game's own FSR FG and Anti-Lag 2 (patch 1.5) stay visible. Avoid the Ultra Quality preset (flicker/crashes). Single player only: refuses folders with anti-cheat. Close the game first. Backup first, UNDO removes it.",
+                "it": "Installa OptiScaler 0.9.4 (release ufficiale, 55 MB, SHA-256 controllato) accanto all'exe del gioco e lo imposta per la tua GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in ogni API (+ fix Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll in Sandfall\\Binaries\\Win64; i file XeSS/XeLL di OptiScaler non vengono copiati cosi' FSR FG e Anti-Lag 2 del gioco (patch 1.5) restano visibili. Evita il preset Ultra Quality (sfarfallio/crash). Solo giocatore singolo: rifiuta cartelle con anti-cheat. Chiudi prima il gioco. Backup prima, UNDO lo toglie."
+            }
+        },
+        {
+            "Id": "wukong-si-opti",
+            "Game": "Black Myth: Wukong",
+            "Title": "SI OPTI",
+            "Match": "(?i)wukong|black.?myth|\\bb1\\b",
+            "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\BlackMythWukong",
+            "Script": "si-opti.ps1",
+            "Version": 1,
+            "Undo": true,
+            "NeedsGame": true,
+            "Args": "-GameKey Black-Myth-Wukong -SteamAppId 2358720 -Dll dxgi.dll -Set \"Dxgi=false\"",
+            "Source": "https://github.com/optiscaler/OptiScaler/wiki/Black-Myth-Wukong",
+            "Video": "",
+            "Summary": {
+                "en": "Installs OptiScaler 0.9.4 (official release, 55 MB, SHA-256 checked) next to the game exe and sets it for your GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in every API (+ Windows 10 fix), Intel Arc = XeSS. Wiki: dxgi.dll next to b1\\Binaries\\Win64 and Dxgi=false: GPU spoofing causes blue texture corruption in this game. Single player only: refuses folders with anti-cheat. Close the game first. Backup first, UNDO removes it.",
+                "it": "Installa OptiScaler 0.9.4 (release ufficiale, 55 MB, SHA-256 controllato) accanto all'exe del gioco e lo imposta per la tua GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in ogni API (+ fix Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll in b1\\Binaries\\Win64 e Dxgi=false: lo spoofing della GPU causa texture blu corrotte in questo gioco. Solo giocatore singolo: rifiuta cartelle con anti-cheat. Chiudi prima il gioco. Backup prima, UNDO lo toglie."
+            }
+        },
+        {
+            "Id": "got-si-opti",
+            "Game": "Ghost of Tsushima DIRECTOR'S CUT",
+            "Title": "SI OPTI",
+            "Match": "(?i)ghost.?of.?tsushima",
+            "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\Ghost of Tsushima DIRECTOR'S CUT",
+            "Script": "si-opti.ps1",
+            "Version": 1,
+            "Undo": true,
+            "NeedsGame": true,
+            "Args": "-GameKey Ghost-of-Tsushima-DIRECTORS-CUT -SteamAppId 2215430 -Dll dxgi.dll -ExeName \"GhostOfTsushima.exe\" -Set \"amd,intel:Dxgi=false\"",
+            "Source": "https://github.com/optiscaler/OptiScaler/wiki/Ghost-of-Tsushima-DIRECTORS-CUT",
+            "Video": "",
+            "Summary": {
+                "en": "Installs OptiScaler 0.9.4 (official release, 55 MB, SHA-256 checked) next to the game exe and sets it for your GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in every API (+ Windows 10 fix), Intel Arc = XeSS. Wiki: dxgi.dll; on AMD/Intel Dxgi=false (spoofing not needed, DLSS-FG unlocked without it): use FSR or XeSS inputs in the game. Single player only: refuses folders with anti-cheat. Close the game first. Backup first, UNDO removes it.",
+                "it": "Installa OptiScaler 0.9.4 (release ufficiale, 55 MB, SHA-256 controllato) accanto all'exe del gioco e lo imposta per la tua GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in ogni API (+ fix Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll; su AMD/Intel Dxgi=false (spoofing non serve, DLSS-FG sbloccato senza): nel gioco usa input FSR o XeSS. Solo giocatore singolo: rifiuta cartelle con anti-cheat. Chiudi prima il gioco. Backup prima, UNDO lo toglie."
+            }
+        },
+        {
+            "Id": "hfw-si-opti",
+            "Game": "Horizon Forbidden West Complete Edition",
+            "Title": "SI OPTI",
+            "Match": "(?i)horizon.?forbidden",
+            "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\Horizon Forbidden West Complete Edition",
+            "Script": "si-opti.ps1",
+            "Version": 1,
+            "Undo": true,
+            "NeedsGame": true,
+            "Args": "-GameKey Horizon-Forbidden-West-Complete-Edition -SteamAppId 2420110 -Dll dxgi.dll -ExeName \"HorizonForbiddenWest.exe\" -Set \"amd,intel:Dxgi=false\"",
+            "Source": "https://github.com/optiscaler/OptiScaler/wiki/Horizon-Forbidden-West-Complete-Edition",
+            "Video": "",
+            "Summary": {
+                "en": "Installs OptiScaler 0.9.4 (official release, 55 MB, SHA-256 checked) next to the game exe and sets it for your GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in every API (+ Windows 10 fix), Intel Arc = XeSS. Wiki: dxgi.dll; on AMD/Intel Dxgi=false (spoofing not needed): use FSR or XeSS inputs. Turn motion blur off (ghosting around the character). Single player only: refuses folders with anti-cheat. Close the game first. Backup first, UNDO removes it.",
+                "it": "Installa OptiScaler 0.9.4 (release ufficiale, 55 MB, SHA-256 controllato) accanto all'exe del gioco e lo imposta per la tua GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in ogni API (+ fix Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll; su AMD/Intel Dxgi=false (spoofing non serve): usa input FSR o XeSS. Spegni il motion blur (ghosting intorno al personaggio). Solo giocatore singolo: rifiuta cartelle con anti-cheat. Chiudi prima il gioco. Backup prima, UNDO lo toglie."
+            }
         }
     ]
 }

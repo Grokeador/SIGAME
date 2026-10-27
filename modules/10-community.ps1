@@ -18,7 +18,7 @@
 #   - Sending never blocks the window and never shows an error to the player.
 # ===========================================================================
 
-$script:SIGameVersion     = '2026.10.27'
+$script:SIGameVersion     = '2026.10.27.2'
 $script:SIPresetsPath     = [System.IO.Path]::Combine($script:SIRoot, 'presets')
 $script:SICatalogPath     = [System.IO.Path]::Combine($script:SIPresetsPath, 'catalog.json')
 $script:SIFeedbackCfgPath = [System.IO.Path]::Combine($script:SIRoot, 'SI-GAME-feedback.json')
@@ -205,7 +205,19 @@ function Invoke-SIPresetScript {
     $out = [System.IO.Path]::GetTempFileName()
     $argLine = "-NoProfile -ExecutionPolicy Bypass -File `"$script`""
     if ($Undo) { $argLine += ' -Undo' }
-    $p = Start-Process -FilePath 'powershell.exe' -ArgumentList $argLine -WindowStyle Hidden -Wait -PassThru `
+    # Catalog extras (SIGAME 2026.10.27.2+): fixed arguments, and the exe of the game card for presets that install
+    # into the game folder (SI OPTI).
+    if ($Entry.PSObject.Properties.Name -contains 'Args' -and $Entry.Args) { $argLine += ' ' + [string]$Entry.Args }
+    if ($Entry.PSObject.Properties.Name -contains 'NeedsGame' -and $Entry.NeedsGame) {
+        foreach ($g in @($script:SIGameLibrary)) {
+            $hit = Find-SIGamePreset -Game $g
+            if ($hit -and $hit.Id -eq $Entry.Id -and $g.Exe) { $argLine += " -GameExe `"$($g.Exe)`""; break }
+        }
+    }
+    # Game-folder presets may download (SI OPTI: 55 MB): a visible console shows the download progress bar.
+    $style = 'Hidden'
+    if ($Entry.PSObject.Properties.Name -contains 'NeedsGame' -and $Entry.NeedsGame) { $style = 'Normal' }
+    $p = Start-Process -FilePath 'powershell.exe' -ArgumentList $argLine -WindowStyle $style -Wait -PassThru `
         -RedirectStandardOutput $out -WorkingDirectory $script:SIPresetsPath
     $lines = @()
     try { $lines = @([System.IO.File]::ReadAllLines($out)) } catch { }
