@@ -1,7 +1,23 @@
 {
     "SchemaVersion": 1,
-    "Updated": "2026-10-26",
+    "Updated": "2026-10-27",
     "Presets": [
+        {
+            "Id": "mw4-si-fps",
+            "Game": "Call of Duty: Modern Warfare 4 (PC)",
+            "Title": "SI FPS",
+            "Match": "(?i)call.?of.?duty|modern.?warfare",
+            "DetectPath": "%LOCALAPPDATA%\\Activision\\Call of Duty\\players",
+            "Script": "mw4-si-fps.ps1",
+            "Version": 1,
+            "Undo": true,
+            "Source": "",
+            "Video": "https://www.youtube.com/shorts/EhK96ft2ELc",
+            "Summary": {
+                "en": "Edits MW4's own settings file (s.1.0.cod26.txt) for max FPS. Reads your PC: render threads = your physical cores minus one, video memory budget from your VRAM, FPS cap 3 under your refresh rate, low-latency mode for your GPU (Reflex + boost, Anti-Lag 2 or XeLL). Sets hidden keys the menu does not have (corpses, blood, reflection relighting, surface subdivision, shader pre-load at maximum, power-saving drops off, cloud sync off so nothing overwrites it, no reset after a driver update) and the heavy graphics to their lowest. Only keys in your file, only values the file allows. Close the game first. Backup first, UNDO puts it back.",
+                "it": "Modifica il file di impostazioni di MW4 (s.1.0.cod26.txt) per il massimo degli FPS. Legge il tuo PC: thread di rendering = core fisici meno uno, budget di memoria video dalla tua VRAM, limite FPS 3 sotto la frequenza del monitor, modalita' a bassa latenza per la tua GPU (Reflex + boost, Anti-Lag 2 o XeLL). Imposta chiavi nascoste che il menu non ha (cadaveri, sangue, aggiornamento riflessi, suddivisione superfici, precaricamento shader al massimo, risparmio energetico spento, sync cloud spento cosi' niente lo sovrascrive, nessun reset dopo un aggiornamento driver) e la grafica pesante al minimo. Solo chiavi presenti nel tuo file, solo valori che il file accetta. Chiudi prima il gioco. Backup prima, UNDO lo rimette."
+            }
+        },
         {
             "Id": "oot3d-si-ultra",
             "Game": "Zelda: Ocarina of Time 3D (Ocarina ReTuned PC port)",
@@ -30,8 +46,8 @@
             "Source": "https://github.com/MysteriousAeon/rayman3-hd-recompiled",
             "Video": "",
             "Summary": {
-                "en": "Writes two engine keys the port's Settings app does not show, at the highest value its runtime accepts: 16x anisotropic filtering (default 4x) and FXAA Extreme, in bin\r3hd.toml. Also sets Rendering resolution 2160p in settings.json. Close the game first. Backup first, UNDO puts it back.",
-                "it": "Scrive due chiavi del motore che l'app Settings del port non mostra, al massimo che il runtime accetta: filtro anisotropico 16x (default 4x) e FXAA Extreme, in bin\r3hd.toml. Imposta anche la risoluzione 2160p in settings.json. Chiudi prima il gioco. Backup prima, UNDO lo rimette."
+                "en": "Writes two engine keys the port's Settings app does not show, at the highest value its runtime accepts: 16x anisotropic filtering (default 4x) and FXAA Extreme, in bin\\r3hd.toml. Also sets Rendering resolution 2160p in settings.json. Close the game first. Backup first, UNDO puts it back.",
+                "it": "Scrive due chiavi del motore che l'app Settings del port non mostra, al massimo che il runtime accetta: filtro anisotropico 16x (default 4x) e FXAA Extreme, in bin\\r3hd.toml. Imposta anche la risoluzione 2160p in settings.json. Chiudi prima il gioco. Backup prima, UNDO lo rimette."
             }
         },
         {
