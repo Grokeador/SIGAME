@@ -65,6 +65,22 @@
                 "en": "Reads your monitor and writes the port's settings.toml: render resolution at least 2x your screen's height (up to the 4x limit), scaled down with AMD CAS sharpening, a hidden option the launcher does not show (present_effect cas, extra sharpness 0.5), 16x texture filtering, your monitor's aspect ratio, FSR off, borderless fullscreen. Works for MUA 1, Gold Edition and MUA 2. Backup first, UNDO puts it back.",
                 "it": "Legge il tuo monitor e scrive settings.toml del port: risoluzione di render almeno 2x l'altezza del tuo schermo (fino al limite 4x), ridotta con lo sharpening AMD CAS, opzione nascosta che il launcher non mostra (present_effect cas, nitidezza extra 0.5), filtro texture 16x, formato del tuo monitor, FSR spento, schermo intero senza bordi. Vale per MUA 1, Gold Edition e MUA 2. Backup prima, UNDO lo rimette."
             }
+        },
+        {
+            "Id": "si-dlss",
+            "Game": "Every DLSS game (NVIDIA GeForce RTX, driver level)",
+            "Title": "SI DLSS",
+            "Match": "",
+            "DetectPath": "%ProgramFiles%\\NVIDIA Corporation",
+            "Script": "si-dlss.ps1",
+            "Version": 1,
+            "Undo": true,
+            "Source": "https://github.com/NVIDIA/DLSS",
+            "Video": "",
+            "Summary": {
+                "en": "Writes hidden DLSS overrides in the NVIDIA driver's global profile, for every DLSS 2+ game: Super Resolution, Ray Reconstruction and Frame Generation use the latest DLSS the driver has installed, and the model preset is picked for your card (RTX 40 and newer: preset M, which NVIDIA's DLSS guide describes as preset L image quality closer to the speed of J/K; RTX 20/30: preset K, the lighter one). No download, no game file touched. Needs an RTX card. Restart your games after. Backup first, UNDO puts the old values back.",
+                "it": "Scrive override DLSS nascosti nel profilo globale del driver NVIDIA, per ogni gioco DLSS 2+: Super Resolution, Ray Reconstruction e Frame Generation usano il DLSS piu' recente installato dal driver, e il preset del modello e' scelto per la tua scheda (RTX 40 e successive: preset M, che la guida DLSS di NVIDIA descrive come qualita' del preset L con velocita' vicina a J/K; RTX 20/30: preset K, il piu' leggero). Nessun download, nessun file del gioco toccato. Serve una scheda RTX. Riavvia i giochi dopo. Backup prima, UNDO rimette i valori di prima."
+            }
         }
     ]
 }

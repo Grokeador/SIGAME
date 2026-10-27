@@ -115,6 +115,7 @@ $script:SIModuleList = @(
     '08-boost.ps1'
     '09-autoboost.ps1'
     '10-community.ps1'
+    '11-fps.ps1'
 )
 
 foreach ($module in $script:SIModuleList) {
@@ -4696,6 +4697,7 @@ function Build-SIGameLibrary {
         Add-SIGridColumn -Grid $grid -Type 'Auto'
         Add-SIGridColumn -Grid $grid -Type 'Auto'
         Add-SIGridColumn -Grid $grid -Type 'Auto'
+        Add-SIGridColumn -Grid $grid -Type 'Auto'
 
         $icon = [System.Windows.Controls.Image]::new()
         $icon.Width = 22
@@ -4769,6 +4771,16 @@ function Build-SIGameLibrary {
         $btnSi.Margin = [System.Windows.Thickness]::new(6, 0, 0, 0)
         [System.Windows.Controls.Grid]::SetColumn($btnSi, 4)
         [void]$grid.Children.Add($btnSi)
+
+        # FPS: measure the running game before / after a SI PRESET (modules/11-fps.ps1).
+        $btnFps = New-SIStyleButton -Text (Get-SIFpsText 'BtnFps') -StyleKey 'GhostButton' -Window $script:SIWindow -Width 44
+        $btnFps.ToolTip = (Get-SIFpsText 'FpsTip')
+        $btnFps.Height = 24
+        $btnFps.FontSize = 10.5
+        $btnFps.Margin = [System.Windows.Thickness]::new(6, 0, 0, 0)
+        $null = $btnFps.Add_Click({ Start-SIFpsMeasure -Game $capturedGame }.GetNewClosure())
+        [System.Windows.Controls.Grid]::SetColumn($btnFps, 5)
+        [void]$grid.Children.Add($btnFps)
 
         $card.Child = $grid
         [void]$panel.Children.Add($card)
