@@ -235,6 +235,22 @@
         "en": "Writes pd.ini for your monitor: fullscreen at your resolution, MSAA 8x, 16x anisotropic, trilinear mipmaps, uncapped tickrate with the frame limit capped at 165 FPS, 32 MB memory, wide HUD, FOV 75 and the hidden keys the menu never shows. Backup first, UNDO puts it back.",
         "it": "Scrive pd.ini per il tuo monitor: schermo intero alla tua risoluzione, MSAA 8x, anisotropico 16x, mipmap trilineari, tickrate sbloccato con limite a 165 FPS, 32 MB di memoria, HUD wide, FOV 75 e le chiavi nascoste che il menu non mostra. Backup prima, UNDO lo rimette."
       }
+    },
+    {
+      "Id": "rdr2-si-ultra",
+      "Game": "Red Dead Redemption 2 (Parley AI NPCs + Vulkan Frame Generation mods)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)red.?dead.?redemption.?2|rdr2",
+      "DetectPath": "%USERPROFILE%\\Documents\\Rockstar Games\\Red Dead Redemption 2",
+      "Script": "rdr2-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/mor3a/rdr2-vulkan-frame-generation",
+      "Video": "",
+      "Summary": {
+        "en": "Puts the game on Vulkan (both mods need it), writes the frame generation keys the mod menu hides (output cap at your monitor Hz minus 3, Reflex On + Boost, present pacing, 2x) and sets Parley to the free Player2 AI with no paid key. Mods not installed are skipped. Backup first, UNDO puts it back.",
+        "it": "Mette il gioco su Vulkan (lo chiedono entrambi i mod), scrive le chiavi del frame generation che il menu del mod nasconde (limite di uscita ai tuoi Hz meno 3, Reflex On + Boost, present pacing, 2x) e imposta Parley sull'AI gratis di Player2 senza chiavi a pagamento. I mod non installati vengono saltati. Backup prima, UNDO lo rimette."
+      }
     }
   ]
 }
