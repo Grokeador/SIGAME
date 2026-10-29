@@ -28,7 +28,7 @@
       "Version": 1,
       "Undo": true,
       "Source": "https://github.com/OTPR26/Ocarina-ReTuned",
-      "Video": "",
+      "Video": "https://www.youtube.com/shorts/6TPg0kS6MOs",
       "Summary": {
         "en": "Saves the preset SI ULTRA in the game: 23 graphics values at the highest the port's own code accepts (render scale 2.0, 3x frame interpolation, FOV 1.5, 4096 shadows, screen-space GI, SSSR reflections), plus Link run/roll +20% and camera 150%. Your active settings are not changed: in the game open Graphics, Presets, SI ULTRA. Backup first, UNDO puts it back.",
         "it": "Salva il preset SI ULTRA nel gioco: 23 valori grafici al massimo che il codice del port accetta (render scale 2.0, interpolazione 3x, FOV 1.5, ombre 4096, GI screen-space, riflessi SSSR), piu' corsa/capriola di Link +20% e camera 150%. Le impostazioni attive non cambiano: nel gioco apri Grafica, Preset, SI ULTRA. Backup prima, UNDO lo rimette."
@@ -44,7 +44,7 @@
       "Version": 1,
       "Undo": true,
       "Source": "https://github.com/MysteriousAeon/rayman3-hd-recompiled",
-      "Video": "",
+      "Video": "https://www.youtube.com/shorts/CkQkcmN--os",
       "Summary": {
         "en": "Writes two engine keys the port's Settings app does not show, at the highest value its runtime accepts: 16x anisotropic filtering (default 4x) and FXAA Extreme, in bin\\r3hd.toml. Also sets Rendering resolution 2160p in settings.json. Close the game first. Backup first, UNDO puts it back.",
         "it": "Scrive due chiavi del motore che l'app Settings del port non mostra, al massimo che il runtime accetta: filtro anisotropico 16x (default 4x) e FXAA Extreme, in bin\\r3hd.toml. Imposta anche la risoluzione 2160p in settings.json. Chiudi prima il gioco. Backup prima, UNDO lo rimette."
@@ -246,7 +246,7 @@
       "Version": 1,
       "Undo": true,
       "Source": "https://github.com/mor3a/rdr2-vulkan-frame-generation",
-      "Video": "",
+      "Video": "https://youtu.be/eL7yZpIf5As",
       "Summary": {
         "en": "Puts the game on Vulkan (both mods need it), writes the frame generation keys the mod menu hides (output cap at your monitor Hz minus 3, Reflex On + Boost, present pacing, 2x) and sets Parley to the free Player2 AI with no paid key. Mods not installed are skipped. Backup first, UNDO puts it back.",
         "it": "Mette il gioco su Vulkan (lo chiedono entrambi i mod), scrive le chiavi del frame generation che il menu del mod nasconde (limite di uscita ai tuoi Hz meno 3, Reflex On + Boost, present pacing, 2x) e imposta Parley sull'AI gratis di Player2 senza chiavi a pagamento. I mod non installati vengono saltati. Backup prima, UNDO lo rimette."
