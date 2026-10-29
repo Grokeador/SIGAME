@@ -1,4 +1,4 @@
-# ===========================================================================
+﻿# ===========================================================================
 #  10-community.ps1 - SI PRESETS per game + game requests and feedback
 # ===========================================================================
 #  Two things live here:
@@ -228,7 +228,10 @@ function Invoke-SIPresetScript {
 
 function Invoke-SIGamePreset {
     param($Entry)
+    # the SI PRESETS list is a modal child: own the boxes from it, or the result box opens hidden behind it
     $win = $script:SIWindow
+    $top = @($win.OwnedWindows | Where-Object { $_.IsVisible }) | Select-Object -Last 1
+    if ($top) { $win = $top }
     $state = Get-SICommunityState
     $already = ($state.Applied.PSObject.Properties.Name -contains [string]$Entry.Id)
 
@@ -242,6 +245,7 @@ function Invoke-SIGamePreset {
     }
 
     $r = Invoke-SIPresetScript -Entry $Entry -Undo:$undo
+    [void]$win.Activate()
     $last = (@($r.Lines | Where-Object { $_ }) | Select-Object -Last 1)
     if ($r.Ok) {
         if ($undo) {
