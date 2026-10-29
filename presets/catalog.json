@@ -214,7 +214,7 @@
       "Version": 1,
       "Undo": true,
       "Source": "https://github.com/sonicdcer/MarioKart64Recomp",
-      "Video": "",
+      "Video": "https://youtu.be/xwkqTXA-kT0",
       "Summary": {
         "en": "Sets 4x internal supersampling (4K render), MSAA8X anti-aliasing, Borderless fullscreen and unlocked framerate in graphics.json. Backup first, UNDO puts it back.",
         "it": "Imposta 4x supersampling interno (render 4K), anti-aliasing MSAA8X, schermo intero borderless e framerate sbloccato in graphics.json. Backup prima, UNDO lo rimette."
