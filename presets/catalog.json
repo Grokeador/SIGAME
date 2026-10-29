@@ -1,176 +1,224 @@
 {
-    "SchemaVersion": 1,
-    "Updated": "2026-10-27",
-    "Presets": [
-        {
-            "Id": "mw4-si-fps",
-            "Game": "Call of Duty: Modern Warfare 4 (PC)",
-            "Title": "SI FPS",
-            "Match": "(?i)call.?of.?duty|modern.?warfare",
-            "DetectPath": "%LOCALAPPDATA%\\Activision\\Call of Duty\\players",
-            "Script": "mw4-si-fps.ps1",
-            "Version": 1,
-            "Undo": true,
-            "Source": "",
-            "Video": "https://www.youtube.com/shorts/EhK96ft2ELc",
-            "Summary": {
-                "en": "Edits MW4's own settings file (s.1.0.cod26.txt) for max FPS. Reads your PC: render threads = your physical cores minus one, video memory budget from your VRAM, FPS cap 3 under your refresh rate, low-latency mode for your GPU (Reflex + boost, Anti-Lag 2 or XeLL). Sets hidden keys the menu does not have (corpses, blood, reflection relighting, surface subdivision, shader pre-load at maximum, power-saving drops off, cloud sync off so nothing overwrites it, no reset after a driver update) and the heavy graphics to their lowest. Only keys in your file, only values the file allows. Close the game first. Backup first, UNDO puts it back.",
-                "it": "Modifica il file di impostazioni di MW4 (s.1.0.cod26.txt) per il massimo degli FPS. Legge il tuo PC: thread di rendering = core fisici meno uno, budget di memoria video dalla tua VRAM, limite FPS 3 sotto la frequenza del monitor, modalita' a bassa latenza per la tua GPU (Reflex + boost, Anti-Lag 2 o XeLL). Imposta chiavi nascoste che il menu non ha (cadaveri, sangue, aggiornamento riflessi, suddivisione superfici, precaricamento shader al massimo, risparmio energetico spento, sync cloud spento cosi' niente lo sovrascrive, nessun reset dopo un aggiornamento driver) e la grafica pesante al minimo. Solo chiavi presenti nel tuo file, solo valori che il file accetta. Chiudi prima il gioco. Backup prima, UNDO lo rimette."
-            }
-        },
-        {
-            "Id": "oot3d-si-ultra",
-            "Game": "Zelda: Ocarina of Time 3D (Ocarina ReTuned PC port)",
-            "Title": "SI ULTRA",
-            "Match": "(?i)ocarina|retuned",
-            "DetectPath": "%LOCALAPPDATA%\\Ocarina ReTuned",
-            "Script": "oot3d-si-ultra.ps1",
-            "Version": 1,
-            "Undo": true,
-            "Source": "https://github.com/OTPR26/Ocarina-ReTuned",
-            "Video": "",
-            "Summary": {
-                "en": "Saves the preset SI ULTRA in the game: 23 graphics values at the highest the port's own code accepts (render scale 2.0, 3x frame interpolation, FOV 1.5, 4096 shadows, screen-space GI, SSSR reflections), plus Link run/roll +20% and camera 150%. Your active settings are not changed: in the game open Graphics, Presets, SI ULTRA. Backup first, UNDO puts it back.",
-                "it": "Salva il preset SI ULTRA nel gioco: 23 valori grafici al massimo che il codice del port accetta (render scale 2.0, interpolazione 3x, FOV 1.5, ombre 4096, GI screen-space, riflessi SSSR), piu' corsa/capriola di Link +20% e camera 150%. Le impostazioni attive non cambiano: nel gioco apri Grafica, Preset, SI ULTRA. Backup prima, UNDO lo rimette."
-            }
-        },
-        {
-            "Id": "r3hd-si-ultra",
-            "Game": "Rayman 3 HD (Rayman 3 HD Recompiled PC port)",
-            "Title": "SI ULTRA",
-            "Match": "(?i)rayman",
-            "DetectPath": "%LOCALAPPDATA%\\Rayman3HDRecomp",
-            "Script": "r3hd-si-ultra.ps1",
-            "Version": 1,
-            "Undo": true,
-            "Source": "https://github.com/MysteriousAeon/rayman3-hd-recompiled",
-            "Video": "",
-            "Summary": {
-                "en": "Writes two engine keys the port's Settings app does not show, at the highest value its runtime accepts: 16x anisotropic filtering (default 4x) and FXAA Extreme, in bin\\r3hd.toml. Also sets Rendering resolution 2160p in settings.json. Close the game first. Backup first, UNDO puts it back.",
-                "it": "Scrive due chiavi del motore che l'app Settings del port non mostra, al massimo che il runtime accetta: filtro anisotropico 16x (default 4x) e FXAA Extreme, in bin\\r3hd.toml. Imposta anche la risoluzione 2160p in settings.json. Chiudi prima il gioco. Backup prima, UNDO lo rimette."
-            }
-        },
-        {
-            "Id": "mua-si-ultra",
-            "Game": "Marvel Ultimate Alliance 1 / Gold / 2 (Marvel Ultimate Alliance Recompiled PC port)",
-            "Title": "SI ULTRA",
-            "Match": "(?i)marvel.?ultimate|ultimate.?alliance",
-            "DetectPath": "",
-            "Script": "mua-si-ultra.ps1",
-            "Version": 1,
-            "Undo": true,
-            "Source": "https://github.com/saulob/marvel-ultimate-alliance-bundle-recompiled",
-            "Video": "https://youtu.be/rGjB3AZqtKo",
-            "Summary": {
-                "en": "Reads your monitor and writes the port's settings.toml: render resolution at least 2x your screen's height (up to the 4x limit), scaled down with AMD CAS sharpening, a hidden option the launcher does not show (present_effect cas, extra sharpness 0.5), 16x texture filtering, your monitor's aspect ratio, FSR off, borderless fullscreen. Works for MUA 1, Gold Edition and MUA 2. Backup first, UNDO puts it back.",
-                "it": "Legge il tuo monitor e scrive settings.toml del port: risoluzione di render almeno 2x l'altezza del tuo schermo (fino al limite 4x), ridotta con lo sharpening AMD CAS, opzione nascosta che il launcher non mostra (present_effect cas, nitidezza extra 0.5), filtro texture 16x, formato del tuo monitor, FSR spento, schermo intero senza bordi. Vale per MUA 1, Gold Edition e MUA 2. Backup prima, UNDO lo rimette."
-            }
-        },
-        {
-            "Id": "si-dlss",
-            "Game": "Every DLSS game (NVIDIA GeForce RTX, driver level)",
-            "Title": "SI DLSS",
-            "Match": "",
-            "DetectPath": "%ProgramFiles%\\NVIDIA Corporation",
-            "Script": "si-dlss.ps1",
-            "Version": 1,
-            "Undo": true,
-            "Source": "https://github.com/NVIDIA/DLSS",
-            "Video": "",
-            "Summary": {
-                "en": "Writes hidden DLSS overrides in the NVIDIA driver's global profile, for every DLSS 2+ game: Super Resolution, Ray Reconstruction and Frame Generation use the latest DLSS the driver has installed, and the model preset is picked for your card (RTX 40 and newer: preset M, which NVIDIA's DLSS guide describes as preset L image quality closer to the speed of J/K; RTX 20/30: preset K, the lighter one). No download, no game file touched. Needs an RTX card. Restart your games after. Backup first, UNDO puts the old values back.",
-                "it": "Scrive override DLSS nascosti nel profilo globale del driver NVIDIA, per ogni gioco DLSS 2+: Super Resolution, Ray Reconstruction e Frame Generation usano il DLSS piu' recente installato dal driver, e il preset del modello e' scelto per la tua scheda (RTX 40 e successive: preset M, che la guida DLSS di NVIDIA descrive come qualita' del preset L con velocita' vicina a J/K; RTX 20/30: preset K, il piu' leggero). Nessun download, nessun file del gioco toccato. Serve una scheda RTX. Riavvia i giochi dopo. Backup prima, UNDO rimette i valori di prima."
-            }
-        },
-        {
-            "Id": "cp2077-si-opti",
-            "Game": "Cyberpunk 2077",
-            "Title": "SI OPTI",
-            "Match": "(?i)cyberpunk",
-            "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\Cyberpunk 2077",
-            "Script": "si-opti.ps1",
-            "Version": 1,
-            "Undo": true,
-            "NeedsGame": true,
-            "Args": "-GameKey Cyberpunk-2077 -SteamAppId 1091500 -Dll dxgi.dll -ExeName \"bin\\x64\\Cyberpunk2077.exe\"",
-            "Source": "https://github.com/optiscaler/OptiScaler/wiki/Cyberpunk-2077",
-            "Video": "",
-            "Summary": {
-                "en": "Installs OptiScaler 0.9.4 (official release, 55 MB, SHA-256 checked) next to the game exe and sets it for your GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in every API (+ Windows 10 fix), Intel Arc = XeSS. Wiki: dxgi.dll. In the game avoid DLSS inputs with path tracing on AMD/Intel (pick FSR or XeSS) and avoid FSR-FG inputs. Single player only: refuses folders with anti-cheat. Close the game first. Backup first, UNDO removes it.",
-                "it": "Installa OptiScaler 0.9.4 (release ufficiale, 55 MB, SHA-256 controllato) accanto all'exe del gioco e lo imposta per la tua GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in ogni API (+ fix Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll. Nel gioco evita gli input DLSS con path tracing su AMD/Intel (scegli FSR o XeSS) ed evita gli input FSR-FG. Solo giocatore singolo: rifiuta cartelle con anti-cheat. Chiudi prima il gioco. Backup prima, UNDO lo toglie."
-            }
-        },
-        {
-            "Id": "e33-si-opti",
-            "Game": "Clair Obscur: Expedition 33",
-            "Title": "SI OPTI",
-            "Match": "(?i)expedition.?33|clair.?obscur",
-            "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\Expedition 33",
-            "Script": "si-opti.ps1",
-            "Version": 1,
-            "Undo": true,
-            "NeedsGame": true,
-            "Args": "-GameKey Clair-Obscur-Expedition-33 -SteamAppId 1903340 -Dll dxgi.dll -Skip \"libxess.dll;libxess_dx11.dll;libxess_fg.dll;libxell.dll\"",
-            "Source": "https://github.com/optiscaler/OptiScaler/wiki/Clair-Obscur-Expedition-33",
-            "Video": "",
-            "Summary": {
-                "en": "Installs OptiScaler 0.9.4 (official release, 55 MB, SHA-256 checked) next to the game exe and sets it for your GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in every API (+ Windows 10 fix), Intel Arc = XeSS. Wiki: dxgi.dll next to Sandfall\\Binaries\\Win64; OptiScaler's XeSS/XeLL files are left out so the game's own FSR FG and Anti-Lag 2 (patch 1.5) stay visible. Avoid the Ultra Quality preset (flicker/crashes). Single player only: refuses folders with anti-cheat. Close the game first. Backup first, UNDO removes it.",
-                "it": "Installa OptiScaler 0.9.4 (release ufficiale, 55 MB, SHA-256 controllato) accanto all'exe del gioco e lo imposta per la tua GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in ogni API (+ fix Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll in Sandfall\\Binaries\\Win64; i file XeSS/XeLL di OptiScaler non vengono copiati cosi' FSR FG e Anti-Lag 2 del gioco (patch 1.5) restano visibili. Evita il preset Ultra Quality (sfarfallio/crash). Solo giocatore singolo: rifiuta cartelle con anti-cheat. Chiudi prima il gioco. Backup prima, UNDO lo toglie."
-            }
-        },
-        {
-            "Id": "wukong-si-opti",
-            "Game": "Black Myth: Wukong",
-            "Title": "SI OPTI",
-            "Match": "(?i)wukong|black.?myth|\\bb1\\b",
-            "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\BlackMythWukong",
-            "Script": "si-opti.ps1",
-            "Version": 1,
-            "Undo": true,
-            "NeedsGame": true,
-            "Args": "-GameKey Black-Myth-Wukong -SteamAppId 2358720 -Dll dxgi.dll -Set \"Dxgi=false\"",
-            "Source": "https://github.com/optiscaler/OptiScaler/wiki/Black-Myth-Wukong",
-            "Video": "",
-            "Summary": {
-                "en": "Installs OptiScaler 0.9.4 (official release, 55 MB, SHA-256 checked) next to the game exe and sets it for your GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in every API (+ Windows 10 fix), Intel Arc = XeSS. Wiki: dxgi.dll next to b1\\Binaries\\Win64 and Dxgi=false: GPU spoofing causes blue texture corruption in this game. Single player only: refuses folders with anti-cheat. Close the game first. Backup first, UNDO removes it.",
-                "it": "Installa OptiScaler 0.9.4 (release ufficiale, 55 MB, SHA-256 controllato) accanto all'exe del gioco e lo imposta per la tua GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in ogni API (+ fix Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll in b1\\Binaries\\Win64 e Dxgi=false: lo spoofing della GPU causa texture blu corrotte in questo gioco. Solo giocatore singolo: rifiuta cartelle con anti-cheat. Chiudi prima il gioco. Backup prima, UNDO lo toglie."
-            }
-        },
-        {
-            "Id": "got-si-opti",
-            "Game": "Ghost of Tsushima DIRECTOR'S CUT",
-            "Title": "SI OPTI",
-            "Match": "(?i)ghost.?of.?tsushima",
-            "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\Ghost of Tsushima DIRECTOR'S CUT",
-            "Script": "si-opti.ps1",
-            "Version": 1,
-            "Undo": true,
-            "NeedsGame": true,
-            "Args": "-GameKey Ghost-of-Tsushima-DIRECTORS-CUT -SteamAppId 2215430 -Dll dxgi.dll -ExeName \"GhostOfTsushima.exe\" -Set \"amd,intel:Dxgi=false\"",
-            "Source": "https://github.com/optiscaler/OptiScaler/wiki/Ghost-of-Tsushima-DIRECTORS-CUT",
-            "Video": "",
-            "Summary": {
-                "en": "Installs OptiScaler 0.9.4 (official release, 55 MB, SHA-256 checked) next to the game exe and sets it for your GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in every API (+ Windows 10 fix), Intel Arc = XeSS. Wiki: dxgi.dll; on AMD/Intel Dxgi=false (spoofing not needed, DLSS-FG unlocked without it): use FSR or XeSS inputs in the game. Single player only: refuses folders with anti-cheat. Close the game first. Backup first, UNDO removes it.",
-                "it": "Installa OptiScaler 0.9.4 (release ufficiale, 55 MB, SHA-256 controllato) accanto all'exe del gioco e lo imposta per la tua GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in ogni API (+ fix Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll; su AMD/Intel Dxgi=false (spoofing non serve, DLSS-FG sbloccato senza): nel gioco usa input FSR o XeSS. Solo giocatore singolo: rifiuta cartelle con anti-cheat. Chiudi prima il gioco. Backup prima, UNDO lo toglie."
-            }
-        },
-        {
-            "Id": "hfw-si-opti",
-            "Game": "Horizon Forbidden West Complete Edition",
-            "Title": "SI OPTI",
-            "Match": "(?i)horizon.?forbidden",
-            "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\Horizon Forbidden West Complete Edition",
-            "Script": "si-opti.ps1",
-            "Version": 1,
-            "Undo": true,
-            "NeedsGame": true,
-            "Args": "-GameKey Horizon-Forbidden-West-Complete-Edition -SteamAppId 2420110 -Dll dxgi.dll -ExeName \"HorizonForbiddenWest.exe\" -Set \"amd,intel:Dxgi=false\"",
-            "Source": "https://github.com/optiscaler/OptiScaler/wiki/Horizon-Forbidden-West-Complete-Edition",
-            "Video": "",
-            "Summary": {
-                "en": "Installs OptiScaler 0.9.4 (official release, 55 MB, SHA-256 checked) next to the game exe and sets it for your GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in every API (+ Windows 10 fix), Intel Arc = XeSS. Wiki: dxgi.dll; on AMD/Intel Dxgi=false (spoofing not needed): use FSR or XeSS inputs. Turn motion blur off (ghosting around the character). Single player only: refuses folders with anti-cheat. Close the game first. Backup first, UNDO removes it.",
-                "it": "Installa OptiScaler 0.9.4 (release ufficiale, 55 MB, SHA-256 controllato) accanto all'exe del gioco e lo imposta per la tua GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in ogni API (+ fix Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll; su AMD/Intel Dxgi=false (spoofing non serve): usa input FSR o XeSS. Spegni il motion blur (ghosting intorno al personaggio). Solo giocatore singolo: rifiuta cartelle con anti-cheat. Chiudi prima il gioco. Backup prima, UNDO lo toglie."
-            }
-        }
-    ]
+  "SchemaVersion": 1,
+  "Updated": "2026-10-28",
+  "Presets": [
+    {
+      "Id": "mw4-si-fps",
+      "Game": "Call of Duty: Modern Warfare 4 (PC)",
+      "Title": "SI FPS",
+      "Match": "(?i)call.?of.?duty|modern.?warfare",
+      "DetectPath": "%LOCALAPPDATA%\\Activision\\Call of Duty\\players",
+      "Script": "mw4-si-fps.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "",
+      "Video": "https://www.youtube.com/shorts/EhK96ft2ELc",
+      "Summary": {
+        "en": "Edits MW4's own settings file (s.1.0.cod26.txt) for max FPS. Reads your PC: render threads = your physical cores minus one, video memory budget from your VRAM, FPS cap 3 under your refresh rate, low-latency mode for your GPU (Reflex + boost, Anti-Lag 2 or XeLL). Sets hidden keys the menu does not have (corpses, blood, reflection relighting, surface subdivision, shader pre-load at maximum, power-saving drops off, cloud sync off so nothing overwrites it, no reset after a driver update) and the heavy graphics to their lowest. Only keys in your file, only values the file allows. Close the game first. Backup first, UNDO puts it back.",
+        "it": "Modifica il file di impostazioni di MW4 (s.1.0.cod26.txt) per il massimo degli FPS. Legge il tuo PC: thread di rendering = core fisici meno uno, budget di memoria video dalla tua VRAM, limite FPS 3 sotto la frequenza del monitor, modalita' a bassa latenza per la tua GPU (Reflex + boost, Anti-Lag 2 o XeLL). Imposta chiavi nascoste che il menu non ha (cadaveri, sangue, aggiornamento riflessi, suddivisione superfici, precaricamento shader al massimo, risparmio energetico spento, sync cloud spento cosi' niente lo sovrascrive, nessun reset dopo un aggiornamento driver) e la grafica pesante al minimo. Solo chiavi presenti nel tuo file, solo valori che il file accetta. Chiudi prima il gioco. Backup prima, UNDO lo rimette."
+      }
+    },
+    {
+      "Id": "oot3d-si-ultra",
+      "Game": "Zelda: Ocarina of Time 3D (Ocarina ReTuned PC port)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)ocarina|retuned",
+      "DetectPath": "%LOCALAPPDATA%\\Ocarina ReTuned",
+      "Script": "oot3d-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/OTPR26/Ocarina-ReTuned",
+      "Video": "",
+      "Summary": {
+        "en": "Saves the preset SI ULTRA in the game: 23 graphics values at the highest the port's own code accepts (render scale 2.0, 3x frame interpolation, FOV 1.5, 4096 shadows, screen-space GI, SSSR reflections), plus Link run/roll +20% and camera 150%. Your active settings are not changed: in the game open Graphics, Presets, SI ULTRA. Backup first, UNDO puts it back.",
+        "it": "Salva il preset SI ULTRA nel gioco: 23 valori grafici al massimo che il codice del port accetta (render scale 2.0, interpolazione 3x, FOV 1.5, ombre 4096, GI screen-space, riflessi SSSR), piu' corsa/capriola di Link +20% e camera 150%. Le impostazioni attive non cambiano: nel gioco apri Grafica, Preset, SI ULTRA. Backup prima, UNDO lo rimette."
+      }
+    },
+    {
+      "Id": "r3hd-si-ultra",
+      "Game": "Rayman 3 HD (Rayman 3 HD Recompiled PC port)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)rayman",
+      "DetectPath": "%LOCALAPPDATA%\\Rayman3HDRecomp",
+      "Script": "r3hd-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/MysteriousAeon/rayman3-hd-recompiled",
+      "Video": "",
+      "Summary": {
+        "en": "Writes two engine keys the port's Settings app does not show, at the highest value its runtime accepts: 16x anisotropic filtering (default 4x) and FXAA Extreme, in bin\\r3hd.toml. Also sets Rendering resolution 2160p in settings.json. Close the game first. Backup first, UNDO puts it back.",
+        "it": "Scrive due chiavi del motore che l'app Settings del port non mostra, al massimo che il runtime accetta: filtro anisotropico 16x (default 4x) e FXAA Extreme, in bin\\r3hd.toml. Imposta anche la risoluzione 2160p in settings.json. Chiudi prima il gioco. Backup prima, UNDO lo rimette."
+      }
+    },
+    {
+      "Id": "mua-si-ultra",
+      "Game": "Marvel Ultimate Alliance 1 / Gold / 2 (Marvel Ultimate Alliance Recompiled PC port)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)marvel.?ultimate|ultimate.?alliance",
+      "DetectPath": "",
+      "Script": "mua-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/saulob/marvel-ultimate-alliance-bundle-recompiled",
+      "Video": "https://youtu.be/rGjB3AZqtKo",
+      "Summary": {
+        "en": "Reads your monitor and writes the port's settings.toml: render resolution at least 2x your screen's height (up to the 4x limit), scaled down with AMD CAS sharpening, a hidden option the launcher does not show (present_effect cas, extra sharpness 0.5), 16x texture filtering, your monitor's aspect ratio, FSR off, borderless fullscreen. Works for MUA 1, Gold Edition and MUA 2. Backup first, UNDO puts it back.",
+        "it": "Legge il tuo monitor e scrive settings.toml del port: risoluzione di render almeno 2x l'altezza del tuo schermo (fino al limite 4x), ridotta con lo sharpening AMD CAS, opzione nascosta che il launcher non mostra (present_effect cas, nitidezza extra 0.5), filtro texture 16x, formato del tuo monitor, FSR spento, schermo intero senza bordi. Vale per MUA 1, Gold Edition e MUA 2. Backup prima, UNDO lo rimette."
+      }
+    },
+    {
+      "Id": "botw-si-ultra",
+      "Game": "Zelda: Breath of the Wild (Savage Wind Recomp PC port)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)breath.?of.?the.?wild|savage.?wind|botw",
+      "DetectPath": "",
+      "Script": "botw-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/Revivedx/SavageWindRecomp",
+      "Video": "",
+      "Summary": {
+        "en": "Reads your monitor and configures Savage Wind Recomp (Alpha 3): sets the engine's hidden SAVAGEWIND_SCALE override to render at least 2x your screen's height (4K on 1080p, scaled down to your window), 8192x8192 Extreme sun shadows (console is 896x896), 50% AMD CAS sharpening on the 10-bit 3D scene before the HUD, 16x anisotropic filtering, SMAA, hidden 115% field of view, ultrawide world view, shader precompilation on and frame rate matched to your monitor Hz. Backup first, UNDO puts everything back.",
+        "it": "Legge il tuo monitor e configura Savage Wind Recomp (Alpha 3): imposta l'override nascosto SAVAGEWIND_SCALE del motore per renderizzare almeno 2x l'altezza dello schermo (4K su 1080p, ridotto alla finestra), ombre solari Extreme 8192x8192 (console 896x896), sharpening AMD CAS al 50% sulla scena 3D a 10 bit prima dell'HUD, filtro anisotropico 16x, SMAA, campo visivo nascosto al 115%, vista ultrawide, precompilazione shader attiva e frame rate adattato agli Hz del monitor. Backup prima, UNDO rimette tutto come prima."
+      }
+    },
+    {
+      "Id": "si-dlss",
+      "Game": "Every DLSS game (NVIDIA GeForce RTX, driver level)",
+      "Title": "SI DLSS",
+      "Match": "",
+      "DetectPath": "%ProgramFiles%\\NVIDIA Corporation",
+      "Script": "si-dlss.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/NVIDIA/DLSS",
+      "Video": "",
+      "Summary": {
+        "en": "Writes hidden DLSS overrides in the NVIDIA driver's global profile, for every DLSS 2+ game: Super Resolution, Ray Reconstruction and Frame Generation use the latest DLSS the driver has installed, and the model preset is picked for your card (RTX 40 and newer: preset M, which NVIDIA's DLSS guide describes as preset L image quality closer to the speed of J/K; RTX 20/30: preset K, the lighter one). No download, no game file touched. Needs an RTX card. Restart your games after. Backup first, UNDO puts the old values back.",
+        "it": "Scrive override DLSS nascosti nel profilo globale del driver NVIDIA, per ogni gioco DLSS 2+: Super Resolution, Ray Reconstruction e Frame Generation usano il DLSS piu' recente installato dal driver, e il preset del modello e' scelto per la tua scheda (RTX 40 e successive: preset M, che la guida DLSS di NVIDIA descrive come qualita' del preset L con velocita' vicina a J/K; RTX 20/30: preset K, il piu' leggero). Nessun download, nessun file del gioco toccato. Serve una scheda RTX. Riavvia i giochi dopo. Backup prima, UNDO rimette i valori di prima."
+      }
+    },
+    {
+      "Id": "cp2077-si-opti",
+      "Game": "Cyberpunk 2077",
+      "Title": "SI OPTI",
+      "Match": "(?i)cyberpunk",
+      "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\Cyberpunk 2077",
+      "Script": "si-opti.ps1",
+      "Version": 1,
+      "Undo": true,
+      "NeedsGame": true,
+      "Args": "-GameKey Cyberpunk-2077 -SteamAppId 1091500 -Dll dxgi.dll -ExeName \"bin\\x64\\Cyberpunk2077.exe\"",
+      "Source": "https://github.com/optiscaler/OptiScaler/wiki/Cyberpunk-2077",
+      "Video": "",
+      "Summary": {
+        "en": "Installs OptiScaler 0.9.4 (official release, 55 MB, SHA-256 checked) next to the game exe and sets it for your GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in every API (+ Windows 10 fix), Intel Arc = XeSS. Wiki: dxgi.dll. In the game avoid DLSS inputs with path tracing on AMD/Intel (pick FSR or XeSS) and avoid FSR-FG inputs. Single player only: refuses folders with anti-cheat. Close the game first. Backup first, UNDO removes it.",
+        "it": "Installa OptiScaler 0.9.4 (release ufficiale, 55 MB, SHA-256 controllato) accanto all'exe del gioco e lo imposta per la tua GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in ogni API (+ fix Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll. Nel gioco evita gli input DLSS con path tracing su AMD/Intel (scegli FSR o XeSS) ed evita gli input FSR-FG. Solo giocatore singolo: rifiuta cartelle con anti-cheat. Chiudi prima il gioco. Backup prima, UNDO lo toglie."
+      }
+    },
+    {
+      "Id": "e33-si-opti",
+      "Game": "Clair Obscur: Expedition 33",
+      "Title": "SI OPTI",
+      "Match": "(?i)expedition.?33|clair.?obscur",
+      "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\Expedition 33",
+      "Script": "si-opti.ps1",
+      "Version": 1,
+      "Undo": true,
+      "NeedsGame": true,
+      "Args": "-GameKey Clair-Obscur-Expedition-33 -SteamAppId 1903340 -Dll dxgi.dll -Skip \"libxess.dll;libxess_dx11.dll;libxess_fg.dll;libxell.dll\"",
+      "Source": "https://github.com/optiscaler/OptiScaler/wiki/Clair-Obscur-Expedition-33",
+      "Video": "",
+      "Summary": {
+        "en": "Installs OptiScaler 0.9.4 (official release, 55 MB, SHA-256 checked) next to the game exe and sets it for your GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in every API (+ Windows 10 fix), Intel Arc = XeSS. Wiki: dxgi.dll next to Sandfall\\Binaries\\Win64; OptiScaler's XeSS/XeLL files are left out so the game's own FSR FG and Anti-Lag 2 (patch 1.5) stay visible. Avoid the Ultra Quality preset (flicker/crashes). Single player only: refuses folders with anti-cheat. Close the game first. Backup first, UNDO removes it.",
+        "it": "Installa OptiScaler 0.9.4 (release ufficiale, 55 MB, SHA-256 controllato) accanto all'exe del gioco e lo imposta per la tua GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in ogni API (+ fix Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll in Sandfall\\Binaries\\Win64; i file XeSS/XeLL di OptiScaler non vengono copiati cosi' FSR FG e Anti-Lag 2 del gioco (patch 1.5) restano visibili. Evita il preset Ultra Quality (sfarfallio/crash). Solo giocatore singolo: rifiuta cartelle con anti-cheat. Chiudi prima il gioco. Backup prima, UNDO lo toglie."
+      }
+    },
+    {
+      "Id": "wukong-si-opti",
+      "Game": "Black Myth: Wukong",
+      "Title": "SI OPTI",
+      "Match": "(?i)wukong|black.?myth|\\bb1\\b",
+      "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\BlackMythWukong",
+      "Script": "si-opti.ps1",
+      "Version": 1,
+      "Undo": true,
+      "NeedsGame": true,
+      "Args": "-GameKey Black-Myth-Wukong -SteamAppId 2358720 -Dll dxgi.dll -Set \"Dxgi=false\"",
+      "Source": "https://github.com/optiscaler/OptiScaler/wiki/Black-Myth-Wukong",
+      "Video": "",
+      "Summary": {
+        "en": "Installs OptiScaler 0.9.4 (official release, 55 MB, SHA-256 checked) next to the game exe and sets it for your GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in every API (+ Windows 10 fix), Intel Arc = XeSS. Wiki: dxgi.dll next to b1\\Binaries\\Win64 and Dxgi=false: GPU spoofing causes blue texture corruption in this game. Single player only: refuses folders with anti-cheat. Close the game first. Backup first, UNDO removes it.",
+        "it": "Installa OptiScaler 0.9.4 (release ufficiale, 55 MB, SHA-256 controllato) accanto all'exe del gioco e lo imposta per la tua GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in ogni API (+ fix Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll in b1\\Binaries\\Win64 e Dxgi=false: lo spoofing della GPU causa texture blu corrotte in questo gioco. Solo giocatore singolo: rifiuta cartelle con anti-cheat. Chiudi prima il gioco. Backup prima, UNDO lo toglie."
+      }
+    },
+    {
+      "Id": "got-si-opti",
+      "Game": "Ghost of Tsushima DIRECTOR'S CUT",
+      "Title": "SI OPTI",
+      "Match": "(?i)ghost.?of.?tsushima",
+      "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\Ghost of Tsushima DIRECTOR'S CUT",
+      "Script": "si-opti.ps1",
+      "Version": 1,
+      "Undo": true,
+      "NeedsGame": true,
+      "Args": "-GameKey Ghost-of-Tsushima-DIRECTORS-CUT -SteamAppId 2215430 -Dll dxgi.dll -ExeName \"GhostOfTsushima.exe\" -Set \"amd,intel:Dxgi=false\"",
+      "Source": "https://github.com/optiscaler/OptiScaler/wiki/Ghost-of-Tsushima-DIRECTORS-CUT",
+      "Video": "",
+      "Summary": {
+        "en": "Installs OptiScaler 0.9.4 (official release, 55 MB, SHA-256 checked) next to the game exe and sets it for your GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in every API (+ Windows 10 fix), Intel Arc = XeSS. Wiki: dxgi.dll; on AMD/Intel Dxgi=false (spoofing not needed, DLSS-FG unlocked without it): use FSR or XeSS inputs in the game. Single player only: refuses folders with anti-cheat. Close the game first. Backup first, UNDO removes it.",
+        "it": "Installa OptiScaler 0.9.4 (release ufficiale, 55 MB, SHA-256 controllato) accanto all'exe del gioco e lo imposta per la tua GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in ogni API (+ fix Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll; su AMD/Intel Dxgi=false (spoofing non serve, DLSS-FG sbloccato senza): nel gioco usa input FSR o XeSS. Solo giocatore singolo: rifiuta cartelle con anti-cheat. Chiudi prima il gioco. Backup prima, UNDO lo toglie."
+      }
+    },
+    {
+      "Id": "hfw-si-opti",
+      "Game": "Horizon Forbidden West Complete Edition",
+      "Title": "SI OPTI",
+      "Match": "(?i)horizon.?forbidden",
+      "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\Horizon Forbidden West Complete Edition",
+      "Script": "si-opti.ps1",
+      "Version": 1,
+      "Undo": true,
+      "NeedsGame": true,
+      "Args": "-GameKey Horizon-Forbidden-West-Complete-Edition -SteamAppId 2420110 -Dll dxgi.dll -ExeName \"HorizonForbiddenWest.exe\" -Set \"amd,intel:Dxgi=false\"",
+      "Source": "https://github.com/optiscaler/OptiScaler/wiki/Horizon-Forbidden-West-Complete-Edition",
+      "Video": "",
+      "Summary": {
+        "en": "Installs OptiScaler 0.9.4 (official release, 55 MB, SHA-256 checked) next to the game exe and sets it for your GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in every API (+ Windows 10 fix), Intel Arc = XeSS. Wiki: dxgi.dll; on AMD/Intel Dxgi=false (spoofing not needed): use FSR or XeSS inputs. Turn motion blur off (ghosting around the character). Single player only: refuses folders with anti-cheat. Close the game first. Backup first, UNDO removes it.",
+        "it": "Installa OptiScaler 0.9.4 (release ufficiale, 55 MB, SHA-256 controllato) accanto all'exe del gioco e lo imposta per la tua GPU: AMD RX 7000 desktop / RX 9000 = FSR4 in ogni API (+ fix Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll; su AMD/Intel Dxgi=false (spoofing non serve): usa input FSR o XeSS. Spegni il motion blur (ghosting intorno al personaggio). Solo giocatore singolo: rifiuta cartelle con anti-cheat. Chiudi prima il gioco. Backup prima, UNDO lo toglie."
+      }
+    },
+    {
+      "Id": "minecraft-si-fps",
+      "Game": "Minecraft (Java Edition)",
+      "Title": "SI FPS",
+      "Match": "(?i)minecraft|prism|modrinth",
+      "DetectPath": "%APPDATA%\\.minecraft",
+      "Script": "minecraft-si-fps.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://prismlauncher.org",
+      "Video": "",
+      "Summary": {
+        "en": "Optimizes Minecraft Java options.txt and writes zero-stutter modern G1GC JVM flags. Backup first, UNDO puts it back.",
+        "it": "Ottimizza options.txt di Minecraft Java e scrive flag JVM G1GC zero-stutter. Backup prima, UNDO lo rimette."
+      }
+    },
+    {
+      "Id": "mk64-si-ultra",
+      "Game": "Mario Kart 64 (MarioKart64Recomp PC port)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)mario.?kart.?64|mk64",
+      "DetectPath": "%LOCALAPPDATA%\\MarioKart64Recompiled",
+      "Script": "mk64-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/sonicdcer/MarioKart64Recomp",
+      "Video": "",
+      "Summary": {
+        "en": "Sets 4x internal supersampling (4K render), MSAA8X anti-aliasing, Borderless fullscreen and unlocked framerate in graphics.json. Backup first, UNDO puts it back.",
+        "it": "Imposta 4x supersampling interno (render 4K), anti-aliasing MSAA8X, schermo intero borderless e framerate sbloccato in graphics.json. Backup prima, UNDO lo rimette."
+      }
+    }
+  ]
 }
