@@ -1,7 +1,23 @@
 {
   "SchemaVersion": 1,
-  "Updated": "2026-10-29",
+  "Updated": "2026-10-30",
   "Presets": [
+    {
+      "Id": "stalker-si-tactical",
+      "Game": "S.T.A.L.K.E.R. Anomaly / GAMMA (modded exes 2026.10.11)",
+      "Title": "SI TACTICAL",
+      "Match": "(?i)anomaly|gamma|stalker",
+      "DetectPath": "C:\\Anomaly",
+      "Script": "stalker-si-tactical.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/themrdemonized/xray-monolith/releases/tag/2026.10.11",
+      "Video": "",
+      "Summary": {
+        "en": "FREE tactical realism: no crosshair, bullets along the barrel, NPCs with real ammo that run to cover, hunt you 2 min, suppress your last spot and avoid a cover where they got shot; plus 2 AI values PAST the menu limits (console ranges read from the engine source). Writes appdata, user.ltx. Backup first, UNDO puts it back.",
+        "it": "Realismo tattico GRATIS: niente mirino, proiettili lungo la canna, NPC con munizioni vere che corrono al riparo, ti cacciano 2 minuti, sopprimono il tuo ultimo punto ed evitano il riparo dove sono stati colpiti; più 2 valori IA OLTRE i limiti del menu (range della console letti dal sorgente del motore). Scrive appdata, user.ltx. Backup prima, UNDO rimette tutto."
+      }
+    },
     {
       "Id": "cp2077-si-photoreal",
       "Game": "Cyberpunk 2077 (2.5, photorealism + DLSS 4.5)",
