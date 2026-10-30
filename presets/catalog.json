@@ -299,6 +299,22 @@
         "en": "Reads your monitor and writes the totk.ini keys the port's F1 menu cannot hold: 3D render scale up to the port's 4096-pixel scene for supersampled anti-aliasing (213% on a 1080p monitor; the menu stops at 200%), the largest 16:9 game resolution for your screen (5K and 8K too; the menu stops at 3840x2160), frame limit at your monitor's refresh rate with the port's high frame rate keys, and shader prewarm on all your CPU threads. Close the game first. Backup first, UNDO puts it back.",
         "it": "Legge il tuo monitor e scrive in totk.ini le chiavi che il menu F1 del port non puo' contenere: scala di render 3D fino alla scena massima del port da 4096 pixel per un anti-aliasing in supersampling (213% su un monitor 1080p; il menu si ferma al 200%), la risoluzione di gioco 16:9 piu' grande per il tuo schermo (anche 5K e 8K; il menu si ferma a 3840x2160), limite FPS alla frequenza del monitor con le chiavi del port per gli alti FPS, e prewarm degli shader su tutti i thread della CPU. Chiudi prima il gioco. Backup prima, UNDO lo rimette."
       }
+    },
+    {
+      "Id": "silksong-si-coop",
+      "Game": "Hollow Knight: Silksong (co-op mod by Nirok85, BepInEx)",
+      "Title": "SI CO-OP",
+      "Match": "(?i)silksong",
+      "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\Hollow Knight Silksong",
+      "Script": "silksong-si-coop.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/Nirok85/silksong-coop-mod",
+      "Video": "https://youtu.be/bUK48Zqy0sw",
+      "Summary": {
+        "en": "Writes the co-op mod keys its F10 menu cannot show: Preset = Custom (the default Medium rewrites the tick rate to 30 at every start), 60 Hz network sync (the engine maximum), full-mask revive (the menu has no row for it, default 50%), 10 seconds of damage immunity after a revive (default 2.5) and 10 reconnect attempts (default 5). Close the game first. Backup first, UNDO puts it back.",
+        "it": "Scrive le chiavi del mod co-op che il suo menu F10 non mostra: Preset = Custom (il Medium di default riporta il tick rate a 30 a ogni avvio), sync di rete a 60 Hz (il massimo del motore), revive con maschere piene (il menu non ha la riga, default 50%), 10 secondi di immunita' dopo il revive (default 2.5) e 10 tentativi di riconnessione (default 5). Chiudi prima il gioco. Backup prima, UNDO lo rimette."
+      }
     }
   ]
 }
