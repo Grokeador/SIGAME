@@ -301,6 +301,22 @@
       }
     },
     {
+      "Id": "totk-si-ultrawide",
+      "Game": "Zelda: Tears of the Kingdom (totk-pc-recomp native PC port)",
+      "Title": "SI ULTRAWIDE",
+      "Match": "(?i)tears.?of.?the.?kingdom|totk",
+      "DetectPath": "",
+      "Script": "totk-si-ultrawide.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/valentderah/totk-pc-recomp",
+      "Video": "https://youtu.be/3VwD2zssnuo",
+      "Summary": {
+        "en": "For port v0.2.1+ (ultrawide). Reads your monitor and sets the game to its own shape and size, 21:9, 32:9, 16:10 or 16:9, with the camera and the HUD in that shape. When your size is not one of the ten shapes in the port's F1 menu (a 57-inch 7680x2160, for example), it builds the HUD layout with the port's own tool from the unpacked TotK-Setup folder. Also: the largest scene the port draws (4096 px) for supersampling, frame limit at your refresh rate with the port's high frame rate keys, shader prewarm on all CPU threads. Close the game first. Backup first, UNDO puts it back.",
+        "it": "Per il port v0.2.1+ (ultrawide). Legge il tuo monitor e imposta il gioco nella sua forma e misura, 21:9, 32:9, 16:10 o 16:9, con camera e HUD in quella forma. Se la tua misura non e' tra le dieci del menu F1 del port (per esempio un 57 pollici 7680x2160), costruisce il layout dell'HUD con lo strumento del port dalla cartella TotK-Setup scompattata. In piu': la scena massima del port (4096 px) in supersampling, limite FPS alla frequenza del monitor con le chiavi del port per gli alti FPS, prewarm degli shader su tutti i thread. Chiudi prima il gioco. Backup prima, UNDO lo rimette."
+      }
+    },
+    {
       "Id": "silksong-si-coop",
       "Game": "Hollow Knight: Silksong (co-op mod by Nirok85, BepInEx)",
       "Title": "SI CO-OP",
