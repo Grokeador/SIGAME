@@ -55,6 +55,7 @@ a second click offers **Undo**. **SI PRESETS** lists them all and **Check for ne
 
 | Preset | Game | What it does |
 |---|---|---|
+| SI REAL WORLD | Minecraft: RealWorldMC ([RealWorldMC](https://github.com/Teddy563/realworldmc), Fabric) | Writes the map keys its menu cannot show: mapRenderDistance 24000 (the hidden camera far plane, default 8000, cuts every tile past 8000 blocks even with Far = 24000), falloff 1200 (far tiles twice as sharp) and viewportHeight = your screen height, plus Far 24000 and Max tiles 2400 |
 | SI TACTICAL | S.T.A.L.K.E.R. Anomaly / GAMMA ([modded exes 2026.10.11](https://github.com/themrdemonized/xray-monolith/releases/tag/2026.10.11)) | No crosshair, bullets along the barrel, NPCs with real ammo that run to cover and hunt you 2 min, plus 2 AI values past the menu limits read from the engine source (user.ltx) |
 | SI ULTRA | Zelda: Tears of the Kingdom ([TotK PC Recomp](https://github.com/valentderah/totk-pc-recomp)) | Reads your monitor: 3D render scale up to the port's 4096-pixel scene (213% on 1080p, the menu stops at 200%), the largest 16:9 game resolution for your screen (the menu stops at 3840x2160), frame limit at your refresh rate, shader prewarm on all CPU threads |
 | SI CO-OP | Hollow Knight: Silksong ([Silksong Co-op Mod](https://github.com/Nirok85/silksong-coop-mod)) | Writes the co-op keys the F10 menu cannot show: Preset = Custom (Medium resets the tick rate to 30 at every start), 60 Hz network sync (the engine maximum), full-mask revive, 10 s immunity after a revive, 10 reconnect attempts |

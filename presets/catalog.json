@@ -315,6 +315,22 @@
         "en": "Writes the co-op mod keys its F10 menu cannot show: Preset = Custom (the default Medium rewrites the tick rate to 30 at every start), 60 Hz network sync (the engine maximum), full-mask revive (the menu has no row for it, default 50%), 10 seconds of damage immunity after a revive (default 2.5) and 10 reconnect attempts (default 5). Close the game first. Backup first, UNDO puts it back.",
         "it": "Scrive le chiavi del mod co-op che il suo menu F10 non mostra: Preset = Custom (il Medium di default riporta il tick rate a 30 a ogni avvio), sync di rete a 60 Hz (il massimo del motore), revive con maschere piene (il menu non ha la riga, default 50%), 10 secondi di immunita' dopo il revive (default 2.5) e 10 tentativi di riconnessione (default 5). Chiudi prima il gioco. Backup prima, UNDO lo rimette."
       }
+    },
+    {
+      "Id": "minecraft-si-realworld",
+      "Game": "Minecraft: RealWorldMC (real-world 3D map mod by Teddy563, Fabric)",
+      "Title": "SI REAL WORLD",
+      "Match": "(?i)minecraft|prism|modrinth|realworld",
+      "DetectPath": "%APPDATA%\\.minecraft",
+      "Script": "minecraft-si-realworld.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/Teddy563/realworldmc",
+      "Video": "https://youtu.be/nIS6uMe95Qc",
+      "Summary": {
+        "en": "Writes the RealWorldMC keys its map menu cannot show: mapRenderDistance 24000 (the hidden camera far plane, default 8000, cuts every tile past 8000 blocks even with Far = 24000), falloff 1200 (far tiles twice as sharp, default 600) and viewportHeight = your screen height (detail was computed for 1080 lines), plus Far 24000 and Max tiles 2400. Your map keys are kept. Close Minecraft first. Backup first, UNDO puts it back.",
+        "it": "Scrive le chiavi di RealWorldMC che il suo menu mappa non mostra: mapRenderDistance 24000 (il far plane nascosto della camera, default 8000, taglia ogni tile oltre 8000 blocchi anche con Far = 24000), falloff 1200 (tile lontani nitidi il doppio, default 600) e viewportHeight = l'altezza del tuo schermo (il dettaglio era calcolato per 1080 righe), piu' Far 24000 e Max tiles 2400. Le tue chiavi mappa restano. Chiudi prima Minecraft. Backup prima, UNDO lo rimette."
+      }
     }
   ]
 }
