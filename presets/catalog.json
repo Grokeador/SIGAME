@@ -35,6 +35,22 @@
       }
     },
     {
+      "Id": "cod4-si-ultra",
+      "Game": "Call of Duty 4: Modern Warfare (2007, Steam)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)iw3(mp|sp)|call.?of.?duty.?4",
+      "DetectPath": "",
+      "Script": "cod4-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/callofduty4x/CoD4x_Server/tree/master/tools/cod4_dasm/src",
+      "Video": "https://youtu.be/-xS9bcUC5oY",
+      "Summary": {
+        "en": "Configures CoD4's own profile configs (config.cfg + config_mp.cfg) with keys the options menu does not have, inside the ranges the game itself registers: FPS cap = your monitor's Hz (default 85), FOV 80 (the game's maximum, default 65), full-detail models and soldiers far away (LOD bias by your video memory), texture size forced to full on colour/normal/specular/water maps, 16x anisotropic, shadow maps on all 4 primary lights, anti-aliasing by your video memory. Close the game first. Backup first, UNDO puts it back.",
+        "it": "Configura i file del profilo di CoD4 (config.cfg + config_mp.cfg) con chiavi che il menu opzioni non ha, dentro i limiti che il gioco stesso registra: limite FPS = gli Hz del tuo monitor (predefinito 85), FOV 80 (il massimo del gioco, predefinito 65), modelli e soldati al massimo dettaglio anche lontano (LOD in base alla tua memoria video), texture forzate a piena dimensione su colore/normali/speculari/acqua, anisotropico 16x, ombre su tutte e 4 le luci principali, anti-aliasing in base alla tua memoria video. Chiudi prima il gioco. Backup prima, UNDO lo rimette."
+      }
+    },
+    {
       "Id": "mw4-si-fps",
       "Game": "Call of Duty: Modern Warfare 4 (PC)",
       "Title": "SI FPS",

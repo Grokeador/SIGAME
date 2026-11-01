@@ -6,6 +6,7 @@ One page per SI NEWS video: what the preset does, how to apply it, sources, and 
 |---|---|---|
 | [S.T.A.L.K.E.R. Anomaly / GAMMA (modded exes 2026.10.11)](stalker-si-tactical.md) | SI TACTICAL | https://youtu.be/nyZDp8ucjZo |
 | [Cyberpunk 2077 (2.5, photorealism + DLSS 4.5)](cp2077-si-photoreal.md) | SI PHOTOREAL | https://youtu.be/Br3jJblCHLw |
+| [Call of Duty 4: Modern Warfare (2007, Steam)](cod4-si-ultra.md) | SI ULTRA | https://youtu.be/-xS9bcUC5oY |
 | [Call of Duty: Modern Warfare 4 (PC)](mw4-si-fps.md) | SI FPS | https://www.youtube.com/shorts/EhK96ft2ELc |
 | [Zelda: Ocarina of Time 3D (Ocarina ReTuned PC port)](oot3d-si-ultra.md) | SI ULTRA | https://www.youtube.com/shorts/6TPg0kS6MOs |
 | [Rayman 3 HD (Rayman 3 HD Recompiled PC port)](r3hd-si-ultra.md) | SI ULTRA | https://www.youtube.com/shorts/CkQkcmN--os |
