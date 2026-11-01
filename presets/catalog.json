@@ -1,6 +1,6 @@
 {
   "SchemaVersion": 1,
-  "Updated": "2026-10-30",
+  "Updated": "2026-10-31",
   "Presets": [
     {
       "Id": "stalker-si-tactical",
@@ -347,6 +347,23 @@
         "en": "Writes the RealWorldMC keys its map menu cannot show: mapRenderDistance 24000 (the hidden camera far plane, default 8000, cuts every tile past 8000 blocks even with Far = 24000), falloff 1200 (far tiles twice as sharp, default 600) and viewportHeight = your screen height (detail was computed for 1080 lines), plus Far 24000 and Max tiles 2400. Your map keys are kept. Close Minecraft first. Backup first, UNDO puts it back.",
         "it": "Scrive le chiavi di RealWorldMC che il suo menu mappa non mostra: mapRenderDistance 24000 (il far plane nascosto della camera, default 8000, taglia ogni tile oltre 8000 blocchi anche con Far = 24000), falloff 1200 (tile lontani nitidi il doppio, default 600) e viewportHeight = l'altezza del tuo schermo (il dettaglio era calcolato per 1080 righe), piu' Far 24000 e Max tiles 2400. Le tue chiavi mappa restano. Chiudi prima Minecraft. Backup prima, UNDO lo rimette."
       }
+    },
+    {
+      "Id": "bt3-si-ultra",
+      "Game": "Dragon Ball Z: Budokai Tenkaichi 3 (Tenkaichi3Decomp native PC port)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)tenkaichi|budokai|\\bbt3\\b",
+      "DetectPath": "",
+      "Script": "bt3-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/z3xox/Tenkaichi3Decomp",
+      "Video": "https://youtu.be/pX9tSK8sZbA",
+      "Summary": {
+        "en": "Reads your monitor, CPU and RAM and configures Tenkaichi3Decomp's bt3_settings.txt: your monitor's EXACT shape (any ratio 4:3 to 4.0, the F1 menu lists only five), internal resolution at least 2x your screen height, smooth motion 60/120/240 by your Hz, widescreen menus with fighter side panels, texture packs on, render thread, straight to the menu; raises the hidden HD texture-pack memory (BT3_PACK_MB, default 1024 MB) to a quarter of your RAM and creates the textures, stages and songs mod folders. Backup first, UNDO puts everything back.",
+        "it": "Legge monitor, CPU e RAM e configura bt3_settings.txt di Tenkaichi3Decomp: la forma ESATTA del tuo monitor (qualsiasi rapporto da 4:3 a 4.0, il menu F1 ne elenca solo cinque), risoluzione interna almeno 2x l'altezza dello schermo, movimento fluido 60/120/240 secondo i tuoi Hz, menu widescreen con pannelli dei lottatori ai lati, texture pack attivi, render thread, dritto al menu; alza la memoria nascosta per i texture pack HD (BT3_PACK_MB, default 1024 MB) a un quarto della RAM e crea le cartelle mod textures, stages e songs. Backup prima, UNDO rimette tutto come prima."
+      }
     }
-  ]
+  ],
+  "presets": []
 }
