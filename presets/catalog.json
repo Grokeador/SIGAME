@@ -364,6 +364,5 @@
         "it": "Legge monitor, CPU e RAM e configura bt3_settings.txt di Tenkaichi3Decomp: la forma ESATTA del tuo monitor (qualsiasi rapporto da 4:3 a 4.0, il menu F1 ne elenca solo cinque), risoluzione interna almeno 2x l'altezza dello schermo, movimento fluido 60/120/240 secondo i tuoi Hz, menu widescreen con pannelli dei lottatori ai lati, texture pack attivi, render thread, dritto al menu; alza la memoria nascosta per i texture pack HD (BT3_PACK_MB, default 1024 MB) a un quarto della RAM e crea le cartelle mod textures, stages e songs. Backup prima, UNDO rimette tutto come prima."
       }
     }
-  ],
-  "presets": []
+  ]
 }
