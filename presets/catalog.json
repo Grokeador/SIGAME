@@ -411,6 +411,22 @@
         "en": "Goes past the game's top level (Cinematic): writes Engine.ini with higher texture filtering, upscale filter, foliage distance and sun shadow detail, plus a texture pool sized to your video memory. Heavy on purpose. Backup first, UNDO puts it back.",
         "it": "Va oltre il livello massimo del gioco (Cinematic): scrive in Engine.ini filtro texture, filtro di upscale, distanza della vegetazione e dettaglio ombre del sole piu alti, piu un pool texture calibrato sulla tua memoria video. Pesante apposta. Backup prima, UNDO rimette tutto."
       }
+    },
+    {
+      "Id": "fn-si-lock",
+      "Game": "Fortnite (Epic Games, PC)",
+      "Title": "SI LOCK",
+      "Match": "(?i)fortnite",
+      "DetectPath": "%LOCALAPPDATA%\\FortniteGame",
+      "Script": "fn-si-lock.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://www.epicgames.com/help/fortnite-battle-royale-c-34254770/technical-support-c-38015632/a22311370",
+      "Video": "https://youtu.be/0H_UK2nKQOo",
+      "Summary": {
+        "en": "Keeps YOUR graphics settings when Fortnite resets them. Clears the read-only flag on GameUserSettings.ini (Epic's own fix), saves a copy of your settings and adds a hidden check every 15 minutes: after a Fortnite update changes your file, your copy goes back; when you change settings in the menu, the copy follows you. UNDO removes the check and the copy.",
+        "it": "Tiene le TUE impostazioni grafiche quando Fortnite le resetta. Toglie la sola lettura da GameUserSettings.ini (la soluzione di Epic), salva una copia delle tue impostazioni e aggiunge un controllo nascosto ogni 15 minuti: dopo un aggiornamento di Fortnite che cambia il file, la tua copia torna; quando cambi le impostazioni nel menu, la copia ti segue. UNDO toglie il controllo e la copia."
+      }
     }
   ]
 }

@@ -20,3 +20,4 @@ One page per SI NEWS video: what the preset does, how to apply it, sources, and 
 | [Dragon Ball Z: Budokai Tenkaichi 3 (Tenkaichi3Decomp native PC port)](bt3-si-ultra.md) | SI ULTRA | https://youtu.be/pX9tSK8sZbA |
 | [Resident Evil Requiem (REFramework, RE Engine)](re9-si-ultra.md) | SI ULTRA | https://youtu.be/tUQ5TUy18rw |
 | [Subnautica 2 (Early Access, Unreal Engine 5)](sn2-si-ultra.md) | SI ULTRA | https://youtu.be/lMiqWHKCvYI |
+| [Fortnite (Epic Games, PC)](fn-si-lock.md) | SI LOCK | https://youtu.be/0H_UK2nKQOo |
