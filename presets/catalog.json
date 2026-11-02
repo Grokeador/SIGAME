@@ -1,6 +1,6 @@
 {
   "SchemaVersion": 1,
-  "Updated": "2026-11-01",
+  "Updated": "2026-11-02",
   "Presets": [
     {
       "Id": "stalker-si-tactical",
@@ -394,6 +394,22 @@
       "Summary": {
         "en": "Writes the REFramework keys that live outside the game menu, picked for your screen: vignette off, field of view 90 on 16:9, or on 21:9 and wider the ultrawide fix with the HUD kept in 16:9. Needs REFramework (free, MIT) in the game folder. Backup first, UNDO puts it back.",
         "it": "Scrive le chiavi di REFramework che stanno fuori dal menu del gioco, scelte per il tuo schermo: vignettatura off, campo visivo 90 su 16:9, oppure su 21:9 e oltre il fix ultrawide con l'HUD tenuto in 16:9. Serve REFramework (gratis, MIT) nella cartella del gioco. Backup prima, UNDO lo rimette."
+      }
+    },
+    {
+      "Id": "sn2-si-ultra",
+      "Game": "Subnautica 2 (Early Access, Unreal Engine 5)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)subnautica.?2",
+      "DetectPath": "",
+      "Script": "sn2-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/Kein/Subnautica2",
+      "Video": "https://youtu.be/lMiqWHKCvYI",
+      "Summary": {
+        "en": "Goes past the game's top level (Cinematic): writes Engine.ini with higher texture filtering, upscale filter, foliage distance and sun shadow detail, plus a texture pool sized to your video memory. Heavy on purpose. Backup first, UNDO puts it back.",
+        "it": "Va oltre il livello massimo del gioco (Cinematic): scrive in Engine.ini filtro texture, filtro di upscale, distanza della vegetazione e dettaglio ombre del sole piu alti, piu un pool texture calibrato sulla tua memoria video. Pesante apposta. Backup prima, UNDO rimette tutto."
       }
     }
   ]

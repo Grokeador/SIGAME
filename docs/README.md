@@ -19,3 +19,4 @@ One page per SI NEWS video: what the preset does, how to apply it, sources, and 
 | [Minecraft: RealWorldMC (real-world 3D map mod by Teddy563, Fabric)](minecraft-si-realworld.md) | SI REAL WORLD | https://youtu.be/nIS6uMe95Qc |
 | [Dragon Ball Z: Budokai Tenkaichi 3 (Tenkaichi3Decomp native PC port)](bt3-si-ultra.md) | SI ULTRA | https://youtu.be/pX9tSK8sZbA |
 | [Resident Evil Requiem (REFramework, RE Engine)](re9-si-ultra.md) | SI ULTRA | https://youtu.be/tUQ5TUy18rw |
+| [Subnautica 2 (Early Access, Unreal Engine 5)](sn2-si-ultra.md) | SI ULTRA | https://youtu.be/lMiqWHKCvYI |
