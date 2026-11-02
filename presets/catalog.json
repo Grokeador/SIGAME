@@ -1,6 +1,6 @@
 {
   "SchemaVersion": 1,
-  "Updated": "2026-10-31",
+  "Updated": "2026-11-01",
   "Presets": [
     {
       "Id": "stalker-si-tactical",
@@ -378,6 +378,22 @@
       "Summary": {
         "en": "Reads your monitor, CPU and RAM and configures Tenkaichi3Decomp's bt3_settings.txt: your monitor's EXACT shape (any ratio 4:3 to 4.0, the F1 menu lists only five), internal resolution at least 2x your screen height, smooth motion 60/120/240 by your Hz, widescreen menus with fighter side panels, texture packs on, render thread, straight to the menu; raises the hidden HD texture-pack memory (BT3_PACK_MB, default 1024 MB) to a quarter of your RAM and creates the textures, stages and songs mod folders. Backup first, UNDO puts everything back.",
         "it": "Legge monitor, CPU e RAM e configura bt3_settings.txt di Tenkaichi3Decomp: la forma ESATTA del tuo monitor (qualsiasi rapporto da 4:3 a 4.0, il menu F1 ne elenca solo cinque), risoluzione interna almeno 2x l'altezza dello schermo, movimento fluido 60/120/240 secondo i tuoi Hz, menu widescreen con pannelli dei lottatori ai lati, texture pack attivi, render thread, dritto al menu; alza la memoria nascosta per i texture pack HD (BT3_PACK_MB, default 1024 MB) a un quarto della RAM e crea le cartelle mod textures, stages e songs. Backup prima, UNDO rimette tutto come prima."
+      }
+    },
+    {
+      "Id": "re9-si-ultra",
+      "Game": "Resident Evil Requiem (REFramework, RE Engine)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)resident.?evil.?requiem|biohazard.?requiem|\\bre9\\b",
+      "DetectPath": "",
+      "Script": "re9-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/praydog/REFramework",
+      "Video": "https://youtu.be/tUQ5TUy18rw",
+      "Summary": {
+        "en": "Writes the REFramework keys that live outside the game menu, picked for your screen: vignette off, field of view 90 on 16:9, or on 21:9 and wider the ultrawide fix with the HUD kept in 16:9. Needs REFramework (free, MIT) in the game folder. Backup first, UNDO puts it back.",
+        "it": "Scrive le chiavi di REFramework che stanno fuori dal menu del gioco, scelte per il tuo schermo: vignettatura off, campo visivo 90 su 16:9, oppure su 21:9 e oltre il fix ultrawide con l'HUD tenuto in 16:9. Serve REFramework (gratis, MIT) nella cartella del gioco. Backup prima, UNDO lo rimette."
       }
     }
   ]
