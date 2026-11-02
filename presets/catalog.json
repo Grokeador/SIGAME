@@ -427,6 +427,22 @@
         "en": "Keeps YOUR graphics settings when Fortnite resets them. Clears the read-only flag on GameUserSettings.ini (Epic's own fix), saves a copy of your settings and adds a hidden check every 15 minutes: after a Fortnite update changes your file, your copy goes back; when you change settings in the menu, the copy follows you. UNDO removes the check and the copy.",
         "it": "Tiene le TUE impostazioni grafiche quando Fortnite le resetta. Toglie la sola lettura da GameUserSettings.ini (la soluzione di Epic), salva una copia delle tue impostazioni e aggiunge un controllo nascosto ogni 15 minuti: dopo un aggiornamento di Fortnite che cambia il file, la tua copia torna; quando cambi le impostazioni nel menu, la copia ti segue. UNDO toglie il controllo e la copia."
       }
+    },
+    {
+      "Id": "f125-si-ultra",
+      "Game": "F1 25 (PC)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)f1.?25",
+      "DetectPath": "%USERPROFILE%\\Documents\\My Games\\F1 25\\hardwaresettings",
+      "Script": "f125-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/xanpavle/F1-25-RE-Optimization",
+      "Video": "https://youtu.be/0NeXIq4mEPY",
+      "Summary": {
+        "en": "Edits F1 25's own hardware_settings_config.xml, only the values the F1-25-RE-Optimization author lists as not clamped by the graphics preset: SSAO algorithm, screen space reflections, clouds, grass distance, car reflection updates. Only ever cheaper, no DLL. Changed a graphics option in the menu? APPLY, No, Yes. Names from that MIT repo. UNDO restores your file.",
+        "it": "Modifica il file hardware_settings_config.xml di F1 25, solo i valori che l'autore di F1-25-RE-Optimization indica come non bloccati dal preset grafico: algoritmo SSAO, riflessi in screen space, nuvole, distanza dell'erba, aggiornamento riflessi auto. Solo piu leggero, nessuna DLL. Hai cambiato un'opzione grafica nel menu? APPLY, No, Si. Nomi da quel repo MIT. UNDO rimette il tuo file."
+      }
     }
   ]
 }
