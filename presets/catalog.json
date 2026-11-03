@@ -475,6 +475,22 @@
         "en": "Lost Skies runs on Unity: this edits the game's boot.config (graphics jobs, garbage collector time per frame) and Unity's own registry keys (full screen window, your monitor's resolution), and tells Windows to use the high performance GPU. Keys from Unity's docs and a public guide. Steam update or Verify? APPLY, No, Yes. UNDO restores the exact old values.",
         "it": "Lost Skies gira su Unity: modifica il boot.config del gioco (graphics jobs, tempo per frame del garbage collector) e le chiavi di registro di Unity (finestra a schermo intero, risoluzione del tuo monitor), e dice a Windows di usare la GPU ad alte prestazioni. Chiavi dalla documentazione Unity e da una guida pubblica. Aggiornamento Steam o Verifica? APPLY, No, Si. UNDO rimette i valori esatti di prima."
       }
+    },
+    {
+      "Id": "vrc-si-ultra",
+      "Game": "VRChat (PC)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)vrchat",
+      "DetectPath": "%LOCALAPPDATA%Low\\VRChat\\VRChat",
+      "Script": "vrc-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://docs.vrchat.com/docs/configuration-file",
+      "Video": "https://youtu.be/E_vquJ9h6rM",
+      "Summary": {
+        "en": "Writes VRChat's own config.json, the file VRChat does not create and the app menu does not show: particle limiter on with VRChat's recommended limits, a bigger and longer cache sized by your free disk space, 8K camera, 4K F12 screenshots, first-person steadycam FOV 70. Your other keys stay. Keys and ranges from docs.vrchat.com. UNDO restores your file.",
+        "it": "Scrive il config.json di VRChat, il file che VRChat non crea e che il menu non mostra: limitatore di particelle attivo con i limiti consigliati da VRChat, cache più grande e più lunga in base allo spazio libero, fotocamera 8K, screenshot F12 in 4K, FOV 70 per la steadycam in prima persona. Le tue altre chiavi restano. Chiavi e limiti da docs.vrchat.com. UNDO rimette il tuo file."
+      }
     }
   ]
 }
