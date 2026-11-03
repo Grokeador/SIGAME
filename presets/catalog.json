@@ -443,6 +443,22 @@
         "en": "Edits F1 25's own hardware_settings_config.xml, only the values the F1-25-RE-Optimization author lists as not clamped by the graphics preset: SSAO algorithm, screen space reflections, clouds, grass distance, car reflection updates. Only ever cheaper, no DLL. Changed a graphics option in the menu? APPLY, No, Yes. Names from that MIT repo. UNDO restores your file.",
         "it": "Modifica il file hardware_settings_config.xml di F1 25, solo i valori che l'autore di F1-25-RE-Optimization indica come non bloccati dal preset grafico: algoritmo SSAO, riflessi in screen space, nuvole, distanza dell'erba, aggiornamento riflessi auto. Solo piu leggero, nessuna DLL. Hai cambiato un'opzione grafica nel menu? APPLY, No, Si. Nomi da quel repo MIT. UNDO rimette il tuo file."
       }
+    },
+    {
+      "Id": "acc-si-ultra",
+      "Game": "Assetto Corsa Competizione (PC)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)assetto.?corsa.?competizione",
+      "DetectPath": "%LOCALAPPDATA%\\AC2\\Saved\\Config\\WindowsNoEditor",
+      "Script": "acc-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://steamcommunity.com/app/805550/discussions/0/1734343065616409741",
+      "Video": "https://youtu.be/53JINoqdhpY",
+      "Summary": {
+        "en": "Writes ten hidden lines into Assetto Corsa Competizione's own Engine.ini, keys shared by ACC players: blur, reflections, lens and translucency effects, only ever cheaper. Your other lines stay. Skips the lines the video menu already controls. UNDO restores your file exactly. Measure with your own FPS counter.",
+        "it": "Scrive dieci righe nascoste nel file Engine.ini di Assetto Corsa Competizione, chiavi condivise dai giocatori di ACC: blur, riflessi, effetti lente e traslucenze, solo piu leggero. Le tue altre righe restano. Salta le righe che il menu video controlla gia. UNDO rimette il tuo file esatto. Misura con il tuo contatore FPS."
+      }
     }
   ]
 }
