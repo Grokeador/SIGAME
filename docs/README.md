@@ -26,3 +26,4 @@ One page per SI NEWS video: what the preset does, how to apply it, sources, and 
 | [Lost Skies (PC)](lostskies-si-ultra.md) | SI ULTRA | https://youtu.be/obudSasMbmI |
 | [VRChat (PC)](vrc-si-ultra.md) | SI ULTRA | https://youtu.be/E_vquJ9h6rM |
 | [Hogwarts Legacy (PC)](hl-si-ultra.md) | SI ULTRA | https://youtu.be/rzeTd5c47A0 |
+| [Monster Hunter Wilds (PC)](mhw-si-ultra.md) | SI ULTRA | https://youtu.be/x0C1z71Xsvo |

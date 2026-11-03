@@ -507,6 +507,22 @@
         "en": "Writes the Engine.ini block Hogwarts Legacy players share on Steam into the game's own file, with the texture pool set to half of YOUR video memory instead of someone else's number, then locks the file read-only because players report the game removes added lines. Your other lines stay. UNDO restores your file exactly. Measure with your own FPS counter.",
         "it": "Scrive nel file Engine.ini di Hogwarts Legacy il blocco che i giocatori condividono su Steam, con il texture pool alla meta della TUA memoria video invece del numero di qualcun altro, poi blocca il file in sola lettura perche i giocatori riportano che il gioco toglie le righe aggiunte. Le tue altre righe restano. UNDO rimette il tuo file esatto. Misura con il tuo contatore FPS."
       }
+    },
+    {
+      "Id": "mhw-si-ultra",
+      "Game": "Monster Hunter Wilds (PC)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)monster.?hunter.?wilds",
+      "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\MonsterHunterWilds",
+      "Script": "mhw-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/pblocz/mhwilds-config",
+      "Video": "https://youtu.be/x0C1z71Xsvo",
+      "Summary": {
+        "en": "Edits Monster Hunter Wilds' own config.ini, with lines players share on Steam and ResetEra: render threads matched to your CPU, render thread priority, and a texture bias past the menu's limit from 12 GB of VRAM. Puts back the engine's own spelling if the famous typo fix touched your file. Opening the game's graphics options rewrites the file: APPLY again. UNDO restores your file exactly. Measure with your own FPS counter.",
+        "it": "Modifica il config.ini di Monster Hunter Wilds, con le righe condivise dai giocatori su Steam e ResetEra: thread di render adattati alla tua CPU, priorità del thread di render e un bias delle texture oltre il limite del menu da 12 GB di VRAM. Rimette il nome originale del motore se il famoso fix del typo ha toccato il tuo file. Aprire le opzioni grafiche del gioco riscrive il file: APPLY di nuovo. UNDO rimette il file esatto. Misura con il tuo contatore FPS."
+      }
     }
   ]
 }
