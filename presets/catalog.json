@@ -491,6 +491,22 @@
         "en": "Writes VRChat's own config.json, the file VRChat does not create and the app menu does not show: particle limiter on with VRChat's recommended limits, a bigger and longer cache sized by your free disk space, 8K camera, 4K F12 screenshots, first-person steadycam FOV 70. Your other keys stay. Keys and ranges from docs.vrchat.com. UNDO restores your file.",
         "it": "Scrive il config.json di VRChat, il file che VRChat non crea e che il menu non mostra: limitatore di particelle attivo con i limiti consigliati da VRChat, cache più grande e più lunga in base allo spazio libero, fotocamera 8K, screenshot F12 in 4K, FOV 70 per la steadycam in prima persona. Le tue altre chiavi restano. Chiavi e limiti da docs.vrchat.com. UNDO rimette il tuo file."
       }
+    },
+    {
+      "Id": "hl-si-ultra",
+      "Game": "Hogwarts Legacy (PC)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)hogwarts.?legacy",
+      "DetectPath": "%LOCALAPPDATA%\\Hogwarts Legacy\\Saved\\Config\\WindowsNoEditor",
+      "Script": "hl-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://steamcommunity.com/app/990080/discussions/0/3761104682802889062",
+      "Video": "https://youtu.be/rzeTd5c47A0",
+      "Summary": {
+        "en": "Writes the Engine.ini block Hogwarts Legacy players share on Steam into the game's own file, with the texture pool set to half of YOUR video memory instead of someone else's number, then locks the file read-only because players report the game removes added lines. Your other lines stay. UNDO restores your file exactly. Measure with your own FPS counter.",
+        "it": "Scrive nel file Engine.ini di Hogwarts Legacy il blocco che i giocatori condividono su Steam, con il texture pool alla meta della TUA memoria video invece del numero di qualcun altro, poi blocca il file in sola lettura perche i giocatori riportano che il gioco toglie le righe aggiunte. Le tue altre righe restano. UNDO rimette il tuo file esatto. Misura con il tuo contatore FPS."
+      }
     }
   ]
 }

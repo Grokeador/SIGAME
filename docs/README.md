@@ -25,3 +25,4 @@ One page per SI NEWS video: what the preset does, how to apply it, sources, and 
 | [Assetto Corsa Competizione (PC)](acc-si-ultra.md) | SI ULTRA | https://youtu.be/53JINoqdhpY |
 | [Lost Skies (PC)](lostskies-si-ultra.md) | SI ULTRA | https://youtu.be/obudSasMbmI |
 | [VRChat (PC)](vrc-si-ultra.md) | SI ULTRA | https://youtu.be/E_vquJ9h6rM |
+| [Hogwarts Legacy (PC)](hl-si-ultra.md) | SI ULTRA | https://youtu.be/rzeTd5c47A0 |
