@@ -459,6 +459,22 @@
         "en": "Writes ten hidden lines into Assetto Corsa Competizione's own Engine.ini, keys shared by ACC players: blur, reflections, lens and translucency effects, only ever cheaper. Your other lines stay. Skips the lines the video menu already controls. UNDO restores your file exactly. Measure with your own FPS counter.",
         "it": "Scrive dieci righe nascoste nel file Engine.ini di Assetto Corsa Competizione, chiavi condivise dai giocatori di ACC: blur, riflessi, effetti lente e traslucenze, solo piu leggero. Le tue altre righe restano. Salta le righe che il menu video controlla gia. UNDO rimette il tuo file esatto. Misura con il tuo contatore FPS."
       }
+    },
+    {
+      "Id": "lostskies-si-ultra",
+      "Game": "Lost Skies (PC)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)(lost|wild).?skies",
+      "DetectPath": "%USERPROFILE%\\AppData\\LocalLow\\Bossa Games\\LostSkies",
+      "Script": "lostskies-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://docs.unity.com/en-us/engine/6000.7/manual/platform-specific/windows/playersettings",
+      "Video": "https://youtu.be/obudSasMbmI",
+      "Summary": {
+        "en": "Lost Skies runs on Unity: this edits the game's boot.config (graphics jobs, garbage collector time per frame) and Unity's own registry keys (full screen window, your monitor's resolution), and tells Windows to use the high performance GPU. Keys from Unity's docs and a public guide. Steam update or Verify? APPLY, No, Yes. UNDO restores the exact old values.",
+        "it": "Lost Skies gira su Unity: modifica il boot.config del gioco (graphics jobs, tempo per frame del garbage collector) e le chiavi di registro di Unity (finestra a schermo intero, risoluzione del tuo monitor), e dice a Windows di usare la GPU ad alte prestazioni. Chiavi dalla documentazione Unity e da una guida pubblica. Aggiornamento Steam o Verifica? APPLY, No, Si. UNDO rimette i valori esatti di prima."
+      }
     }
   ]
 }

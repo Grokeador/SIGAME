@@ -23,3 +23,4 @@ One page per SI NEWS video: what the preset does, how to apply it, sources, and 
 | [Fortnite (Epic Games, PC)](fn-si-lock.md) | SI LOCK | https://youtu.be/0H_UK2nKQOo |
 | [F1 25 (PC)](f125-si-ultra.md) | SI ULTRA | https://youtu.be/0NeXIq4mEPY |
 | [Assetto Corsa Competizione (PC)](acc-si-ultra.md) | SI ULTRA | https://youtu.be/53JINoqdhpY |
+| [Lost Skies (PC)](lostskies-si-ultra.md) | SI ULTRA | https://youtu.be/obudSasMbmI |
