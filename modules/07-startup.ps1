@@ -1363,6 +1363,29 @@ function Invoke-SIRun {
         return
     }
 
+    # One SIGAME at a time (owner 05/11): the X only hides the window in the tray, so a second start must not open a
+    # second copy: it signals the first one, which shows its window, and ends.
+    $showName = 'Local\SIGAME-AUTO-Show'
+    $other = $null
+    try {
+        if ([System.Threading.EventWaitHandle]::TryOpenExisting($showName, [ref]$other)) {
+            [void]$other.Set(); $other.Dispose(); return
+        }
+    } catch [System.UnauthorizedAccessException] { return } catch { }
+    try {
+        $sec = [System.Security.AccessControl.EventWaitHandleSecurity]::new()
+        $everyone = [System.Security.Principal.SecurityIdentifier]::new([System.Security.Principal.WellKnownSidType]::WorldSid, $null)
+        $sec.AddAccessRule([System.Security.AccessControl.EventWaitHandleAccessRule]::new($everyone,
+            [System.Security.AccessControl.EventWaitHandleRights]'Synchronize, Modify', [System.Security.AccessControl.AccessControlType]::Allow))
+        $created = $false
+        $script:SIShowEvent = [System.Threading.EventWaitHandle]::new($false, [System.Threading.EventResetMode]::AutoReset,
+            $showName, [ref]$created, $sec)
+        $script:SIShowTimer = [System.Windows.Threading.DispatcherTimer]::new()
+        $script:SIShowTimer.Interval = [TimeSpan]::FromMilliseconds(500)
+        $script:SIShowTimer.Add_Tick({ if ($script:SIShowEvent.WaitOne(0)) { Show-SIMainWindow } })
+        $script:SIShowTimer.Start()
+    } catch { }
+
     try {
         Invoke-SIMain
     } catch {

@@ -47,6 +47,16 @@ $script:SIHandedOver   = $false
 $script:SIWithoutAdmin = $false
 
 if (-not $Worker) {
+    # One SIGAME at a time: when it already runs, show its window (no second copy, no second UAC prompt)
+    $siOther = $null
+    try {
+        if ([System.Threading.EventWaitHandle]::TryOpenExisting('Local\SIGAME-AUTO-Show', [ref]$siOther)) {
+            [void]$siOther.Set(); [System.Environment]::Exit(0)
+        }
+    } catch { }
+}
+
+if (-not $Worker) {
     $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
     if (-not $isAdmin) {
         try {
