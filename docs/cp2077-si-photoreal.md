@@ -1,4 +1,4 @@
-# Cyberpunk 2077 (2.5, photorealism + DLSS 4.5): SI PHOTOREAL preset for SIGAME (v1, Nov 2026)
+# Cyberpunk 2077 (2.5, photorealism + DLSS 4.5): SI PHOTOREAL preset for SIGAME (v2, Nov 2026)
 
 **Official video source (SI NEWS):** https://youtu.be/Br3jJblCHLw
 
@@ -12,7 +12,7 @@ FREE photorealism for update 2.5: our own ReShade preset (free SweetFX shaders, 
 
 | Game | Preset | Preset version | Undo | Game / port source | Video |
 |---|---|---|---|---|---|
-| Cyberpunk 2077 (2.5, photorealism + DLSS 4.5) | SI PHOTOREAL | 1 | yes | https://www.nexusmods.com/cyberpunk2077/mods/11622 | https://youtu.be/Br3jJblCHLw |
+| Cyberpunk 2077 (2.5, photorealism + DLSS 4.5) | SI PHOTOREAL | 2 | yes | https://www.nexusmods.com/cyberpunk2077/mods/11622 | https://youtu.be/Br3jJblCHLw |
 
 ## How do I apply it?
 1. Download SIGAME: https://github.com/Grokeador/SIGAME (Code, Download ZIP, extract).

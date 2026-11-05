@@ -73,6 +73,53 @@ function Find-Shipping([string]$dir) {
     return ($hits | Sort-Object Length -Descending | Select-Object -First 1)
 }
 
+# The games the player added to SIGAME by hand (SI-GAME-boost.json, next to the presets folder).
+function Get-ListedExes {
+    $file = Join-Path (Split-Path -Parent $PSScriptRoot) 'SI-GAME-boost.json'
+    if (-not (Test-Path -LiteralPath $file)) { return @() }
+    try { $state = [IO.File]::ReadAllText($file) | ConvertFrom-Json } catch { return @() }
+    return @(foreach ($g in @($state.Games)) {
+        $exe = if ($g -is [string]) { $g } else { [string]$g.Exe }
+        if ($exe -and (Test-Path -LiteralPath $exe -PathType Leaf)) { $exe }
+    })
+}
+
+# Not a Steam install and no game card: the exe added to SIGAME, then any folder named after the game.
+function Find-OtherInstall {
+    $tokens = @($GameKey -split '[^A-Za-z0-9]+' | Where-Object { $_.Length -ge 3 })
+    $leaf = if ($ExeName) { Split-Path -Leaf $ExeName } else { '' }
+    foreach ($exe in (Get-ListedExes)) {
+        if ($leaf -and (Split-Path -Leaf $exe) -ieq $leaf) { return $exe }
+    }
+    if (-not $tokens) { return '' }
+    foreach ($exe in (Get-ListedExes)) {
+        # only the exe and its two folders: never the whole path, so a user name cannot match
+        $d = Split-Path -Parent $exe
+        $tail = (Split-Path -Leaf $exe) + '|' + (Split-Path -Leaf $d) + '|' + (Split-Path -Leaf (Split-Path -Parent $d))
+        if (@($tokens | Where-Object { $tail -notmatch [regex]::Escape($_) }).Count -eq 0) { return $exe }
+    }
+    if (-not $ExeName) { return '' }
+    $roots = @(foreach ($d in 'Downloads', 'Desktop', 'Documents', 'Games') { Join-Path $env:USERPROFILE $d })
+    foreach ($drv in [IO.DriveInfo]::GetDrives()) {
+        if ($drv.DriveType -ne 'Fixed' -or -not $drv.IsReady) { continue }
+        $roots += $drv.RootDirectory.FullName
+        foreach ($d in 'Games', 'Jogos', 'Giochi', 'Juegos', 'GOG Games', 'Epic Games', 'Program Files', 'Program Files (x86)') { $roots += Join-Path $drv.RootDirectory.FullName $d }
+    }
+    foreach ($r in $roots) {
+        if (-not (Test-Path -LiteralPath $r)) { continue }
+        foreach ($h in @(Get-ChildItem -LiteralPath $r -Directory -Filter "*$($tokens[0])*" -ErrorAction SilentlyContinue)) {
+            $p = Join-Path $h.FullName $ExeName
+            if (Test-Path -LiteralPath $p) { return $p }
+        }
+    }
+    return ''
+}
+
+if ((-not $GameExe -or -not (Test-Path -LiteralPath $GameExe)) -and -not ($SteamAppId -and (Get-SteamGameRoot $SteamAppId))) {
+    $found = Find-OtherInstall
+    if ($found) { $GameExe = $found }
+}
+
 $gameRoot = $null; $target = $null
 if ($GameExe -and (Test-Path -LiteralPath $GameExe)) {
     $exeDir = Split-Path -Parent $GameExe
@@ -93,7 +140,7 @@ if ($GameExe -and (Test-Path -LiteralPath $GameExe)) {
         elseif ($ExeName -and (Test-Path -LiteralPath (Join-Path $gameRoot $ExeName))) { $target = Split-Path -Parent (Join-Path $gameRoot $ExeName) }
     }
 }
-if (-not $target) { Out-Line '[FAIL] Game folder not found: add the game to SIGAME and use the SI PRESET button on its card.'; exit 2 }
+if (-not $target) { Out-Line '[FAIL] Game folder not found: add the game exe to SIGAME as a custom game, then apply again.'; exit 2 }
 $manifestPath = Join-Path $target 'SIGAME-optiscaler.json'
 
 # --- The game must be closed ---

@@ -1,4 +1,4 @@
-# Zelda: Tears of the Kingdom (totk-pc-recomp native PC port): SI ULTRAWIDE preset for SIGAME (v1, Nov 2026)
+# Zelda: Tears of the Kingdom (totk-pc-recomp native PC port): SI ULTRAWIDE preset for SIGAME (v2, Nov 2026)
 
 **Official video source (SI NEWS):** https://youtu.be/3VwD2zssnuo
 
@@ -8,11 +8,11 @@ TL;DR
 - Result: Reads your monitor and sets the game to its own shape and size, 21:9, 32:9, 16:10 or 16:9, with the camera and the HUD in that shape.
 
 ## What the preset does
-For port v0.2.1+ (ultrawide). Reads your monitor and sets the game to its own shape and size, 21:9, 32:9, 16:10 or 16:9, with the camera and the HUD in that shape. When your size is not one of the ten shapes in the port's F1 menu (a 57-inch 7680x2160, for example), it builds the HUD layout with the port's own tool from the unpacked TotK-Setup folder. Also: the largest scene the port draws (4096 px) for supersampling, frame limit at your refresh rate with the port's high frame rate keys, shader prewarm on all CPU threads. Close the game first. Backup first, UNDO puts it back.
+For port v0.2.1+ (ultrawide). Reads your monitor and sets the game to its own shape and size, 21:9, 32:9, 16:10 or 16:9, with the camera and the HUD in that shape. When your size is not one of the ten shapes in the port's F1 menu (a 57-inch 7680x2160, for example), it builds the HUD layout with the port's own tool from the unpacked TotK-Setup folder. Also: a scene set for your GPU (the port's largest, 4096 px, on RTX x080/x090 and RX x800/x900; 150% on RTX x060/x070, RX x600/x700 and Arc; 100% on other cards), frame limit at your refresh rate with the port's high frame rate keys, shader prewarm on all CPU threads. Close the game first. Backup first, UNDO puts it back.
 
 | Game | Preset | Preset version | Undo | Game / port source | Video |
 |---|---|---|---|---|---|
-| Zelda: Tears of the Kingdom (totk-pc-recomp native PC port) | SI ULTRAWIDE | 1 | yes | https://github.com/valentderah/totk-pc-recomp | https://youtu.be/3VwD2zssnuo |
+| Zelda: Tears of the Kingdom (totk-pc-recomp native PC port) | SI ULTRAWIDE | 2 | yes | https://github.com/valentderah/totk-pc-recomp | https://youtu.be/3VwD2zssnuo |
 
 ## How do I apply it?
 1. Download SIGAME: https://github.com/Grokeador/SIGAME (Code, Download ZIP, extract).

@@ -14,6 +14,17 @@ param(
     [switch]$Undo
 )
 
+# The games the player added to SIGAME by hand (SI-GAME-boost.json, next to the presets folder).
+function Get-ListedExes {
+    $file = Join-Path (Split-Path -Parent $PSScriptRoot) 'SI-GAME-boost.json'
+    if (-not (Test-Path -LiteralPath $file)) { return @() }
+    try { $state = [IO.File]::ReadAllText($file) | ConvertFrom-Json } catch { return @() }
+    return @(foreach ($g in @($state.Games)) {
+        $exe = if ($g -is [string]) { $g } else { [string]$g.Exe }
+        if ($exe -and (Test-Path -LiteralPath $exe -PathType Leaf)) { $exe }
+    })
+}
+
 function Find-CpDir {
     $cands = @()
     foreach ($pf in $env:ProgramFiles, ${env:ProgramFiles(x86)}) {
@@ -36,6 +47,28 @@ function Find-CpDir {
         }
     }
     foreach ($c in $cands) { if (Test-Path -LiteralPath (Join-Path $c 'bin\x64\Cyberpunk2077.exe')) { return $c } }
+    # the exe the player added to SIGAME: <game>\bin\x64\Cyberpunk2077.exe, or a launcher in <game>
+    foreach ($exe in (Get-ListedExes)) {
+        $d = Split-Path -Parent $exe
+        foreach ($c in $d, (Split-Path -Parent (Split-Path -Parent $d))) {
+            if ($c -and (Test-Path -LiteralPath (Join-Path $c 'bin\x64\Cyberpunk2077.exe'))) { return $c }
+        }
+    }
+    # any folder name with Cyberpunk in it ("Cyberpunk 2077 Ultimate Edition ...")
+    $roots = @(foreach ($d in 'Downloads', 'Desktop', 'Documents', 'Games') { Join-Path $env:USERPROFILE $d })
+    foreach ($drv in [IO.DriveInfo]::GetDrives()) {
+        if ($drv.DriveType -ne 'Fixed' -or -not $drv.IsReady) { continue }
+        $roots += $drv.RootDirectory.FullName
+        foreach ($d in 'Games', 'Jogos', 'Giochi', 'Juegos', 'GOG Games', 'SteamLibrary\steamapps\common', 'Epic Games', 'Program Files', 'Program Files (x86)') {
+            $roots += Join-Path $drv.RootDirectory.FullName $d
+        }
+    }
+    foreach ($r in $roots) {
+        if (-not (Test-Path -LiteralPath $r)) { continue }
+        foreach ($h in @(Get-ChildItem -LiteralPath $r -Directory -Filter '*cyberpunk*' -ErrorAction SilentlyContinue)) {
+            if (Test-Path -LiteralPath (Join-Path $h.FullName 'bin\x64\Cyberpunk2077.exe')) { return $h.FullName }
+        }
+    }
     return $null
 }
 
@@ -59,7 +92,7 @@ function Set-IniSections([string]$Text, [hashtable]$Sections) {
 
 $GameDir = if ($env:SIGAME_CP_DIR) { $env:SIGAME_CP_DIR } else { Find-CpDir }
 if (-not $GameDir) {
-    Write-Output '[FAIL] Cyberpunk 2077 not found (bin\x64\Cyberpunk2077.exe). Install it or start it once, then apply again.'
+    Write-Output '[FAIL] Cyberpunk 2077 not found (bin\x64\Cyberpunk2077.exe). Add that exe to SIGAME as a custom game, then apply again.'
     exit 2
 }
 $Bin     = Join-Path $GameDir 'bin\x64'

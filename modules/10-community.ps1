@@ -18,7 +18,7 @@
 #   - Sending never blocks the window and never shows an error to the player.
 # ===========================================================================
 
-$script:SIGameVersion     = '2026.10.27.2'
+$script:SIGameVersion     = '2026.11.05'
 $script:SIPresetsPath     = [System.IO.Path]::Combine($script:SIRoot, 'presets')
 $script:SICatalogPath     = [System.IO.Path]::Combine($script:SIPresetsPath, 'catalog.json')
 $script:SIFeedbackCfgPath = [System.IO.Path]::Combine($script:SIRoot, 'SI-GAME-feedback.json')
@@ -210,8 +210,10 @@ function Invoke-SIPresetScript {
     if ($Entry.PSObject.Properties.Name -contains 'Args' -and $Entry.Args) { $argLine += ' ' + [string]$Entry.Args }
     if ($Entry.PSObject.Properties.Name -contains 'NeedsGame' -and $Entry.NeedsGame) {
         foreach ($g in @($script:SIGameLibrary)) {
-            $hit = Find-SIGamePreset -Game $g
-            if ($hit -and $hit.Id -eq $Entry.Id -and $g.Exe) { $argLine += " -GameExe `"$($g.Exe)`""; break }
+            # the entry's own Match: Find-SIGamePreset gives only the FIRST preset of a game with several
+            $hay = @([string]$g.Name, [System.IO.Path]::GetFileName([string]$g.Exe),
+                     [System.IO.Path]::GetFileName([string]$g.Folder)) -join ' | '
+            if ($Entry.Match -and $g.Exe -and $hay -match [string]$Entry.Match) { $argLine += " -GameExe `"$($g.Exe)`""; break }
         }
     }
     # Game-folder presets may download (SI OPTI: 55 MB): a visible console shows the download progress bar.
@@ -248,7 +250,13 @@ function Invoke-SIGamePreset {
     [void]$win.Activate()
     $last = (@($r.Lines | Where-Object { $_ }) | Select-Object -Last 1)
     if ($r.Ok) {
+        $undoNote = ''
         if ($undo) {
+            # how long the preset stayed: tells a quick test from a real try (no reason is asked to the player)
+            try {
+                $secs = [int]([datetime]::Now - [datetime]$state.Applied.([string]$Entry.Id)).TotalSeconds
+                if ($secs -ge 0) { $undoNote = "undo after $secs s" }
+            } catch { }
             $state.Applied.PSObject.Properties.Remove([string]$Entry.Id)
         } else {
             $state.Applied | Add-Member ([string]$Entry.Id) ([datetime]::Now.ToString('s')) -Force
@@ -257,7 +265,7 @@ function Invoke-SIGamePreset {
         Set-SIStatusText -Text ((Get-SICommunityText 'PresetDone') -f $Entry.Title)
         [void][System.Windows.MessageBox]::Show($win, (@($r.Lines) -join "`n"), "SI PRESET $($Entry.Title)")
         $kind = if ($undo) { 'preset_undo' } else { 'preset_applied' }
-        Send-SITelemetry -Event (New-SITelemetryEvent -Kind $kind -Preset ([string]$Entry.Id))
+        Send-SITelemetry -Event (New-SITelemetryEvent -Kind $kind -Preset ([string]$Entry.Id) -Message $undoNote)
     } else {
         Set-SIStatusText -Text ((Get-SICommunityText 'PresetFail') -f $Entry.Title, $last)
         [void][System.Windows.MessageBox]::Show($win, (@($r.Lines) -join "`n"), "SI PRESET $($Entry.Title)")

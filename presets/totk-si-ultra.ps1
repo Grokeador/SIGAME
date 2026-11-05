@@ -8,21 +8,33 @@
 # The README lists custom aspect ratios (ultrawide) as planned, so the output stays 16:9.
 # This writes, for YOUR monitor (read from Windows):
 #   output_res = WxH          the largest 16:9 size inside your monitor (5K and 8K too), fullscreen = 1
-#   render_scale = P          the largest scene the port draws (4096 px a side) = supersampled anti-aliasing
-#                             (213 % on a 1080p monitor, past the menu's 200 %)
+#   render_scale = P          set for your GPU: RTX x080/x090 and RX x800/x900 = the largest scene the port draws
+#                             (4096 px a side, 213 % on 1080p, past the menu's 200 %); RTX x060/x070, RX x600/x700
+#                             and Arc = up to 150 %; other cards = 100 %; integrated = 100 %, at most 1920x1080, 60 fps
 #   fps_limit = Hz            your monitor's refresh rate, 30..360
 #   realtime = 1  cloth_realtime = 1  highfps_fix = 1  (the port's high frame rate keys)
 #   prewarm_xlate / lib_prebuild_threads = your CPU threads / half of them (shaders ready sooner, less stutter)
 #   timer_1ms = 1  vk_present = mailbox  perf_overlay = fps
-# Backup first (totk.ini.sigame.bak); -Undo puts it back.
+# Backup first (totk.ini.sigame.bak); -Undo puts it back, or SI ULTRAWIDE's settings while that one is still applied.
 param(
     [switch]$Undo
 )
 
 $ExeName = 'totk.exe'
-$Keys = 'output_res|fullscreen|window_size|render_scale|fps_limit|fps60|realtime|cloth_realtime|highfps_fix|prewarm_xlate|lib_prebuild_threads|timer_1ms|vk_present|perf_overlay'
+
+# The games the player added to SIGAME by hand (SI-GAME-boost.json, next to the presets folder).
+function Get-ListedExes {
+    $file = Join-Path (Split-Path -Parent $PSScriptRoot) 'SI-GAME-boost.json'
+    if (-not (Test-Path -LiteralPath $file)) { return @() }
+    try { $state = [IO.File]::ReadAllText($file) | ConvertFrom-Json } catch { return @() }
+    return @(foreach ($g in @($state.Games)) {
+        $exe = if ($g -is [string]) { $g } else { [string]$g.Exe }
+        if ($exe -and (Test-Path -LiteralPath $exe -PathType Leaf)) { $exe }
+    })
+}
 
 function Find-TotkRoot {
+    foreach ($exe in (Get-ListedExes)) { if ((Split-Path -Leaf $exe) -ieq $ExeName) { return (Split-Path -Parent $exe) } }
     $roots = @()
     foreach ($d in 'Downloads', 'Desktop', 'Documents', 'Games') { $roots += , @((Join-Path $env:USERPROFILE $d), 3) }
     foreach ($drv in [IO.DriveInfo]::GetDrives()) {
@@ -48,9 +60,31 @@ if (-not $Root -or -not (Test-Path -LiteralPath (Join-Path $Root $ExeName))) {
 $Ini = Join-Path $Root 'totk.ini'
 $Bak = "$Ini.sigame.bak"
 
+$Self = 'ultra'; $Other = 'ultrawide'
+$Block = "$Ini.sigame-$Self"; $OtherBlock = "$Ini.sigame-$Other"
+$Keys = 'output_res|aspect|fullscreen|window_size|render_scale|fps_limit|fps60|realtime|cloth_realtime|highfps_fix|prewarm_xlate|lib_prebuild_threads|timer_1ms|vk_present|perf_overlay'
+$Utf8 = New-Object System.Text.UTF8Encoding($false)
+# keys are read wherever they are ([sections] only group lines): ours go first, the rest of the file stays as it was
+function Write-Block([string[]]$Lines) {
+    $old = @(if (Test-Path -LiteralPath $Ini) { [IO.File]::ReadAllLines($Ini) } else { @() })
+    $kept = foreach ($line in $old) {
+        if ($line -match "^\s*($Keys)\s*=" -or $line -match '^# SI ULTRA(WIDE)? by SI NEWS') { continue }
+        $line
+    }
+    [IO.File]::WriteAllText($Ini, (($Lines + @('') + @($kept)) -join "`r`n") + "`r`n", $Utf8)
+}
+
 if ($Undo) {
-    if (-not (Test-Path -LiteralPath $Bak)) { Write-Output '[FAIL] No backup totk.ini.sigame.bak to restore.'; exit 3 }
-    Copy-Item -LiteralPath $Bak -Destination $Ini -Force
+    # SI ULTRA and SI ULTRAWIDE write the same keys and share one backup of your own file:
+    # undoing one puts the other back while it is still applied, the backup returns only when none is left.
+    Remove-Item -LiteralPath $Block -Force -ErrorAction SilentlyContinue
+    if (Test-Path -LiteralPath $OtherBlock) {
+        Write-Block ([IO.File]::ReadAllLines($OtherBlock))
+        Write-Output "[OK]   SI ULTRA removed. SI ULTRAWIDE is still applied: its settings are in totk.ini."
+        exit 0
+    }
+    if (-not (Test-Path -LiteralPath $Bak)) { Write-Output '[OK]   Nothing to undo: this preset is not in totk.ini.'; exit 0 }
+    Move-Item -LiteralPath $Bak -Destination $Ini -Force
     Write-Output '[OK]   totk.ini restored from the backup.'
     exit 0
 }
@@ -67,19 +101,32 @@ $H = if ($env:SIGAME_TEST_H) { [int]$env:SIGAME_TEST_H } elseif ($vc) { [int]$vc
 $Hz = if ($env:SIGAME_TEST_HZ) { [int]$env:SIGAME_TEST_HZ } elseif ($vc -and $vc.CurrentRefreshRate -gt 0) { [int]$vc.CurrentRefreshRate } else { 60 }
 $Cpu = if ($env:SIGAME_TEST_CPU) { [int]$env:SIGAME_TEST_CPU } else { [Environment]::ProcessorCount }
 
+# What the scene can cost: every adapter counts (a laptop lists its Intel chip first). Set SIGAME_TOTK_SCENE=max to force the largest scene.
+$Gpus = if ($env:SIGAME_TEST_GPU) { @($env:SIGAME_TEST_GPU -split ';') } else { @(Get-CimInstance Win32_VideoController -ErrorAction SilentlyContinue | ForEach-Object { [string]$_.Name }) }
+$Tier = if (-not $Gpus) { 'mid' } else { 'integrated' }
+foreach ($g in $Gpus) {
+    if ($g -match '(?i)RTX\s*[2-9]0[89]0|RX\s*\d[89]\d\d') { $Tier = 'top'; break }
+    if ($g -match '(?i)RTX\s*[2-9]0[67]0|RX\s*\d[67]\d\d|Arc.*\b[AB]\d{3}\b') { $Tier = 'mid' }
+    elseif ($Tier -eq 'integrated' -and $g -match '(?i)NVIDIA|GeForce|Quadro|Radeon\s*(\(TM\)\s*)?(RX\s*\d{3,4}|R[579]\s|Pro\s|HD\s)|RX\s*Vega\s*(56|64)') { $Tier = 'entry' }
+}
+if ($env:SIGAME_TOTK_SCENE -eq 'max') { $Tier = 'top' }
+$MaxScale = @{ top = 400; mid = 150; entry = 100; integrated = 100 }[$Tier]
+
 # output: the largest 16:9 size inside the monitor, within the port's 1280x720..7680x4320, even sizes
 $OW = [Math]::Min($W, [int][Math]::Floor($H * 16 / 9))
+if ($Tier -eq 'integrated') { $OW = [Math]::Min(1920, $OW) }
 $OW = [Math]::Min(7680, [Math]::Max(1280, $OW)) -band -16
 $OH = [int]($OW * 9 / 16) -band -2
 # scene: the largest percentage whose long side stays within the port's 4096 px (25..400)
 $Side = [Math]::Max($OW, $OH)
-$Scale = [Math]::Min(400, [Math]::Max(100, [int][Math]::Floor(409600 / $Side)))
+$Scale = [Math]::Min($MaxScale, [Math]::Max(100, [int][Math]::Floor(409600 / $Side)))
 $Fit = [Math]::Min(1.0, 4096.0 / ($Side * $Scale / 100.0))   # the port fits the scene the same way (SCENE_MAX)
 $SW = [int][Math]::Round($OW * $Scale / 100.0 * $Fit); $SH = [int][Math]::Round($OH * $Scale / 100.0 * $Fit)
 $Fps = [Math]::Min(360, [Math]::Max(60, $Hz))
+if ($Tier -eq 'integrated') { $Fps = [Math]::Min(60, $Fps) }
 $Xlate = [Math]::Min(64, [Math]::Max(1, $Cpu))
 $Lib = [Math]::Min(64, [Math]::Max(1, [int][Math]::Floor($Cpu / 2)))
-Write-Output "[INFO] Monitor $W x $H @ $Hz Hz, $Cpu CPU threads -> game $OW x $OH, scene $SW x $SH ($Scale %), limit $Fps fps"
+Write-Output "[INFO] GPU class $Tier. Monitor $W x $H @ $Hz Hz, $Cpu CPU threads -> game $OW x $OH, scene $SW x $SH ($Scale %), limit $Fps fps"
 
 foreach ($e in 'TOTK_OUTPUT_RES', 'TOTK_RENDER_SCALE', 'TOTK_FPS_LIMIT') {
     if ([Environment]::GetEnvironmentVariable($e, 'User') -or [Environment]::GetEnvironmentVariable($e, 'Machine')) {
@@ -112,23 +159,17 @@ $Ours = @{
 }
 $Why = @{
     'output_res'   = $(if (@(1920, 2560, 3200, 3840) -notcontains $OW) { 'PAST THE MENU (1920x1080 to 3840x2160 only)' } else { 'largest 16:9 on your monitor' })
-    'render_scale' = $(if ($Scale -gt 200) { 'PAST THE MENU (max 200 %)' } else { 'scene at the 4096 px maximum' })
-    'fps_limit'    = 'your monitor Hz'
+    'render_scale' = $(if ($Scale -gt 200) { 'PAST THE MENU (max 200 %)' } elseif ($Tier -eq 'top') { 'scene at the 4096 px maximum' } else { "set for your GPU ($Tier)" })
+    'fps_limit'    = $(if ($Fps -lt $Hz) { 'capped at 60 for integrated graphics' } else { 'your monitor Hz' })
 }
 
-$old = @(if (Test-Path -LiteralPath $Ini) { [IO.File]::ReadAllLines($Ini) } else { @() })
-$kept = foreach ($line in $old) {
-    if ($line -match "^\s*($Keys)\s*=" -or $line -match '^# SI ULTRA by SI NEWS') { continue }
-    $line
-}
-$new = @('# SI ULTRA by SI NEWS (SIGAME): 16:9 output for this monitor, 4096 px supersampled scene, frame limit = your Hz')
+$new = @('# SI ULTRA by SI NEWS (SIGAME): 16:9 output for this monitor, scene set for your GPU, frame limit = your Hz')
 foreach ($k in $Order) {
     $new += "$k = $($Ours[$k])"
     Write-Output ('[SET]  {0,-21} {1,-10} {2}' -f $k, $Ours[$k], $Why[$k])
 }
-$Utf8 = New-Object System.Text.UTF8Encoding($false)
-# keys are read wherever they are ([sections] only group lines): ours go first, the rest of the file stays as it was
-[IO.File]::WriteAllText($Ini, (($new + @('') + @($kept)) -join "`r`n") + "`r`n", $Utf8)
+[IO.File]::WriteAllLines($Block, [string[]]$new, $Utf8)
+Write-Block $new
 
 Write-Output '[INFO] Do not change Game resolution, 3D render scale or Frame limit in the F1 menu: its lists cannot hold these values.'
 Write-Output "[OK]   SI ULTRA applied, free. Start totk.exe: $SW x $SH scene on a $OW x $OH screen, up to $Fps fps. APPLY again and Yes = Undo."
