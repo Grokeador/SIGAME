@@ -1190,6 +1190,9 @@ function Start-SISlowStart {
 
         # The window says it when the administrator rights are not there, so
         # that the user knows why some tweaks do not work.
+        # A newer SIGAME on GitHub? Asked in the background, at most once a day.
+        try { Start-SIUpdateCheck } catch { }
+
         if ($script:SIWithoutAdmin) {
             Set-SIStatusText -Text 'SIGAME is running without administrator rights: some tweaks will not work.'
         }
@@ -1217,8 +1220,10 @@ function Invoke-SIMain {
 
     $window = $null
     try {
+        Update-SILoadingStep 'Opening the window... 90%'
         $window = New-SIWindow
     } catch {
+        Close-SILoadingWindow
         $message = [string]$_.Exception.Message
         if ([string]::IsNullOrWhiteSpace($message)) { $message = 'unknown error' }
         $stack = [string]$_.ScriptStackTrace
@@ -1238,6 +1243,7 @@ function Invoke-SIMain {
         return
     }
     if (-not $window) {
+        Close-SILoadingWindow
         # New-SIWindow has already written the reason in the log.
         Write-Host "SIGAME could not open its window. The log file is here: $script:SILogPath"
         return

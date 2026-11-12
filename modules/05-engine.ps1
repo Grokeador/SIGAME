@@ -326,8 +326,11 @@ function Invoke-SIUndoTweak {
     $entry = $backup.Tweaks[$TweakId]
 
     foreach ($record in @($entry['Registry'])) {
+        # A tweak with no registry part is stored as an empty list, which reads back as one empty record.
+        if (-not $record) { continue }
         $path = $record['Path']
         $name = $record['Name']
+        if ([string]::IsNullOrWhiteSpace([string]$path)) { continue }
         try {
             if ($record['Existed']) {
                 $type = ConvertTo-SIKind $record['Kind']
@@ -345,6 +348,7 @@ function Invoke-SIUndoTweak {
     }
 
     foreach ($record in @($entry['Services'])) {
+        if (-not $record) { continue }
         if ($record['Existed']) {
             $state = Get-SIServiceState -Name $record['Name']
             if (-not $state.Exists) {

@@ -95,6 +95,7 @@ $script:SIColors = @{
 $script:SILoadingWindow       = $null
 $script:SILoadingStep         = $null
 $script:SILoadingLogo         = $null
+$script:SILoadingCount        = 0
 $script:SIFirstWindowOnScreen = $null
 $script:SIBrushCache          = @{}
 $script:SILogAvailable        = $false
@@ -107,8 +108,85 @@ function Close-SILoadingWindow {
     $script:SILoadingLogo   = $null
 }
 
+function Update-SILoadingStep {
+    # Changes the line of the loading window and lets it draw itself.
+    param([string]$Text)
+    if (-not $script:SILoadingWindow) { return }
+    try {
+        if ($Text -and $script:SILoadingStep) { $script:SILoadingStep.Text = $Text }
+        $script:SILoadingWindow.Dispatcher.Invoke([Action] { }, [System.Windows.Threading.DispatcherPriority]::Background)
+    } catch { }
+}
+
+function Show-SILoadingWindow {
+    # The loading window: on the screen before the modules load, so a double
+    # click on SIGAME always gives an answer at once.
+    try {
+        $conv = [System.Windows.Media.BrushConverter]::new()
+        $w = [System.Windows.Window]::new()
+        $w.WindowStyle = [System.Windows.WindowStyle]::None
+        $w.ResizeMode = [System.Windows.ResizeMode]::NoResize
+        $w.AllowsTransparency = $false
+        $w.ShowInTaskbar = $true
+        $w.Title = 'SIGAME'
+        $w.Width = 380
+        $w.Height = 170
+        $w.WindowStartupLocation = [System.Windows.WindowStartupLocation]::CenterScreen
+        $w.Background = $conv.ConvertFromString($script:SIColors.Background)
+        $w.BorderBrush = $conv.ConvertFromString($script:SIColors.BorderGold)
+        $w.BorderThickness = [System.Windows.Thickness]::new(1)
+
+        $stack = [System.Windows.Controls.StackPanel]::new()
+        $stack.VerticalAlignment = [System.Windows.VerticalAlignment]::Center
+        $stack.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Center
+
+        $logoPath = [System.IO.Path]::Combine($script:SIRoot, 'logo.png')
+        if ([System.IO.File]::Exists($logoPath)) {
+            $bmp = [System.Windows.Media.Imaging.BitmapImage]::new()
+            $bmp.BeginInit()
+            $bmp.CacheOption = [System.Windows.Media.Imaging.BitmapCacheOption]::OnLoad
+            $bmp.DecodePixelWidth = 96
+            $bmp.UriSource = [Uri]::new($logoPath)
+            $bmp.EndInit()
+            $img = [System.Windows.Controls.Image]::new()
+            $img.Source = $bmp
+            $img.Width = 48
+            $img.Height = 48
+            $img.Margin = [System.Windows.Thickness]::new(0, 0, 0, 8)
+            [void]$stack.Children.Add($img)
+            $script:SILoadingLogo = $img
+        }
+
+        $title = [System.Windows.Controls.TextBlock]::new()
+        $title.Text = 'SIGAME'
+        $title.FontSize = 22
+        $title.FontWeight = [System.Windows.FontWeights]::Bold
+        $title.Foreground = $conv.ConvertFromString($script:SIColors.Accent)
+        $title.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Center
+        [void]$stack.Children.Add($title)
+
+        $step = [System.Windows.Controls.TextBlock]::new()
+        $step.Text = 'Loading...'
+        $step.FontSize = 12
+        $step.Margin = [System.Windows.Thickness]::new(0, 6, 0, 0)
+        $step.Foreground = $conv.ConvertFromString($script:SIColors.Muted)
+        $step.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Center
+        [void]$stack.Children.Add($step)
+
+        $w.Content = $stack
+        $script:SILoadingWindow = $w
+        $script:SILoadingStep   = $step
+        $w.Show()
+        Update-SILoadingStep
+    } catch {
+        $script:SILoadingWindow = $null
+        $script:SILoadingStep   = $null
+    }
+}
+
 if (-not $Worker) {
     try { Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase -ErrorAction Stop } catch { }
+    if (-not $Minimized) { Show-SILoadingWindow }
 }
 
 # ============================ 3. MODULES LOAD =============================
@@ -135,6 +213,8 @@ foreach ($module in $script:SIModuleList) {
         . $modPath
         $script:SILogAvailable = $true
     }
+    $script:SILoadingCount++
+    Update-SILoadingStep ("Loading... {0}%" -f [int](80 * $script:SILoadingCount / $script:SIModuleList.Count))
 }
 
 # ===================== 4. EXTENDED GAME DISCOVERY =========================
@@ -365,7 +445,7 @@ function Set-SIRobloxLowQualityProfile {
     $file = Get-SIRobloxSettingsPath
     if (-not [System.IO.File]::Exists($file)) { return $false }
     if (Get-Process -Name 'RobloxPlayerBeta' -ErrorAction SilentlyContinue) {
-        Write-SILog -Level 'WARN' -Component 'Game' -Message 'Roblox: profilo non applicato, chiudi Roblox e premi di nuovo OPTIMIZE.'
+        Write-SILog -Level 'WARN' -Component 'Game' -Message 'Roblox: profile not applied, close Roblox and press OPTIMIZE again.'
         return $false
     }
     try {
@@ -387,7 +467,7 @@ function Set-SIRobloxLowQualityProfile {
         Write-SILog -Level 'OK' -Component 'Game' -Message ("Roblox: qualita grafica manuale 1 (prima: livello {0}, 0 = Automatica). UNDO ALL la rimette com'era." -f $backup['RobloxQuality']['Saved'])
         return $true
     } catch {
-        Write-SILog -Level 'WARN' -Component 'Game' -Message "Roblox: profilo non applicato: $($_.Exception.Message)"
+        Write-SILog -Level 'WARN' -Component 'Game' -Message "Roblox: profile not applied: $($_.Exception.Message)"
         return $false
     }
 }
@@ -404,7 +484,7 @@ function Restore-SIRobloxQualityProfile {
     $file = [string]$orig['File']
     if (-not [System.IO.File]::Exists($file)) { $backup.Remove('RobloxQuality'); [void](Save-SIBackup -Backup $backup); return $false }
     if (Get-Process -Name 'RobloxPlayerBeta' -ErrorAction SilentlyContinue) {
-        Write-SILog -Level 'WARN' -Component 'Game' -Message 'Roblox e'' aperto: chiudilo e premi di nuovo UNDO ALL per rimettere la qualita grafica.'
+        Write-SILog -Level 'WARN' -Component 'Game' -Message 'Roblox is open: close it and press UNDO ALL again to put the graphics quality back.'
         return $false
     }
     try {
@@ -768,8 +848,8 @@ function Invoke-SIAddCustomGameDialog {
     #>
     try {
         $dlg = New-Object Microsoft.Win32.OpenFileDialog
-        $dlg.Title  = 'Seleziona l eseguibile (.exe) del gioco da aggiungere'
-        $dlg.Filter = 'Eseguibili Giochi (*.exe)|*.exe'
+        $dlg.Title  = 'Select the game executable (.exe) to add'
+        $dlg.Filter = 'Game executables (*.exe)|*.exe'
         $dlg.Multiselect = $false
         $res = $dlg.ShowDialog($script:SIWindow)
         if ($res -eq $true -and $dlg.FileName -and [System.IO.File]::Exists($dlg.FileName)) {
@@ -779,7 +859,7 @@ function Invoke-SIAddCustomGameDialog {
             $script:SIGameLibrary = @(Get-SIExtendedGames)
             Update-SIAutoDashboard
             $gName = [System.IO.Path]::GetFileNameWithoutExtension($exe)
-            Set-SIStatusText -Text "Gioco aggiunto alla lista: $gName. Premi OTTIMIZAR o GIOCA per ottimizzarlo."
+            Set-SIStatusText -Text "Game added to the list: $gName. Press OPTIMIZE or PLAY to optimize it."
             $added = @($script:SIGameLibrary | Where-Object { [string]$_.Exe -ieq $exe }) | Select-Object -First 1
             if ($added -and -not (Find-SIGamePreset -Game $added)) {
                 if (Show-SIMessage -Window $script:SIWindow -Title 'SI PRESET' -Text ((Get-SICommunityText 'AskAfterAdd') -f $gName)) {
@@ -788,7 +868,7 @@ function Invoke-SIAddCustomGameDialog {
             }
         }
     } catch {
-        Set-SIStatusText -Text "Impossibile aggiungere il gioco: $($_.Exception.Message)"
+        Set-SIStatusText -Text "The game could not be added: $($_.Exception.Message)"
     }
 }
 
@@ -893,7 +973,7 @@ function Enable-SINicCompetitiveLowLatency {
             }
         }
         if ($changed -gt 0) {
-            Write-SILog -Level 'OK' -Component 'NIC' -Message "Scheda di rete ottimizzata per eSports ($changed parametri EEE / Interrupt Moderation / Flow Control disattivati)."
+            Write-SILog -Level 'OK' -Component 'NIC' -Message "Network adapter tuned ($changed EEE / Interrupt Moderation / Flow Control settings turned off)."
         }
     } catch { }
     return $changed
@@ -926,7 +1006,7 @@ function Set-SIGamingWindowsUpdatePause {
             } catch { }
         }
         if ($paused -gt 0) {
-            Write-SILog -Component 'WinUpdatePause' -Message "$paused servizi di download Windows Update messi in pausa durante il gioco."
+            Write-SILog -Component 'WinUpdatePause' -Message "$paused Windows Update download services paused while the game runs."
         }
         return $paused
     } else {
@@ -939,7 +1019,7 @@ function Set-SIGamingWindowsUpdatePause {
         }
         $script:SIPausedUpdateServices = @()
         if ($resumed -gt 0) {
-            Write-SILog -Component 'WinUpdatePause' -Message "$resumed servizi Windows Update riattivati dopo la chiusura del gioco."
+            Write-SILog -Component 'WinUpdatePause' -Message "$resumed Windows Update services started again after the game closed."
         }
         return $resumed
     }
@@ -955,7 +1035,7 @@ function Enable-SIHardBcdBootTweaks {
     try {
         & bcdedit.exe /set disabledynamictick yes 2>$null | Out-Null
         & bcdedit.exe /set tscsyncpolicy Enhanced 2>$null | Out-Null
-        Write-SILog -Level 'OK' -Component 'BCD-Hard' -Message 'BCD Kernel Tick ottimizzato (disabledynamictick=yes, tscsyncpolicy=Enhanced).'
+        Write-SILog -Level 'OK' -Component 'BCD-Hard' -Message 'BCD kernel tick set (disabledynamictick=yes, tscsyncpolicy=Enhanced).'
         return $true
     } catch {
         return $false
@@ -1316,7 +1396,7 @@ function Get-SICpuThermalStatus {
         }
         if ($maxC -gt 0) {
             $warn = ($maxC -ge 85)
-            $label = if ($warn) { "${maxC}C (ALTA - Rischio Throttling!)" } else { "${maxC}C (OK)" }
+            $label = if ($warn) { "${maxC}C (HIGH - throttling risk)" } else { "${maxC}C (OK)" }
             return [pscustomobject]@{ TempC = $maxC; Warn = $warn; Text = $label }
         }
     } catch { }
@@ -1348,12 +1428,12 @@ function New-SIAutoDesktopShortcut {
             $sc.Arguments  = "-NoProfile -ExecutionPolicy Bypass -STA -WindowStyle Hidden -File `"$script:SICurrentScript`""
         }
         $sc.WorkingDirectory = $script:SIRoot
-        $sc.Description      = 'SIGAME AUTO - Ottimizzazione Gaming 1-Click'
+        $sc.Description      = 'SIGAME AUTO - 1-click gaming optimization'
         if ([System.IO.File]::Exists($script:SIIconPath)) {
             $sc.IconLocation = "$script:SIIconPath,0"
         }
         $sc.Save()
-        Write-SILog -Level 'OK' -Component 'Shortcut' -Message "Collegamento creato sul Desktop: $lnkPath"
+        Write-SILog -Level 'OK' -Component 'Shortcut' -Message "Shortcut created on the Desktop: $lnkPath"
         return $true
     } catch {
         return $false
@@ -1396,7 +1476,7 @@ function Get-SIAntiCheatGuardStatus {
 
     $detText = if ($detected.Count -gt 0) { $detected -join ', ' } else { 'Standard (VAC/EAC/BattlEye)' }
     $badge   = if ($requiresVbs) {
-        "Anti-Cheat Safe ($detText -> Scudo VBS attivo)"
+        "Anti-Cheat Safe ($detText -> VBS kept on)"
     } elseif ($detected.Count -gt 0) {
         "Anti-Cheat Safe ($detText)"
     } else {
@@ -1600,8 +1680,8 @@ function Export-SIEmergencyRegBackup {
         $sb = [System.Text.StringBuilder]::new()
         [void]$sb.AppendLine('Windows Registry Editor Version 5.00')
         [void]$sb.AppendLine('; =====================================================================')
-        [void]$sb.AppendLine('; SIGAME AUTO - FILE DI RIPRISTINO DI EMERGENZA STANDARD WINDOWS (.REG)')
-        [void]$sb.AppendLine('; Doppio clic su questo file per ripristinare i valori originali anche')
+        [void]$sb.AppendLine('; SIGAME AUTO - EMERGENCY RESTORE FILE, PLAIN WINDOWS FORMAT (.REG)')
+        [void]$sb.AppendLine('; Double-click this file to restore the original values, even')
         [void]$sb.AppendLine('; senza aprire SIGAME AUTO.')
         [void]$sb.AppendLine('; =====================================================================')
         [void]$sb.AppendLine('')
@@ -1658,18 +1738,18 @@ function Export-SIEmergencyRegBackup {
 
         $batLines = @(
             '@echo off',
-            'title SIGAME AUTO - Ripristino di Emergenza Indipendente',
-            'echo Ripristino chiavi di registro originali da SI-GAME-RIPRISTINO-EMERGENZA.reg...',
+            'title SIGAME AUTO - standalone emergency restore',
+            'echo Restoring the original registry values from SI-GAME-RIPRISTINO-EMERGENZA.reg...',
             'reg import "%~dp0SI-GAME-RIPRISTINO-EMERGENZA.reg"',
-            'echo Ripristino timer BCD standard di Windows...',
+            'echo Restoring the standard Windows BCD timer...',
             'bcdedit /deletevalue disabledynamictick >nul 2>&1',
             'bcdedit /deletevalue tscsyncpolicy >nul 2>&1',
             'echo.',
-            'echo [OK] Ripristino completato con successo!',
+            'echo [OK] Restore completed.',
             'pause'
         )
         [System.IO.File]::WriteAllLines($batFile, $batLines, [System.Text.Encoding]::ASCII)
-        Write-SILog -Level 'OK' -Component 'EmergencyReg' -Message "Creato kit di ripristino indipendente: $regFile + $batFile"
+        Write-SILog -Level 'OK' -Component 'EmergencyReg' -Message "Standalone restore kit created: $regFile + $batFile"
         return $regFile
     } catch {
         return ''
@@ -1693,7 +1773,7 @@ function Get-SITrustAndIntegrityBadge {
         }
     } catch { }
     $ac = Get-SIAntiCheatGuardStatus
-    return "SCUDO FIDUCIA: 100% Offline & Zero Telemetria  |  $($ac.Badge)  |  Backup .REG + .JSON attivo  |  SHA256: $hashShort"
+    return "TRUST: open PowerShell code, anonymous stats you can turn off  |  $($ac.Badge)  |  .REG + .JSON backup on  |  SHA256: $hashShort"
 }
 
 function Show-SITransparencyInspector {
@@ -1706,7 +1786,7 @@ function Show-SITransparencyInspector {
     #>
     $c = $script:SIColors
     $dlg = [System.Windows.Window]::new()
-    $dlg.Title = 'SIGAME AUTO - Ispeziona Modifiche & Garanzia Trasparenza 100%'
+    $dlg.Title = 'SIGAME AUTO - what was changed and how to put it back'
     $dlg.Width = 820
     $dlg.Height = 600
     $dlg.WindowStartupLocation = 'CenterOwner'
@@ -1749,26 +1829,26 @@ function Show-SITransparencyInspector {
     }
 
     $lines = [System.Collections.Generic.List[string]]::new()
-    $lines.Add('=== 1. PERCHE SIGAME AUTO E 100% SICURO PER GLI ANTI-CHEAT ===')
-    $lines.Add('- Zero DLL Injection, Zero Hook DirectX, Zero lettura/scrittura nella RAM dei giochi.')
-    $lines.Add('- Nessun file di gioco (.exe / .dll / .pak) viene mai modificato.')
-    $lines.Add("- Anti-Cheat Rilevati sul PC: $($ac.DetectedText)")
+    $lines.Add('=== 1. WHAT SIGAME DOES NOT TOUCH ===')
+    $lines.Add('- The tweaks never inject a DLL, never hook DirectX and never read or write the memory of a game.')
+    $lines.Add('- The tweaks change Windows settings only. A SI PRESET can add config or mod files to a game folder: it says so before you apply it, and its Undo removes them.')
+    $lines.Add("- Anti-cheat found on this PC: $($ac.DetectedText)")
     if ($ac.RequiresVbs) {
-        $lines.Add('- SCUDO VANGUARD / FACEIT ATTIVO: VBS (Isolamento Core) e Mitigazioni Kernel NON vengono disattivati per garantire avvio immediato di Valorant e FACEIT.')
+        $lines.Add('- VANGUARD / FACEIT found: VBS (Core Isolation) and the kernel mitigations are NOT turned off, because Valorant and FACEIT need them to start.')
     } else {
-        $lines.Add('- Compatibilita verificata al 100% con EasyAntiCheat, BattlEye, VAC, RICOCHET, Vanguard e FACEIT.')
+        $lines.Add('- No anti-cheat that needs VBS was found. The tweaks are Windows settings only, the same ones you can set by hand.')
     }
     $lines.Add('')
-    $lines.Add('=== 2. ZERO TELEMETRIA & CODICE IN CHIARO ===')
-    $lines.Add("- Script PowerShell 100% aperto e ispezionabile: $($script:SICurrentScript)")
-    $lines.Add('- Nessun servizio installato in Windows, nessun server remoto contattato (solo test ping verso DNS 1.1.1.1 / 8.8.8.8 / 9.9.9.9).')
+    $lines.Add('=== 2. OPEN CODE & WHAT GOES ONLINE ===')
+    $lines.Add("- Plain PowerShell you can read: $($script:SICurrentScript)")
+    $lines.Add('- No service is installed in Windows. Online: the DNS ping test (1.1.1.1 / 8.8.8.8 / 9.9.9.9), GitHub (new SIGAME version and SI PRESETS, downloaded only after your yes) and the anonymous stats you can turn off in the window (no id, no path, no account).')
     $lines.Add('')
-    $lines.Add('=== 3. DOPPIO SISTEMA DI RIPRISTINO (ANCHE SENZA PROGRAMMA) ===')
-    $lines.Add("- Backup JSON Interno: $($script:SIBackupPath)")
-    $lines.Add("- Kit Ripristino Emergenza Standard Windows (.REG + .BAT): $regPathFile")
-    $lines.Add('  (Puoi fare doppio clic su SI-GAME-RIPRISTINO-EMERGENZA.bat anche a programma disinstallato o in Modalita Provvisoria).')
+    $lines.Add('=== 3. TWO WAYS BACK (ALSO WITHOUT SIGAME) ===')
+    $lines.Add("- JSON backup: $($script:SIBackupPath)")
+    $lines.Add("- Emergency restore kit, plain Windows files (.REG + .BAT): $regPathFile")
+    $lines.Add('  (Double-click SI-GAME-RIPRISTINO-EMERGENZA.bat, also after SIGAME is removed or in Safe Mode.)')
     $lines.Add('')
-    $lines.Add('=== 4. ELENCO CHIAVI DI REGISTRO ATTUALMENTE SALVATE NEL BACKUP ===')
+    $lines.Add('=== 4. REGISTRY VALUES SAVED IN THE BACKUP RIGHT NOW ===')
 
     $countKeys = 0
     if ($script:SIBackup -and $script:SIBackup.Tweaks) {
@@ -1776,8 +1856,8 @@ function Show-SITransparencyInspector {
             $tEntry = $script:SIBackup.Tweaks[$k]
             if ($tEntry -and $tEntry.Registry) {
                 foreach ($r in @($tEntry.Registry)) {
-                    $orig = if ($r.Existed) { "$($r.Value) ($($r.Kind))" } else { '<Non esisteva - verra rimossa al ripristino>' }
-                    $lines.Add("[Tweak: $k] $($r.Path) -> $($r.Name)  |  Valore Originale: $orig")
+                    $orig = if ($r.Existed) { "$($r.Value) ($($r.Kind))" } else { '<did not exist - removed again on restore>' }
+                    $lines.Add("[Tweak: $k] $($r.Path) -> $($r.Name)  |  original value: $orig")
                     $countKeys++
                 }
             }
@@ -1787,14 +1867,14 @@ function Show-SITransparencyInspector {
         foreach ($k in $script:SIBackup.Tools.Keys) {
             $r = $script:SIBackup.Tools[$k]
             if ($r -and $r.Path) {
-                $orig = if ($r.Existed) { "$($r.Value) ($($r.Kind))" } else { '<Non esisteva - verra rimossa al ripristino>' }
-                $lines.Add("[$k] $($r.Path) -> $($r.Name)  |  Valore Originale: $orig")
+                $orig = if ($r.Existed) { "$($r.Value) ($($r.Kind))" } else { '<did not exist - removed again on restore>' }
+                $lines.Add("[$k] $($r.Path) -> $($r.Name)  |  original value: $orig")
                 $countKeys++
             }
         }
     }
     if ($countKeys -eq 0) {
-        $lines.Add('(Nessuna chiave ancora modificata o backup vuoto. Premi OTTIMIZAR per creare il backup automatico prima di applicare i tweak).')
+        $lines.Add('(No value changed yet, or the backup is empty. OPTIMIZE makes the backup by itself before it applies a tweak.)')
     }
 
     $tb.Text = ($lines -join "`r`n")
@@ -1816,7 +1896,7 @@ function Show-SITransparencyInspector {
     })
     [void]$btnRow.Children.Add($btnReport)
 
-    $btnOpenFolder = New-SIStyleButton -Text 'Apri Cartella Backup (.REG / .JSON)' -StyleKey 'GhostButton' -Window $script:SIWindow -Width 230
+    $btnOpenFolder = New-SIStyleButton -Text 'Open backup folder (.REG / .JSON)' -StyleKey 'GhostButton' -Window $script:SIWindow -Width 230
     $btnOpenFolder.Height = 32
     $btnOpenFolder.Margin = [System.Windows.Thickness]::new(0, 0, 10, 0)
     $null = $btnOpenFolder.Add_Click({
@@ -1824,7 +1904,7 @@ function Show-SITransparencyInspector {
     })
     [void]$btnRow.Children.Add($btnOpenFolder)
 
-    $btnClose = New-SIStyleButton -Text 'Chiudi' -StyleKey 'AccentButton' -Window $script:SIWindow -Width 110
+    $btnClose = New-SIStyleButton -Text 'Close' -StyleKey 'AccentButton' -Window $script:SIWindow -Width 110
     $btnClose.Height = 32
     $null = $btnClose.Add_Click({ $dlg.Close() }.GetNewClosure())
     [void]$btnRow.Children.Add($btnClose)
@@ -1860,7 +1940,7 @@ function Get-SIRamSpeedAndChannelStatus {
 
         $speedTxt = if ($speed -gt 0) { "${speed}MHz" } else { '' }
         $note = ''
-        if ($xmpWarn) { $note = ' (Attiva XMP/EXPO!)' }
+        if ($xmpWarn) { $note = ' (turn on XMP/EXPO!)' }
         elseif ($singleWarn) { $note = ' (1 banco)' }
 
         return [pscustomobject]@{
@@ -1982,7 +2062,7 @@ function Optimize-SILiveRunningGameProcess {
             }
         }
         if ($boostedGames -gt 0) {
-            Write-SILog -Level 'OK' -Component 'LiveGameBoost' -Message "$boostedGames processo/i di gioco attivi portati a Priorita Alta + Dynamic Thread Boost."
+            Write-SILog -Level 'OK' -Component 'LiveGameBoost' -Message "$boostedGames running game process(es) set to High priority + Dynamic Thread Boost."
         }
     } catch { }
     return $boostedGames
@@ -2017,7 +2097,7 @@ function Invoke-SILiveLatencyBenchmark {
         immediately in the status bar and refreshing the dashboard.
     #>
     try {
-        Set-SIStatusText -Text 'Esecuzione Test Latenza Timer Kernel, Ping/Jitter/Loss e RAM in corso...'
+        Set-SIStatusText -Text 'Running the kernel timer latency, ping/jitter/loss and RAM test...'
         Invoke-SIUIPump
 
         $timerMs = 15.6
@@ -2052,7 +2132,7 @@ public static class SINativeTimerQuery {
         Show-SITrayBalloon -Title 'SIGAME - Test Latenza Live' -Text $msg
         Write-SILog -Level 'OK' -Component 'Benchmark' -Message $msg
     } catch {
-        Set-SIStatusText -Text "Errore durante il test latenza: $($_.Exception.Message)"
+        Set-SIStatusText -Text "The latency test failed: $($_.Exception.Message)"
     }
 }
 
@@ -2105,7 +2185,7 @@ function Optimize-SIBrowserAndWebView2Gaming {
         foreach ($wv in @(Get-Process -Name 'msedgewebview2' -ErrorAction SilentlyContinue)) {
             try { $wv.PriorityClass = [System.Diagnostics.ProcessPriorityClass]::Idle } catch { }
         }
-        Write-SILog -Level 'OK' -Component 'Browser-Opt' -Message 'Processi residui Browser (Chrome/Edge/Brave BackgroundMode OFF) e WebView2 ottimizzati.'
+        Write-SILog -Level 'OK' -Component 'Browser-Opt' -Message 'Browser background mode (Chrome/Edge/Brave) and WebView2 leftovers turned off.'
         return $true
     } catch {
         return $false
@@ -2218,25 +2298,25 @@ function Export-SIGamingDiagnosticReport {
             [void]$sb.AppendLine("CPU:             $($hw.Cpu)")
             [void]$sb.AppendLine("GPU:             $($hw.Gpu)")
             [void]$sb.AppendLine("RAM:             $($hw.RamText) [$($ramCh.Text)]")
-            [void]$sb.AppendLine("Disco:           $($hw.DiskType) ($($hw.FreeGB) GB liberi)")
+            [void]$sb.AppendLine("Disk:            $($hw.DiskType) ($($hw.FreeGB) GB free)")
         }
-        [void]$sb.AppendLine("Profilo Attivo:  $($audit.Plan.ProfileName) (Modalita: $($script:SIAutoMode))")
-        [void]$sb.AppendLine("Stato PC:        Ottimizzato al $($audit.Percent)% ($($audit.AppliedTweaks)/$($audit.TotalTweaks) Tweak, $($audit.OptGames)/$($audit.TotalGames) Giochi)")
-        [void]$sb.AppendLine("Salute Gaming:   $($health.Summary)")
-        [void]$sb.AppendLine("Scudo AntiCheat: $($ac.Badge) (Rilevati: $($ac.DetectedText))")
+        [void]$sb.AppendLine("Active profile:  $($audit.Plan.ProfileName) (mode: $($script:SIAutoMode))")
+        [void]$sb.AppendLine("PC state:        $($audit.Percent)% optimized ($($audit.AppliedTweaks)/$($audit.TotalTweaks) tweaks, $($audit.OptGames)/$($audit.TotalGames) games)")
+        [void]$sb.AppendLine("Gaming health:   $($health.Summary)")
+        [void]$sb.AppendLine("Anti-cheat:      $($ac.Badge) (found: $($ac.DetectedText))")
         [void]$sb.AppendLine('')
-        [void]$sb.AppendLine('--- GIOCHI RILEVATI & OTTIMIZZATI ---')
+        [void]$sb.AppendLine('--- GAMES FOUND & OPTIMIZED ---')
         foreach ($g in @($script:SIGameLibrary)) {
             [void]$sb.AppendLine("- $($g.Name) [$($g.Store)] -> $($g.Exe)")
         }
         [void]$sb.AppendLine('')
-        [void]$sb.AppendLine('--- INTEGRITA & FILE DI RIPRISTINO ---')
+        [void]$sb.AppendLine('--- INTEGRITY & RESTORE FILES ---')
         [void]$sb.AppendLine((Get-SITrustAndIntegrityBadge))
         [void]$sb.AppendLine("Backup JSON: $($script:SIBackupPath)")
         [void]$sb.AppendLine("Backup REG:  $([System.IO.Path]::Combine($script:SIRoot, 'SI-GAME-RIPRISTINO-EMERGENZA.reg'))")
 
         [System.IO.File]::WriteAllText($repPath, $sb.ToString(), [System.Text.Encoding]::ASCII)
-        Write-SILog -Level 'OK' -Component 'Report' -Message "Report diagnostico salvato: $repPath"
+        Write-SILog -Level 'OK' -Component 'Report' -Message "Diagnostic report saved: $repPath"
         return $repPath
     } catch {
         return ''
@@ -2336,7 +2416,7 @@ function Disable-SIFastStartupHiberboot {
         $pwrPath = 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power'
         Save-SIToolUndo -Key 'FastStartupHiberboot' -Path $pwrPath -Name 'HiberbootEnabled'
         Set-SIRegistryValue -Path $pwrPath -Name 'HiberbootEnabled' -Value 0 -Type 'DWord' | Out-Null
-        Write-SILog -Level 'OK' -Component 'FastStartup' -Message 'Avvio Rapido Ibernato (HiberbootEnabled=0) disattivato su SSD per kernel e driver GPU sempre freschi.'
+        Write-SILog -Level 'OK' -Component 'FastStartup' -Message 'Fast Startup (HiberbootEnabled=0) turned off: Windows loads the kernel and the GPU driver fresh at every boot.'
         return $true
     } catch {
         return $false
@@ -2489,7 +2569,7 @@ function Enable-SIFastAppKillTimeouts {
         Set-SIRegistryValue -Path $deskPath -Name 'WaitToKillAppTimeout'     -Value '2000' -Type 'String' | Out-Null
         Set-SIRegistryValue -Path $ctrlPath -Name 'WaitToKillServiceTimeout' -Value '2000' -Type 'String' | Out-Null
 
-        Write-SILog -Level 'OK' -Component 'FastClose' -Message 'Chiusura rapida giochi bloccati attivata (HungAppTimeout=2000ms).'
+        Write-SILog -Level 'OK' -Component 'FastClose' -Message 'Fast close of frozen games turned on (HungAppTimeout=2000ms).'
         return $true
     } catch {
         return $false
@@ -2550,7 +2630,7 @@ function Update-SITrayQuickMenu {
         if (-not $menu) { return }
         $menu.Items.Clear()
 
-        $openItem = [System.Windows.Forms.ToolStripMenuItem]::new('Apri SIGAME AUTO')
+        $openItem = [System.Windows.Forms.ToolStripMenuItem]::new('Open SIGAME')
         $openItem.Font = [System.Drawing.Font]::new($openItem.Font, [System.Drawing.FontStyle]::Bold)
         $null = $openItem.Add_Click({ Show-SIMainWindow })
         [void]$menu.Items.Add($openItem)
@@ -2575,7 +2655,7 @@ function Update-SITrayQuickMenu {
         })
         [void]$menu.Items.Add($benchItem)
 
-        $autoItem = [System.Windows.Forms.ToolStripMenuItem]::new('Auto-Boost Giochi')
+        $autoItem = [System.Windows.Forms.ToolStripMenuItem]::new('Auto-Boost games')
         $autoItem.Checked = [bool](Get-SIAutoBoostEnabled)
         $null = $autoItem.Add_Click({
             $on = -not [bool]$script:SIAutoBoostEnabled
@@ -2600,15 +2680,15 @@ function Update-SITrayQuickMenu {
         }
 
         [void]$menu.Items.Add([System.Windows.Forms.ToolStripSeparator]::new())
-        $deskItem = [System.Windows.Forms.ToolStripMenuItem]::new('Crea Icona sul Desktop')
+        $deskItem = [System.Windows.Forms.ToolStripMenuItem]::new('Create Desktop shortcut')
         $null = $deskItem.Add_Click({
             if (New-SIAutoDesktopShortcut) {
-                Show-SITrayBalloon -Title 'SIGAME AUTO' -Text 'Collegamento SIGAME AUTO creato sul Desktop.'
+                Show-SITrayBalloon -Title 'SIGAME AUTO' -Text 'SIGAME AUTO shortcut created on the Desktop.'
             }
         })
         [void]$menu.Items.Add($deskItem)
 
-        $exitItem = [System.Windows.Forms.ToolStripMenuItem]::new('Esci')
+        $exitItem = [System.Windows.Forms.ToolStripMenuItem]::new('Exit')
         $null = $exitItem.Add_Click({ Exit-SISigame })
         [void]$menu.Items.Add($exitItem)
     } catch { }
@@ -2672,7 +2752,7 @@ function Add-SIGameFoldersToDefenderExclusion {
         }
         try { Set-MpPreference -ScanAvgCPULoadFactor 5 -ErrorAction SilentlyContinue } catch { }
         if ($added -gt 0) {
-            Write-SILog -Level 'OK' -Component 'Defender' -Message "$added cartelle giochi aggiunte alle esclusioni antimalware per azzerare micro-stutter su SSD."
+            Write-SILog -Level 'OK' -Component 'Defender' -Message "$added game folders added to the antimalware exclusions."
         }
     } catch { }
     return $added
@@ -2799,13 +2879,13 @@ function Set-SIAutoStartWithWindows {
         if ($Enabled) {
             $cmd = "powershell.exe -NoProfile -ExecutionPolicy Bypass -STA -WindowStyle Hidden -File `"$script:SICurrentScript`" -Minimized"
             Set-SIRegistryValue -Path $runPath -Name 'SIGAME_AUTO' -Value $cmd -Type 'String' | Out-Null
-            Write-SILog -Level 'OK' -Component 'AutoStart' -Message 'Avvio automatico con Windows (nella Tray) attivato.'
+            Write-SILog -Level 'OK' -Component 'AutoStart' -Message 'Start with Windows (in the tray) turned on.'
         } else {
             Remove-SIRegistryValue -Path $runPath -Name 'SIGAME_AUTO' | Out-Null
-            Write-SILog -Component 'AutoStart' -Message 'Avvio automatico con Windows disattivato.'
+            Write-SILog -Component 'AutoStart' -Message 'Start with Windows turned off.'
         }
     } catch {
-        Write-SILog -Level 'WARN' -Component 'AutoStart' -Message "Impossibile cambiare avvio automatico: $($_.Exception.Message)"
+        Write-SILog -Level 'WARN' -Component 'AutoStart' -Message "Start with Windows could not be changed: $($_.Exception.Message)"
     }
 }
 
@@ -2818,11 +2898,11 @@ function Invoke-SILaunchGameOptimized {
     param([Parameter(Mandatory = $true)]$Game)
     $exe = [string]$Game.Exe
     if (-not $exe -or -not [System.IO.File]::Exists($exe)) {
-        Set-SIStatusText -Text "Eseguibile del gioco non trovato: $exe"
+        Set-SIStatusText -Text "Game executable not found: $exe"
         return
     }
     try {
-        Set-SIStatusText -Text "Ottimizzazione e avvio di $($Game.Name) in corso..."
+        Set-SIStatusText -Text "Optimizing and starting $($Game.Name)..."
         Invoke-SIUIPump
 
         $gpuRegPath   = Get-SIUserRegistryPath 'HKCU:\Software\Microsoft\DirectX\UserGpuPreferences'
@@ -2853,11 +2933,11 @@ function Invoke-SILaunchGameOptimized {
         Start-Process -FilePath $exe -WorkingDirectory $workDir -ErrorAction Stop | Out-Null
 
         Update-SIAutoDashboard
-        $msg = "$($Game.Name) avviato con GPU Max, CPU/IO Alta e Boost RAM (+$trimmed MB)."
+        $msg = "$($Game.Name) started with GPU max, CPU/IO High and RAM boost (+$trimmed MB)."
         Set-SIStatusText -Text $msg
-        Show-SITrayBalloon -Title "Gioco Avviato: $($Game.Name)" -Text $msg
+        Show-SITrayBalloon -Title "Game started: $($Game.Name)" -Text $msg
     } catch {
-        Set-SIStatusText -Text "Errore avvio $($Game.Name): $($_.Exception.Message)"
+        Set-SIStatusText -Text "Could not start $($Game.Name): $($_.Exception.Message)"
     }
 }
 
@@ -3005,7 +3085,7 @@ function Get-SIHardwareAdaptivePlan {
     $hasDedGpu = (-not [bool]$info.Integrated)
 
     $isStreaming = ($script:SIAutoMode -eq 'Streaming')
-    $modeSuffix  = if ($isStreaming) { ' [Modalita Streaming/Discord]' } else { ' [Modalita Massimi FPS]' }
+    $modeSuffix  = if ($isStreaming) { ' [Streaming/Discord mode]' } else { ' [Max FPS mode]' }
 
     $profileName = if ($isLaptop) {
         if ($hasDedGpu) { 'Laptop Gaming (GPU Dedicata)' + $modeSuffix } else { 'Laptop (GPU Integrata)' + $modeSuffix }
@@ -3046,13 +3126,13 @@ function Get-SIHardwareAdaptivePlan {
                     $include = $false
                 } else {
                     $include = $true
-                    $reasons += 'Piano Energetico: Ultimate Performance attivo (Desktop)'
+                    $reasons += 'Power plan: Ultimate Performance on (desktop)'
                 }
             }
             'HAGS' {
                 if ($hasDedGpu) {
                     $include = $true
-                    $reasons += 'HAGS ON: scheduling GPU hardware attivo per scheda dedicata'
+                    $reasons += 'HAGS ON: hardware GPU scheduling on for the dedicated card'
                 } else {
                     $include = $false
                 }
@@ -3061,7 +3141,7 @@ function Get-SIHardwareAdaptivePlan {
                 $include = $true
                 # 26 hex (short, variable, 3:1 foreground boost) = maximum gaming responsiveness
                 $option = '26 hex (short, variable, 3:1 foreground boost)'
-                $reasons += 'Priorita CPU: 26 hex (3:1 Foreground Boost spinto per i giochi)'
+                $reasons += 'CPU priority: 26 hex (3:1 foreground boost for games)'
             }
             'Hibernation' {
                 if (-not $isLaptop -and ($diskType -eq 'SSD' -or ($info.FreePercent -ge 0 -and $info.FreePercent -lt 25))) {
@@ -3073,7 +3153,7 @@ function Get-SIHardwareAdaptivePlan {
             }
             'TCPSettings' {
                 $include = $true
-                $reasons += 'Rete TCP: Auto-Tuning ottimizzato + Nagle OFF + Network Throttling OFF'
+                $reasons += 'TCP network: Auto-Tuning set + Nagle OFF + Network Throttling OFF'
             }
             'SysMain' {
                 # On HDD with >= 8GB RAM, SysMain helps preload; on SSD or < 8GB RAM, disabling saves RAM/CPU spikes
@@ -3100,7 +3180,7 @@ function Get-SIHardwareAdaptivePlan {
     }
 
     $reasons += 'DNS Automatico: test e attivazione del server DNS a latenza minore'
-    $reasons += 'Giochi: GPU Alte Prestazioni + Stop Ottimizzazioni Schermo Intero + Auto-Boost'
+    $reasons += 'Games: GPU High Performance + Fullscreen Optimizations off + Auto-Boost'
 
     return [pscustomobject]@{
         ProfileName = $profileName
@@ -4805,7 +4885,7 @@ function Build-SIRows {
     if ($script:SIStartMinimized -and $script:SIWindow) {
         try {
             $script:SIWindow.Hide()
-            Show-SITrayBalloon -Title 'SIGAME AUTO attivo nella Tray' -Text 'Sorveglianza giochi Auto-Boost attiva in background.'
+            Show-SITrayBalloon -Title 'SIGAME is running in the tray' -Text 'Auto-Boost is watching for your games in the background.'
         } catch { }
     }
 }
@@ -4826,7 +4906,7 @@ function Invoke-SIAutoOptimizeAll {
         4. Automatic Auto-Boost configuration for background RAM hogs + game watcher
     #>
     if (-not $script:SIPrepared) {
-        Set-SIStatusText -Text 'Attendere il completamento della verifica iniziale (Punto di ripristino / Backup)...'
+        Set-SIStatusText -Text 'Please wait for the first check to finish (restore point / backup)...'
         return
     }
 
@@ -4842,7 +4922,7 @@ function Invoke-SIAutoOptimizeAll {
         $script:SIMeasuresBefore = $before
 
         if ($script:SIAutoMode -eq 'SessionOnly') {
-            Set-SIProgress -Percent 35 -Step 'Modalita Solo Boost Sessione (Zero Registro): attivazione Timer 0.5ms e pulizia Standby RAM...'
+            Set-SIProgress -Percent 35 -Step 'Session boost only (no registry change): timer 0.5 ms and standby RAM cleanup...'
             Invoke-SIUIPump
             [void](Set-SITimerResolution05ms -Enable $true)
             [void](Set-SIGamingWindowsUpdatePause -Pause $true)
@@ -4860,12 +4940,12 @@ function Invoke-SIAutoOptimizeAll {
             Update-SIProvePanel
             Update-SIAutoDashboard
 
-            $summary = "Boost Sessione Attivo (Zero Registro): Timer 0.5ms, +$freedRam MB RAM, $idledCount processi in Idle, Puliti: $totalCleanMB MB"
+            $summary = "Session boost on (no registry change): timer 0.5 ms, +$freedRam MB RAM, $idledCount processes set to idle, cleaned: $totalCleanMB MB"
             $resEl = Get-SIElement -Name 'OptimizeResult'
             if ($resEl) { $resEl.Text = "Boost Sessione (Zero Registro): +$freedRam MB RAM + Timer 0.5ms" }
             Set-SIProgress -Percent 100 -Done
             Set-SIStatusText -Text $summary
-            Show-SITrayBalloon -Title 'SIGAME - Boost Sessione Attivo' -Text $summary
+            Show-SITrayBalloon -Title 'SIGAME - session boost on' -Text $summary
             Write-SILog -Level 'OK' -Component 'SessionOnly' -Message $summary
             return
         }
@@ -4883,7 +4963,7 @@ function Invoke-SIAutoOptimizeAll {
         foreach ($item in $todo) {
             $currentStep++
             $pct = [int](($currentStep * 100) / [math]::Max(1, $totalSteps))
-            Set-SIProgress -Percent $pct -Step ("Ottimizzazione: {0} ..." -f $item.Name)
+            Set-SIProgress -Percent $pct -Step ("Optimizing: {0} ..." -f $item.Name)
             Invoke-SIUIPump
 
             if ($item.Option) {
@@ -4933,7 +5013,7 @@ function Invoke-SIAutoOptimizeAll {
         # --- PHASE 3: Automatic Optimization of All Installed Games ---------
         $currentStep++
         $pct = [int](($currentStep * 100) / [math]::Max(1, $totalSteps))
-        Set-SIProgress -Percent $pct -Step ("Configurazione automatica di {0} giochi rilevati..." -f $games.Count)
+        Set-SIProgress -Percent $pct -Step ("Setting up {0} detected games..." -f $games.Count)
         Invoke-SIUIPump
 
         $optGamesCount = 0
@@ -4963,9 +5043,9 @@ function Invoke-SIAutoOptimizeAll {
 
                 [void](Add-SIAutoBoostGame -Path $exe)
                 $optGamesCount++
-                Write-SILog -Level 'OK' -Component 'Game' -Message "Ottimizzato gioco (GPU + Fullscreen + CPU/IO Alta + No PowerThrottle): $($game.Name) ($exe)"
+                Write-SILog -Level 'OK' -Component 'Game' -Message "Game optimized (GPU + Fullscreen + CPU/IO High + No PowerThrottle): $($game.Name) ($exe)"
             } catch {
-                Write-SILog -Level 'WARN' -Component 'Game' -Message "Impossibile ottimizzare $($game.Name): $($_.Exception.Message)"
+                Write-SILog -Level 'WARN' -Component 'Game' -Message "Could not optimize $($game.Name): $($_.Exception.Message)"
             }
             Invoke-SIUIPump
         }
@@ -4973,7 +5053,7 @@ function Invoke-SIAutoOptimizeAll {
         [void](Set-SIRobloxLowQualityProfile)
 
         # --- PHASE 3B: Competitive eSports & HARD Kernel/BCD/GPU/NVMe/IRQ/RAM/UDP Tweaks ---
-        Set-SIProgress -Percent 90 -Step 'Ottimizzazione HARD Kernel/BCD, Anti-Cheat Safe, Monitor Max Hz, P2P OFF, Timer 0.5ms, Standby RAM...'
+        Set-SIProgress -Percent 90 -Step 'Kernel/BCD, monitor max Hz, P2P OFF, timer 0.5 ms, standby RAM...'
         Invoke-SIUIPump
         [void](Enable-SICpuCoreUnpark)
         [void](Disable-SIPcieLinkPowerManagement)
@@ -5029,7 +5109,7 @@ function Invoke-SIAutoOptimizeAll {
 
         # --- PHASE 4: Configure Auto-Boost & Run Immediate RAM/Power Boost --
         $currentStep++
-        Set-SIProgress -Percent 95 -Step 'Attivazione Auto-Boost per chiusura app in background durante il gioco...'
+        Set-SIProgress -Percent 95 -Step 'Turning on Auto-Boost (closes background apps while you play)...'
         Invoke-SIUIPump
 
         try {
@@ -5060,13 +5140,13 @@ function Invoke-SIAutoOptimizeAll {
             $rebBanner.Visibility = [System.Windows.Visibility]::Visible
         }
 
-        $summary = "Completato: $doneTweaks tweak, $optGamesCount giochi, Timer 0.5ms, Raw Mouse, GPU/NIC ($($gpuOptCount + $nicOptCount)), DNS: $dnsLabel, Puliti: $totalCleanMB MB"
+        $summary = "Done: $doneTweaks tweaks, $optGamesCount games, timer 0.5 ms, raw mouse, GPU/NIC ($($gpuOptCount + $nicOptCount)), DNS: $dnsLabel, cleaned: $totalCleanMB MB"
         $resEl = Get-SIElement -Name 'OptimizeResult'
-        if ($resEl) { $resEl.Text = "$doneTweaks Tweak + $optGamesCount Giochi + eSports 0.5ms/RawMouse + $totalCleanMB MB" }
+        if ($resEl) { $resEl.Text = "$doneTweaks tweaks + $optGamesCount games + 0.5 ms timer/raw mouse + $totalCleanMB MB" }
 
         Set-SIProgress -Percent 100 -Done
         Set-SIStatusText -Text $summary
-        Show-SITrayBalloon -Title 'SIGAME AUTO - Ottimizzazione Completata' -Text $summary
+        Show-SITrayBalloon -Title 'SIGAME - optimization done' -Text $summary
         Write-SILog -Level 'OK' -Component 'AutoOptimize' -Message $summary
     } finally {
         if ($btnOpt)  { $btnOpt.IsEnabled = $true }
@@ -5078,7 +5158,7 @@ function Invoke-SIAutoOptimizeAll {
 $script:SIGameSessionStart = $null
 $script:SIGameSessionRamFreedMB = 0
 $script:SIGameSessionIdledCount = 0
-$script:SIGameSessionLastGame = 'Gioco'
+$script:SIGameSessionLastGame = 'Game'
 
 $script:SIOriginalInvokeBoost = ${function:Invoke-SIBoost}
 function Invoke-SIBoost {
@@ -5092,9 +5172,9 @@ function Invoke-SIBoost {
     $script:SIGameSessionStart      = [datetime]::Now
     $script:SIGameSessionRamFreedMB = $trimmedMB
     $script:SIGameSessionIdledCount = $idledCount
-    $script:SIGameSessionLastGame   = if ($script:SIAutoBoostRunningGame) { $script:SIAutoBoostRunningGame } else { 'Gioco' }
+    $script:SIGameSessionLastGame   = if ($script:SIAutoBoostRunningGame) { $script:SIAutoBoostRunningGame } else { 'Game' }
     if ($Auto) {
-        Show-SITrayBalloon -Title "SIGAME Boost Attivo ($($script:SIGameSessionLastGame))" -Text "Timer 0.5ms, Stop WinUpdate, RAM (+$trimmedMB MB) e $idledCount processi in Idle."
+        Show-SITrayBalloon -Title "SIGAME boost on ($($script:SIGameSessionLastGame))" -Text "Timer 0.5ms, Stop WinUpdate, RAM (+$trimmedMB MB) and $idledCount processes set to idle."
     }
 }
 
@@ -5109,10 +5189,10 @@ function Invoke-SIGameOver {
     if ($script:SIGameSessionStart) {
         $elapsed = [datetime]::Now - $script:SIGameSessionStart
         $mins = [math]::Max(1, [int][math]::Round($elapsed.TotalMinutes))
-        $durText = "Durata: $mins min | "
+        $durText = "Time played: $mins min | "
         $script:SIGameSessionStart = $null
     }
-    $reportMsg = "${durText}RAM liberata: +$($script:SIGameSessionRamFreedMB) MB | App in Idle: $($script:SIGameSessionIdledCount) | PC ripristinato."
+    $reportMsg = "${durText}RAM freed: +$($script:SIGameSessionRamFreedMB) MB | apps set to idle: $($script:SIGameSessionIdledCount) | PC put back."
     Set-SIStatusText -Text "Sessione conclusa ($($script:SIGameSessionLastGame)): $reportMsg"
     if ($Auto) {
         Show-SITrayBalloon -Title "Report Sessione: $($script:SIGameSessionLastGame)" -Text $reportMsg

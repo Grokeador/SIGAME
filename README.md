@@ -94,11 +94,20 @@ Never sent: an id of any kind, file paths, your user name or PC name, files, ser
 SI NEWS server on Cloudflare that stores only the country (from Cloudflare, not your IP address) and is read only
 by SI NEWS. A REQUEST you send yourself goes out even with the stats off.
 
+## Updates
+
+SIGAME checks this repo for a newer version at most once a day (and when you press **Check for new presets**).
+It reads `version.json`, **asks you first**, then downloads the app scripts listed there from this repo, checks the
+SHA-256 of every file against `version.json`, keeps the old scripts in `SI-GAME-update-backup` and restarts.
+If a file does not match, nothing is changed. Say **No** and it does not ask again for that version.
+Offline, the check is skipped silently.
+
 ## Files SIGAME writes next to itself
 
 `SI-GAME.log` (what it did), `SI-GAME-backup.json` (original values, used by Undo),
 `SI-GAME-measures.json` (before/after measures), `SI-GAME-boost.json` (your games),
-`SI-GAME-community.json` (stats on/off, the week of the last report, applied presets).
+`SI-GAME-community.json` (stats on/off, the week of the last report, applied presets, last update check),
+`SI-GAME-update-backup` (the scripts replaced by an update).
 
 ## Licence
 

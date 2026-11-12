@@ -1,0 +1,58 @@
+{
+  "Version": "2026.11.12.1",
+  "Notes": "Faster start with a loading window, self-update with SHA-256 check, English texts, fixes for Undo and the desktop shortcut.",
+  "Files": [
+    {
+      "Path": "SI-GAME-AUTO.ps1",
+      "Sha256": "a5e6386f16d9675647b693d32583090136073264600ef42ae02994950b0a8db2"
+    },
+    {
+      "Path": "modules/00-core.ps1",
+      "Sha256": "1580fbe6ee267cb228594bc5b999f0a87d4d882804ede80ba4e1712e5b3241a9"
+    },
+    {
+      "Path": "modules/01-registry.ps1",
+      "Sha256": "55f25cf708cf15befaa115e357c5232af87696b5d149bffd36ec76d9d4678cac"
+    },
+    {
+      "Path": "modules/02-tweaks.ps1",
+      "Sha256": "6afad4efc35567f75e764f667cd58999887cd6f2e6db6166cbe857ee1aeb76a7"
+    },
+    {
+      "Path": "modules/03-features.ps1",
+      "Sha256": "ff7ed897d40941c5f3c57590b501826cf4e66c79a9a26dcdb9d3bea0b20e995a"
+    },
+    {
+      "Path": "modules/04-state.ps1",
+      "Sha256": "6165ed1ee36541dbcb277f1ff2d97c4f3884ed2e3826bc098f1939059070f172"
+    },
+    {
+      "Path": "modules/05-engine.ps1",
+      "Sha256": "07c4cfd2289e2c4f2050063377ebef8499711c3a3ab49aac446f9b83ea46f407"
+    },
+    {
+      "Path": "modules/06-window.ps1",
+      "Sha256": "e81e235f385e88b07173d36ebacc747fa6ffd5e3c3286337464f893b300de2e8"
+    },
+    {
+      "Path": "modules/07-startup.ps1",
+      "Sha256": "1a23a9e525230d670afd0cbccc8a1dd0b18c5309a6de041cfe4a99f018118996"
+    },
+    {
+      "Path": "modules/08-boost.ps1",
+      "Sha256": "9847b89ff16a90c0ed8d31ec1b98fa6bd56334c2d4fc86f1dbb5a0b44b166df4"
+    },
+    {
+      "Path": "modules/09-autoboost.ps1",
+      "Sha256": "74fda8e528d00476245a65d2c54be4af7c17882fed1f90ba5dd8fc633e3bd2ec"
+    },
+    {
+      "Path": "modules/10-community.ps1",
+      "Sha256": "b71980826ad6595a62f815fc0ad2fe75d3f8cee18a7ec2c1391021baecf5994b"
+    },
+    {
+      "Path": "modules/11-fps.ps1",
+      "Sha256": "190e6c3bd6c780346f68904f70ef18b18f88b0d7a0394263ddc58b455b334f78"
+    }
+  ]
+}

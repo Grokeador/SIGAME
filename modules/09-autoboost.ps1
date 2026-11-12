@@ -725,10 +725,19 @@ function New-SIDesktopShortcut {
         return 'the desktop was not found'
     }
 
-    $bat = Join-Path $script:SIRoot 'AVVIA SI GAME.bat'
+    # The launcher of the download is SI-GAME-AUTO.bat; AVVIA SI GAME.bat is the old name.
+    $bat = Join-Path $script:SIRoot 'SI-GAME-AUTO.bat'
+    if (-not (Test-Path -LiteralPath $bat)) { $bat = Join-Path $script:SIRoot 'AVVIA SI GAME.bat' }
     if (-not (Test-Path -LiteralPath $bat)) {
-        Write-SILog -Level 'WARN' -Component 'Desktop' -Message "the launcher AVVIA SI GAME.bat is not in $($script:SIRoot)."
+        Write-SILog -Level 'WARN' -Component 'Desktop' -Message "the launcher SI-GAME-AUTO.bat is not in $($script:SIRoot)."
+        # Nothing to retry at the next start: the button of the Advanced section still tries again.
+        try { Set-Content -LiteralPath $script:SIDesktopFlag -Value 'no launcher next to the script' -Encoding ASCII -ErrorAction Stop } catch { }
         return 'the launcher of SIGAME was not found'
+    }
+    # One shortcut is enough: the 1-click optimizer makes "SIGAME AUTO.lnk" for the same launcher.
+    if ((-not $Force) -and (Test-Path -LiteralPath (Join-Path $desktop 'SIGAME AUTO.lnk'))) {
+        try { Set-Content -LiteralPath $script:SIDesktopFlag -Value 'SIGAME AUTO.lnk is already on the desktop' -Encoding ASCII -ErrorAction Stop } catch { }
+        return 'the shortcut of the desktop is already there'
     }
 
     $icon = $null

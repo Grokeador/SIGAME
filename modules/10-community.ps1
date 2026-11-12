@@ -18,7 +18,7 @@
 #   - Sending never blocks the window and never shows an error to the player.
 # ===========================================================================
 
-$script:SIGameVersion     = '2026.11.05.2'
+$script:SIGameVersion     = '2026.11.12.1'
 $script:SIPresetsPath     = [System.IO.Path]::Combine($script:SIRoot, 'presets')
 $script:SICatalogPath     = [System.IO.Path]::Combine($script:SIPresetsPath, 'catalog.json')
 $script:SIFeedbackCfgPath = [System.IO.Path]::Combine($script:SIRoot, 'SI-GAME-feedback.json')
@@ -66,6 +66,10 @@ $script:SICommunityText = @{
         PresetsNew      = "{0} new or updated SI PRESETS are on GitHub:`n`n{1}`n`nDownload them now?"
         PresetsGot      = '{0} SI PRESETS downloaded.'
         PresetsOffline  = 'Could not reach GitHub: {0}'
+        UpdateAsk       = "SIGAME {0} is on GitHub (this copy is {1}).`n`n{2}`n`nUpdate now? Your settings, backups and presets stay as they are."
+        UpdateBusy      = 'Downloading SIGAME {0}...'
+        UpdateDone      = 'SIGAME {0} is installed. SIGAME restarts now.'
+        UpdateFail      = 'The update was not installed, nothing was changed: {0}'
     }
     'it' = @{
         BtnPresets      = 'SI PRESETS'
@@ -107,6 +111,10 @@ $script:SICommunityText = @{
         PresetsNew      = "Su GitHub ci sono {0} SI PRESETS nuovi o aggiornati:`n`n{1}`n`nScaricarli adesso?"
         PresetsGot      = '{0} SI PRESETS scaricati.'
         PresetsOffline  = 'GitHub non raggiungibile: {0}'
+        UpdateAsk       = "SIGAME {0} e su GitHub (questa copia e la {1}).`n`n{2}`n`nAggiornare adesso? Impostazioni, backup e preset restano come sono."
+        UpdateBusy      = 'Scarico SIGAME {0}...'
+        UpdateDone      = 'SIGAME {0} e installato. SIGAME si riavvia adesso.'
+        UpdateFail      = 'Aggiornamento non installato, niente e cambiato: {0}'
     }
 }
 
@@ -279,6 +287,7 @@ function Update-SIPresetLibrary {
         Downloads new or updated SI PRESETS from the SIGAME GitHub repo, after
         the player said yes. Only files listed in catalog.json, only .ps1.
     #>
+    if (Test-SIUpdateNow) { return }
     $cfg = Get-SIFeedbackConfig
     $base = [string]$cfg.PresetsRawBase
     if (-not $base) { $base = "https://raw.githubusercontent.com/$($cfg.GitHubRepo)/main/presets/" }
@@ -315,6 +324,181 @@ function Update-SIPresetLibrary {
     } catch {
         Set-SIStatusText -Text ((Get-SICommunityText 'PresetsOffline') -f $_.Exception.Message)
     }
+}
+
+# ------------------------------- app update --------------------------------
+#  SIGAME itself updates from the same GitHub repo as the presets. version.json
+#  (repo root) lists the version and the SHA-256 of every script. Nothing is
+#  downloaded before the player says yes; every file is checked (hash + parse)
+#  before one file of the installed copy is touched, and the old scripts are
+#  kept in SI-GAME-update-backup.
+
+$script:SIUpdateTask  = $null
+$script:SIUpdateTimer = $null
+$script:SIUpdateTicks = 0
+
+function Get-SIUpdateBase {
+    $cfg = Get-SIFeedbackConfig
+    $repo = ''
+    if ($cfg) { $repo = [string]$cfg.GitHubRepo }
+    if ($repo -notmatch '^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$') { $repo = 'Grokeador/SIGAME' }
+    return "https://raw.githubusercontent.com/$repo/main/"
+}
+
+function Test-SIUpdateNewer {
+    param($Manifest)
+    try { return ([version][string]$Manifest.Version -gt [version]$script:SIGameVersion) } catch { return $false }
+}
+
+function Install-SIUpdate {
+    <#
+    .SYNOPSIS
+        Downloads the scripts of version.json to a temp folder, checks them,
+        then swaps them in. Returns @{ Ok; Message }.
+    #>
+    param($Manifest)
+    $base = Get-SIUpdateBase
+    $files = @($Manifest.Files | Where-Object { $_ -and ([string]$_.Path -match '^(modules/)?[A-Za-z0-9_.-]+\.ps1$') -and ([string]$_.Sha256 -match '^[0-9A-Fa-f]{64}$') })
+    if ($files.Count -eq 0 -or $files.Count -ne @($Manifest.Files).Count) { return @{ Ok = $false; Message = 'version.json is not valid' } }
+    $tmp = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), 'sigame-update-' + [guid]::NewGuid().ToString('N'))
+    $backup = [System.IO.Path]::Combine($script:SIRoot, 'SI-GAME-update-backup', [string]$script:SIGameVersion)
+    $done = @()
+    try {
+        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
+        $sha = [System.Security.Cryptography.SHA256]::Create()
+        foreach ($f in $files) {
+            $rel = ([string]$f.Path).Replace('/', '\')
+            $dest = [System.IO.Path]::Combine($tmp, $rel)
+            [void][System.IO.Directory]::CreateDirectory([System.IO.Path]::GetDirectoryName($dest))
+            Invoke-WebRequest -Uri ($base + [string]$f.Path) -UseBasicParsing -TimeoutSec 30 -OutFile $dest
+            $hash = ([System.BitConverter]::ToString($sha.ComputeHash([System.IO.File]::ReadAllBytes($dest)))).Replace('-', '')
+            if ($hash -ine [string]$f.Sha256) { throw "the download of $($f.Path) does not match its checksum" }
+            $tok = $null; $errs = $null
+            [void][System.Management.Automation.Language.Parser]::ParseFile($dest, [ref]$tok, [ref]$errs)
+            if ($errs -and $errs.Count -gt 0) { throw "$($f.Path) does not parse" }
+        }
+        # Every file is good: only now the installed copy is touched.
+        foreach ($f in $files) {
+            $rel = ([string]$f.Path).Replace('/', '\')
+            $live = [System.IO.Path]::Combine($script:SIRoot, $rel)
+            if ([System.IO.File]::Exists($live)) {
+                $keep = [System.IO.Path]::Combine($backup, $rel)
+                [void][System.IO.Directory]::CreateDirectory([System.IO.Path]::GetDirectoryName($keep))
+                [System.IO.File]::Copy($live, $keep, $true)
+            }
+            [void][System.IO.Directory]::CreateDirectory([System.IO.Path]::GetDirectoryName($live))
+            [System.IO.File]::Copy([System.IO.Path]::Combine($tmp, $rel), $live, $true)
+            $done += $rel
+        }
+        Write-SILog -Component 'Update' -Message "SIGAME $script:SIGameVersion -> $($Manifest.Version): $($files.Count) files, the old ones are in $backup"
+        return @{ Ok = $true; Message = '' }
+    } catch {
+        $reason = [string]$_.Exception.Message
+        # A half copy is put back, so that the old version still starts.
+        foreach ($rel in $done) {
+            try {
+                $keep = [System.IO.Path]::Combine($backup, $rel)
+                if ([System.IO.File]::Exists($keep)) { [System.IO.File]::Copy($keep, [System.IO.Path]::Combine($script:SIRoot, $rel), $true) }
+            } catch { }
+        }
+        Write-SILog -Level 'WARN' -Component 'Update' -Message "The update to $($Manifest.Version) was not installed: $reason"
+        return @{ Ok = $false; Message = $reason }
+    } finally {
+        try { if ([System.IO.Directory]::Exists($tmp)) { [System.IO.Directory]::Delete($tmp, $true) } } catch { }
+    }
+}
+
+function Restart-SISigame {
+    try {
+        Start-Process -FilePath 'powershell.exe' -WorkingDirectory $script:SIRoot -WindowStyle Hidden `
+            -ArgumentList "-NoProfile -ExecutionPolicy Bypass -STA -WindowStyle Hidden -File `"$script:SICurrentScript`""
+    } catch {
+        Write-SILog -Level 'WARN' -Component 'Update' -Message "SIGAME could not start itself again: $($_.Exception.Message)"
+    }
+    Exit-SISigame
+}
+
+function Invoke-SIUpdateOffer {
+    <#
+    .SYNOPSIS
+        Asks the player, installs, restarts. $true = SIGAME is restarting.
+    #>
+    param($Manifest, [switch]$Quiet)
+    if (-not (Test-SIUpdateNewer -Manifest $Manifest)) { return $false }
+    $state = Get-SICommunityState
+    $skipped = ''
+    if ($state.PSObject.Properties.Name -contains 'UpdateSkipped') { $skipped = [string]$state.UpdateSkipped }
+    # The start asks once for every version; the button always asks.
+    if ($Quiet -and $skipped -eq [string]$Manifest.Version) { return $false }
+    $notes = ''
+    if ($Manifest.PSObject.Properties.Name -contains 'Notes') { $notes = [string]$Manifest.Notes }
+    $text = (Get-SICommunityText 'UpdateAsk') -f [string]$Manifest.Version, $script:SIGameVersion, $notes
+    if (-not (Show-SIMessage -Window $script:SIWindow -Title 'SIGAME' -Text $text)) {
+        $state | Add-Member 'UpdateSkipped' ([string]$Manifest.Version) -Force
+        Save-SICommunityState -State $state
+        return $false
+    }
+    Set-SIStatusText -Text ((Get-SICommunityText 'UpdateBusy') -f [string]$Manifest.Version)
+    try { Invoke-SIUIPump } catch { }
+    $r = Install-SIUpdate -Manifest $Manifest
+    if (-not $r.Ok) {
+        Set-SIStatusText -Text ((Get-SICommunityText 'UpdateFail') -f $r.Message)
+        return $false
+    }
+    [void][System.Windows.MessageBox]::Show($script:SIWindow, ((Get-SICommunityText 'UpdateDone') -f [string]$Manifest.Version), 'SIGAME')
+    Restart-SISigame
+    return $true
+}
+
+function Test-SIUpdateNow {
+    # The button "Check for new presets" looks for a new SIGAME first.
+    try {
+        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
+        $manifest = (Invoke-WebRequest -Uri ((Get-SIUpdateBase) + 'version.json') -UseBasicParsing -TimeoutSec 10).Content | ConvertFrom-Json
+    } catch { return $false }
+    return (Invoke-SIUpdateOffer -Manifest $manifest)
+}
+
+function Start-SIUpdateCheck {
+    <#
+    .SYNOPSIS
+        The quiet check of the start: at most once a day, in the background
+        (the window never waits for the network), silent when offline.
+    #>
+    try {
+        $state = Get-SICommunityState
+        if ($state.PSObject.Properties.Name -contains 'LastUpdateCheck') {
+            $last = [datetime]::MinValue
+            if ([datetime]::TryParse([string]$state.LastUpdateCheck, [ref]$last) -and ([datetime]::Now - $last).TotalHours -lt 24) { return }
+        }
+        $state | Add-Member 'LastUpdateCheck' ([datetime]::Now.ToString('s')) -Force
+        Save-SICommunityState -State $state
+        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
+        $client = [System.Net.WebClient]::new()
+        $script:SIUpdateTask  = $client.DownloadStringTaskAsync(((Get-SIUpdateBase) + 'version.json'))
+        $script:SIUpdateTicks = 0
+        $timer = New-Object System.Windows.Threading.DispatcherTimer
+        $timer.Interval = [TimeSpan]::FromSeconds(2)
+        $null = $timer.Add_Tick({
+            $task = $script:SIUpdateTask
+            $script:SIUpdateTicks++
+            if ($task -and -not $task.IsCompleted -and $script:SIUpdateTicks -lt 15) { return }
+            # The question waits until the start-up work (restore point, backup) is over.
+            if ($task -and $task.IsCompleted -and -not $script:SIPrepared -and $script:SIUpdateTicks -lt 150) { return }
+            try { $script:SIUpdateTimer.Stop() } catch { }
+            $script:SIUpdateTask = $null
+            if (-not $task -or $task.Status -ne [System.Threading.Tasks.TaskStatus]::RanToCompletion) { return }
+            try {
+                $manifest = $task.Result | ConvertFrom-Json
+                if (Test-SIUpdateNewer -Manifest $manifest) {
+                    Write-SILog -Component 'Update' -Message "SIGAME $($manifest.Version) is on GitHub, this copy is $script:SIGameVersion."
+                    [void](Invoke-SIUpdateOffer -Manifest $manifest -Quiet)
+                }
+            } catch { }
+        })
+        $script:SIUpdateTimer = $timer
+        $timer.Start()
+    } catch { }
 }
 
 function Show-SIPresetsWindow {
