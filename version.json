@@ -1,10 +1,10 @@
 {
-  "Version": "2026.11.12.1",
-  "Notes": "Faster start with a loading window, self-update with SHA-256 check, English texts, fixes for Undo and the desktop shortcut.",
+  "Version": "2026.11.14.1",
+  "Notes": "FPS measure with 0.1% low, stutters and an honest before/after verdict; GUARD names the tweaks a Windows or driver update turned off; English tray texts.",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
-      "Sha256": "a5e6386f16d9675647b693d32583090136073264600ef42ae02994950b0a8db2"
+      "Sha256": "8006a694270b78d157481abe26592ff7fa286e4f914e48f98f3c407c4e968566"
     },
     {
       "Path": "modules/00-core.ps1",
@@ -48,11 +48,15 @@
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "b71980826ad6595a62f815fc0ad2fe75d3f8cee18a7ec2c1391021baecf5994b"
+      "Sha256": "4e6fa2834807386287a6581d21e4033d6446394ada9e91024a990fe986c14359"
     },
     {
       "Path": "modules/11-fps.ps1",
-      "Sha256": "190e6c3bd6c780346f68904f70ef18b18f88b0d7a0394263ddc58b455b334f78"
+      "Sha256": "f3468b89cd2f8b20c8233b74d2062acb0c195a8a112ca1903161e236f33a261f"
+    },
+    {
+      "Path": "modules/12-guard.ps1",
+      "Sha256": "3f98137858aeb6de6ef673ba53cc67dc9b28fe9c44c92bcce976393a5b7859a7"
     }
   ]
 }

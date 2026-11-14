@@ -204,6 +204,7 @@ $script:SIModuleList = @(
     '09-autoboost.ps1'
     '10-community.ps1'
     '11-fps.ps1'
+    '12-guard.ps1'
 )
 
 foreach ($module in $script:SIModuleList) {
@@ -2126,10 +2127,10 @@ public static class SINativeTimerQuery {
         Update-SIProvePanel
         Update-SIAutoDashboard
 
-        $ramChTxt = if ($ramInfo.Text) { " | RAM: $($ramInfo.Text) ($($sysNow.FreeRamMB) MB liberi)" } else { " | RAM Libera: $($sysNow.FreeRamMB) MB" }
-        $msg = "TEST LIVE -> Timer Kernel: ${timerMs} ms | Rete: $($pingRes.Text)$ramChTxt"
+        $ramChTxt = if ($ramInfo.Text) { " | RAM: $($ramInfo.Text) ($($sysNow.FreeRamMB) MB free)" } else { " | Free RAM: $($sysNow.FreeRamMB) MB" }
+        $msg = "LIVE TEST -> kernel timer: ${timerMs} ms | network: $($pingRes.Text)$ramChTxt"
         Set-SIStatusText -Text $msg
-        Show-SITrayBalloon -Title 'SIGAME - Test Latenza Live' -Text $msg
+        Show-SITrayBalloon -Title 'SIGAME - live latency test' -Text $msg
         Write-SILog -Level 'OK' -Component 'Benchmark' -Message $msg
     } catch {
         Set-SIStatusText -Text "The latency test failed: $($_.Exception.Message)"
@@ -2645,7 +2646,7 @@ function Update-SITrayQuickMenu {
         $ramItem = [System.Windows.Forms.ToolStripMenuItem]::new('Pulisci RAM & Standby Ora')
         $null = $ramItem.Add_Click({
             $freed = Clear-SIWorkingSets
-            Show-SITrayBalloon -Title 'SIGAME RAM Pulita' -Text "Working Set + Standby List svuotati (+$freed MB liberi)."
+            Show-SITrayBalloon -Title 'SIGAME - RAM cleaned' -Text "Working set + standby list emptied (+$freed MB free)."
         })
         [void]$menu.Items.Add($ramItem)
 
@@ -4562,6 +4563,7 @@ function New-SIWindow {
         $msg = (Get-SIHudText 'UndoConfirmMsg')
         if (Show-SIMessage -Window $window -Text $msg -Title (Get-SIHudText 'UndoConfirmTitle')) {
             Invoke-SIUndoAll
+            Clear-SIGuardSnapshot
             Restore-SIHardBcdBootTweaks
             [void](Restore-SIRobloxQualityProfile)
             Restore-SIUnusedServices
@@ -5134,6 +5136,7 @@ function Invoke-SIAutoOptimizeAll {
 
         Update-SIProvePanel
         Update-SIAutoDashboard
+        Save-SIGuardSnapshot -Audit (Get-SIPcOptimizationAudit)
 
         $rebBanner = Get-SIElement -Name 'RebootBanner'
         if ($rebBanner -and ($doneTweaks -gt 0 -or $gpuOptCount -gt 0 -or $nicOptCount -gt 0)) {
@@ -5193,9 +5196,9 @@ function Invoke-SIGameOver {
         $script:SIGameSessionStart = $null
     }
     $reportMsg = "${durText}RAM freed: +$($script:SIGameSessionRamFreedMB) MB | apps set to idle: $($script:SIGameSessionIdledCount) | PC put back."
-    Set-SIStatusText -Text "Sessione conclusa ($($script:SIGameSessionLastGame)): $reportMsg"
+    Set-SIStatusText -Text "Session over ($($script:SIGameSessionLastGame)): $reportMsg"
     if ($Auto) {
-        Show-SITrayBalloon -Title "Report Sessione: $($script:SIGameSessionLastGame)" -Text $reportMsg
+        Show-SITrayBalloon -Title "Session report: $($script:SIGameSessionLastGame)" -Text $reportMsg
     }
 }
 
@@ -5211,6 +5214,8 @@ function Update-SIWorkerResult {
         Update-SIAutoDashboard
         if ($script:SIPrepared) {
             Set-SIStatusText -Text ((Get-SIHudText 'ReadyStatusFmt') -f (Get-SIHudText 'BtnOptimize'))
+            # GUARD: tweaks that went back since the last OPTIMIZE (modules/12-guard.ps1), once per start.
+            [void](Invoke-SIGuardCheck -Audit (Get-SIPcOptimizationAudit) -ButtonText (Get-SIHudText 'BtnOptimize'))
         }
     }
 }

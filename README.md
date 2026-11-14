@@ -75,6 +75,33 @@ a second click offers **Undo**. **SI PRESETS** lists them all and **Check for ne
 | SI ULTRA | Rayman 3 HD ([Rayman 3 HD Recompiled](https://github.com/MysteriousAeon/rayman3-hd-recompiled)) | Writes two engine keys the port's Settings app does not show, at the highest value its runtime accepts: 16x anisotropic filtering (default 4x) and FXAA Extreme; sets Rendering resolution 2160p |
 | SI ULTRA | Marvel Ultimate Alliance 1 / Gold / 2 ([Marvel Ultimate Alliance Recompiled](https://github.com/saulob/marvel-ultimate-alliance-bundle-recompiled)) | Reads your monitor: render resolution at least 2x your screen's height (up to the 4x limit) scaled down with AMD CAS sharpening, a hidden option the launcher does not show; 16x texture filtering, your monitor's aspect ratio |
 
+## FPS: before and after, with a verdict
+
+The **FPS** button on a game card measures the running game for 60 seconds with
+[PresentMon](https://github.com/GameTechDev/PresentMon) (Intel, open source MIT; downloaded once from its official
+release after you say yes, SHA-256 checked). SIGAME shows:
+
+- **average FPS**, **1% low** and **0.1% low** (0.1% low only with 1,000 frames or more);
+- the **slowest frame** in ms and the **stutters**: frames slower than 2x the median frame;
+- the previous measure of the same game and a **verdict**: FASTER, SLOWER, mixed or **no real change**.
+  A change under 3% in average and in 1% low is not counted as a change;
+- the best of your last measures of that game (up to 10 are kept) and the SI PRESETS that were active.
+
+Measure in the same place of the game before and after a preset or a tweak. The numbers are yours: SIGAME does not
+promise a number of FPS.
+
+## GUARD: tells you when Windows puts a setting back
+
+A Windows update, a driver update or another tool can turn a tweak off without a word. After every **OTTIMIZZA**
+SIGAME keeps the list of the tweaks that were really active (`SI-GAME-guard.json`). At every start it reads them again:
+the ones that are no longer active are named in the status line, in the tray and in `SI-GAME.log`, and one press on the
+optimize button applies them again. The guard only reads; **Undo all** deletes its list.
+
+## Tests
+
+`tests/test-pro.ps1` checks the FPS statistics, the verdict and the GUARD with made-up data. It needs no administrator
+rights and changes nothing on the PC: `powershell -NoProfile -ExecutionPolicy Bypass -File tests	est-pro.ps1`.
+
 ## Request a game
 
 No SI PRESET for your game yet, or SIGAME does not see it? Press **REQUEST** on its card or **Request a game / Feedback**,
@@ -105,7 +132,8 @@ Offline, the check is skipped silently.
 ## Files SIGAME writes next to itself
 
 `SI-GAME.log` (what it did), `SI-GAME-backup.json` (original values, used by Undo),
-`SI-GAME-measures.json` (before/after measures), `SI-GAME-boost.json` (your games),
+`SI-GAME-measures.json` (before/after measures), `SI-GAME-fps.json` (your FPS measures),
+`SI-GAME-guard.json` (the tweaks active after the last optimize), `SI-GAME-boost.json` (your games),
 `SI-GAME-community.json` (stats on/off, the week of the last report, applied presets, last update check),
 `SI-GAME-update-backup` (the scripts replaced by an update).
 

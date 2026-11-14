@@ -3,7 +3,7 @@
 # with PresentMon (Intel GameTechDev, MIT, github.com/GameTechDev/PresentMon), the same capture tool used by
 # reviewers. SIGAME downloads the official v2.6.0 console exe once from its GitHub release and runs it only when its
 # SHA-256 matches the one GitHub publishes for that asset. Each measure is kept in SI-GAME-fps.json, compared with
-# the previous one of the same game, and (anonymous stats ON) sent to SI NEWS as kind 'fps_measured' with the
+# the previous one of the same game with a verdict (changes under 3% are not counted), and (anonymous stats ON) sent to SI NEWS as kind 'fps_measured' with the
 # presets applied at that moment: real numbers from real players, never ours.
 
 $script:SIFpsPath   = [System.IO.Path]::Combine($script:SIRoot, 'SI-GAME-fps.json')
@@ -15,6 +15,7 @@ $script:SIPresentMon = @{
 }
 $script:SIFpsDelay   = 10      # seconds to go back to the game
 $script:SIFpsSeconds = 60      # seconds measured
+$script:SIFpsNoise   = 3.0     # percent: a smaller change is not counted as a change
 $script:SIFpsRun     = $null
 $script:SIFpsTimer   = $null
 
@@ -34,6 +35,15 @@ $script:SIFpsText = @{
         FpsPresets  = "`n`nActive SI PRESETS: {0}"
         FpsShared   = "`n`nAnonymous stats ON: these numbers go to SI NEWS with your CPU/GPU model (no files, no id)."
         FpsTitle    = 'SIGAME FPS'
+        FpsPro      = "`n0.1% low: {0} FPS`nSlowest frame: {1} ms`nStutters: {2} (frames slower than 2x the median frame)"
+        FpsProShort = "`nSlowest frame: {0} ms`nStutters: {1} (frames slower than 2x the median frame)"
+        FpsStutCmp  = "`nStutters before: {0}, now: {1}"
+        FpsVNoise   = "`n`nVERDICT: no real change. SIGAME counts a change only from {0}% up, in average or 1% low."
+        FpsVBetter  = "`n`nVERDICT: FASTER than the previous measure."
+        FpsVWorse   = "`n`nVERDICT: SLOWER than the previous measure. Undo the last preset or tweak and measure again."
+        FpsVMixed   = "`n`nVERDICT: mixed. Average and 1% low moved in opposite directions: measure again in the same place of the game."
+        FpsBest     = "`n`nBest of your last {0} measures: {1} FPS average, {2} FPS 1% low ({3}){4}"
+        FpsBestSet  = ', SI PRESETS: {0}'
     }
     'it' = @{
         BtnFps      = 'FPS'
@@ -50,6 +60,15 @@ $script:SIFpsText = @{
         FpsPresets  = "`n`nSI PRESET attivi: {0}"
         FpsShared   = "`n`nStatistiche anonime ON: questi numeri vanno a SI NEWS con il modello di CPU/GPU (niente file, niente id)."
         FpsTitle    = 'SIGAME FPS'
+        FpsPro      = "`n0.1% low: {0} FPS`nFrame piu' lento: {1} ms`nScatti: {2} (frame piu' lenti di 2 volte il frame mediano)"
+        FpsProShort = "`nFrame piu' lento: {0} ms`nScatti: {1} (frame piu' lenti di 2 volte il frame mediano)"
+        FpsStutCmp  = "`nScatti prima: {0}, adesso: {1}"
+        FpsVNoise   = "`n`nVERDETTO: nessun cambiamento reale. SIGAME conta un cambiamento solo dal {0}% in su, nella media o nell'1% low."
+        FpsVBetter  = "`n`nVERDETTO: PIU' VELOCE della misura precedente."
+        FpsVWorse   = "`n`nVERDETTO: PIU' LENTO della misura precedente. Annulla l'ultimo preset o tweak e misura di nuovo."
+        FpsVMixed   = "`n`nVERDETTO: misto. Media e 1% low sono andati in direzioni opposte: misura di nuovo nello stesso punto del gioco."
+        FpsBest     = "`n`nMigliore delle tue ultime {0} misure: {1} FPS media, {2} FPS 1% low ({3}){4}"
+        FpsBestSet  = ', SI PRESET: {0}'
     }
 }
 
@@ -126,12 +145,42 @@ function Get-SIFpsStats {
     $sorted = $ms.ToArray(); [array]::Sort($sorted)
     $n1 = [math]::Max(1, [int][math]::Floor($sorted.Length / 100))
     $slow = 0.0; for ($i = $sorted.Length - $n1; $i -lt $sorted.Length; $i++) { $slow += $sorted[$i] }
-    return [pscustomobject]@{
-        Avg    = [math]::Round(1000.0 * $ms.Count / $sum, 1)
-        Low1   = [math]::Round(1000.0 * $n1 / $slow, 1)
-        Frames = $ms.Count
-        Sec    = [math]::Round($sum / 1000.0, 1)
+    # 0.1% low only with 1000 frames or more (else it is one single frame).
+    $low01 = 0.0
+    $n01 = [int][math]::Floor($sorted.Length / 1000)
+    if ($n01 -ge 1) {
+        $slow01 = 0.0; for ($i = $sorted.Length - $n01; $i -lt $sorted.Length; $i++) { $slow01 += $sorted[$i] }
+        $low01 = [math]::Round(1000.0 * $n01 / $slow01, 1)
     }
+    # Stutters: frames slower than 2x the median frame time.
+    $median = $sorted[[int][math]::Floor($sorted.Length / 2)]
+    $stutters = 0
+    for ($i = $sorted.Length - 1; $i -ge 0 -and $sorted[$i] -gt (2.0 * $median); $i--) { $stutters++ }
+    return [pscustomobject]@{
+        Avg      = [math]::Round(1000.0 * $ms.Count / $sum, 1)
+        Low1     = [math]::Round(1000.0 * $n1 / $slow, 1)
+        Low01    = $low01
+        WorstMs  = [math]::Round($sorted[$sorted.Length - 1], 1)
+        Stutters = $stutters
+        Frames   = $ms.Count
+        Sec      = [math]::Round($sum / 1000.0, 1)
+    }
+}
+
+function Get-SIFpsVerdict {
+    <#
+    .SYNOPSIS
+        The honest verdict of a before/after: 'Noise', 'Better', 'Worse' or 'Mixed'.
+        A change under $script:SIFpsNoise percent (average and 1% low) is not counted as a change.
+    #>
+    param([double]$DeltaAvg, [double]$DeltaLow)
+    $n = [double]$script:SIFpsNoise
+    $up   = ($DeltaAvg -ge $n) -or ($DeltaLow -ge $n)
+    $down = ($DeltaAvg -le -$n) -or ($DeltaLow -le -$n)
+    if ($up -and $down) { return 'Mixed' }
+    if ($up) { return 'Better' }
+    if ($down) { return 'Worse' }
+    return 'Noise'
 }
 
 function Get-SIActivePresets {
@@ -213,20 +262,32 @@ function Complete-SIFpsMeasure {
     $list = @()
     if ($db.PSObject.Properties.Name -contains $name) { $list = @($db.$name) }
     $prev = $list | Select-Object -Last 1
-    $entry = [pscustomobject]@{ At = [datetime]::Now.ToString('s'); Avg = $st.Avg; Low1 = $st.Low1; Frames = $st.Frames; Sec = $st.Sec; Presets = ($presets -join ',') }
+    $entry = [pscustomobject]@{ At = [datetime]::Now.ToString('s'); Avg = $st.Avg; Low1 = $st.Low1; Low01 = $st.Low01; WorstMs = $st.WorstMs; Stutters = $st.Stutters; Frames = $st.Frames; Sec = $st.Sec; Presets = ($presets -join ',') }
     $list = @($list + $entry | Select-Object -Last 10)
     $db | Add-Member $name $list -Force
     try { [System.IO.File]::WriteAllText($script:SIFpsPath, ($db | ConvertTo-Json -Depth 5)) } catch { }
     Write-SILog -Component 'FPS' -Message "$name avg $($st.Avg) low1 $($st.Low1) frames $($st.Frames) presets [$($entry.Presets)]"
 
     $msg = (Get-SIFpsText 'FpsResult') -f $name, $st.Avg, $st.Low1, $st.Frames, $st.Sec
+    if ($st.Low01 -gt 0) { $msg += (Get-SIFpsText 'FpsPro') -f $st.Low01, $st.WorstMs, $st.Stutters }
+    else { $msg += (Get-SIFpsText 'FpsProShort') -f $st.WorstMs, $st.Stutters }
     $info = [ordered]@{ avg = $st.Avg; low1 = $st.Low1; frames = $st.Frames; sec = $st.Sec }
     if ($prev -and $prev.Avg -gt 0 -and $prev.Low1 -gt 0) {
         $dAvg = [math]::Round(100.0 * ($st.Avg - $prev.Avg) / $prev.Avg, 1)
         $dLow = [math]::Round(100.0 * ($st.Low1 - $prev.Low1) / $prev.Low1, 1)
         $fmt = { param($d) if ($d -ge 0) { "+$d%" } else { "$d%" } }
         $msg += (Get-SIFpsText 'FpsCompare') -f ([string]$prev.At).Replace('T', ' '), $prev.Avg, $prev.Low1, (& $fmt $dAvg), (& $fmt $dLow)
+        if ($prev.PSObject.Properties.Name -contains 'Stutters') { $msg += (Get-SIFpsText 'FpsStutCmp') -f $prev.Stutters, $st.Stutters }
+        $verdict = Get-SIFpsVerdict -DeltaAvg $dAvg -DeltaLow $dLow
+        if ($verdict -eq 'Noise') { $msg += (Get-SIFpsText 'FpsVNoise') -f $script:SIFpsNoise }
+        else { $msg += (Get-SIFpsText ('FpsV' + $verdict)) }
+        Write-SILog -Component 'FPS' -Message "$name verdict $verdict (avg $dAvg%, 1% low $dLow%)"
         $info['prev_avg'] = $prev.Avg; $info['prev_low1'] = $prev.Low1; $info['prev_presets'] = [string]$prev.Presets
+    }
+    if ($list.Count -ge 3) {
+        $best = $list | Sort-Object { [double]$_.Avg } -Descending | Select-Object -First 1
+        $bestSet = if ([string]$best.Presets) { (Get-SIFpsText 'FpsBestSet') -f ([string]$best.Presets).Replace(',', ', ') } else { '' }
+        $msg += (Get-SIFpsText 'FpsBest') -f $list.Count, $best.Avg, $best.Low1, ([string]$best.At).Replace('T', ' '), $bestSet
     }
     if ($presets.Count) { $msg += (Get-SIFpsText 'FpsPresets') -f ($presets -join ', ') }
     if ((Get-SICommunityState).Telemetry -eq $true) { $msg += (Get-SIFpsText 'FpsShared') }
