@@ -49,6 +49,9 @@ Check 'verdict +5 / +1'  (Get-SIFpsVerdict -DeltaAvg 5 -DeltaLow 1) 'Better'
 Check 'verdict 0 / +3'   (Get-SIFpsVerdict -DeltaAvg 0 -DeltaLow 3) 'Better'
 Check 'verdict -4 / 0'   (Get-SIFpsVerdict -DeltaAvg -4 -DeltaLow 0) 'Worse'
 Check 'verdict +6 / -6'  (Get-SIFpsVerdict -DeltaAvg 6 -DeltaLow -6) 'Mixed'
+Check 'unsteady +24/+74' (Get-SIFpsVerdict -DeltaAvg 24 -DeltaLow 74 -NoiseAvg 30 -NoiseLow 80) 'Noise'
+Check 'unsteady +40/+10' (Get-SIFpsVerdict -DeltaAvg 40 -DeltaLow 10 -NoiseAvg 30 -NoiseLow 80) 'Better'
+Check 'steady spread <1' ($st.SpreadAvg -lt 1) 'True'
 foreach ($lang in $script:SIFpsText.Keys) {
     Check "texts $lang same keys as en" (@($script:SIFpsText[$lang].Keys | Sort-Object) -join ',') (@($script:SIFpsText['en'].Keys | Sort-Object) -join ',')
 }

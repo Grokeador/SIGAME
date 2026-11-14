@@ -1,6 +1,6 @@
 {
-  "Version": "2026.11.14.2",
-  "Notes": "Start no longer waits forever on a stuck restore point (240 s limit); restore point frequency is put back after an interrupted run",
+  "Version": "2026.11.14.3",
+  "Notes": "FPS verdict now checks how steady each capture is: no verdict when the difference is smaller than the capture's own movement",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
@@ -48,11 +48,11 @@
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "0c7e5531b4e9627579e9000f4bbe81fd806f757593c280142c2353e8d83acfc4"
+      "Sha256": "1d76ab7c2e4ab12262bf7fa3a88a75bcb76291c4c63ff3cbfa0985c113c89611"
     },
     {
       "Path": "modules/11-fps.ps1",
-      "Sha256": "f3468b89cd2f8b20c8233b74d2062acb0c195a8a112ca1903161e236f33a261f"
+      "Sha256": "1d07265ac96bea243516b6f613846ca5d91fbc0a414fed802dbfb331c0064027"
     },
     {
       "Path": "modules/12-guard.ps1",

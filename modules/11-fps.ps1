@@ -39,6 +39,7 @@ $script:SIFpsText = @{
         FpsProShort = "`nSlowest frame: {0} ms`nStutters: {1} (frames slower than 2x the median frame)"
         FpsStutCmp  = "`nStutters before: {0}, now: {1}"
         FpsVNoise   = "`n`nVERDICT: no real change. SIGAME counts a change only from {0}% up, in average or 1% low."
+        FpsVUnsteady = "`n`nVERDICT: no real change that can be told. Inside one capture, with nothing changed, the average moved {0}% and the 1% low {1}%: a smaller difference is not counted. Measure again in the same scene with nothing else open."
         FpsVBetter  = "`n`nVERDICT: FASTER than the previous measure."
         FpsVWorse   = "`n`nVERDICT: SLOWER than the previous measure. Undo the last preset or tweak and measure again."
         FpsVMixed   = "`n`nVERDICT: mixed. Average and 1% low moved in opposite directions: measure again in the same place of the game."
@@ -64,6 +65,7 @@ $script:SIFpsText = @{
         FpsProShort = "`nFrame piu' lento: {0} ms`nScatti: {1} (frame piu' lenti di 2 volte il frame mediano)"
         FpsStutCmp  = "`nScatti prima: {0}, adesso: {1}"
         FpsVNoise   = "`n`nVERDETTO: nessun cambiamento reale. SIGAME conta un cambiamento solo dal {0}% in su, nella media o nell'1% low."
+        FpsVUnsteady = "`n`nVERDETTO: nessun cambiamento reale distinguibile. Dentro una sola cattura, senza cambiare nulla, la media si muove del {0}% e l'1% low del {1}%: una differenza piu' piccola non conta. Misura di nuovo nella stessa scena con nient'altro aperto."
         FpsVBetter  = "`n`nVERDETTO: PIU' VELOCE della misura precedente."
         FpsVWorse   = "`n`nVERDETTO: PIU' LENTO della misura precedente. Annulla l'ultimo preset o tweak e misura di nuovo."
         FpsVMixed   = "`n`nVERDETTO: misto. Media e 1% low sono andati in direzioni opposte: misura di nuovo nello stesso punto del gioco."
@@ -143,6 +145,33 @@ function Get-SIFpsStats {
     if ($ms.Count -lt 2) { return $null }
     $sum = 0.0; foreach ($v in $ms) { $sum += $v }
     $sorted = $ms.ToArray(); [array]::Sort($sorted)
+    # Steadiness: the capture cut in 4 equal parts of time. The distance between the best and the worst
+    # part (percent) says how much average and 1% low move inside ONE capture, with nothing changed.
+    $spreadAvg = 0.0; $spreadLow = 0.0
+    if ($ms.Count -ge 400) {
+        $parts = @(); $cur = [System.Collections.Generic.List[double]]::new(); $acc = 0.0; $k = 1; $limit = $sum / 4.0
+        foreach ($v in $ms) {
+            $cur.Add($v); $acc += $v
+            if ($k -lt 4 -and $acc -ge ($limit * $k)) { $parts += , $cur.ToArray(); $cur = [System.Collections.Generic.List[double]]::new(); $k++ }
+        }
+        if ($cur.Count) { $parts += , $cur.ToArray() }
+        $qa = @(); $ql = @()
+        foreach ($a in $parts) {
+            if ($a.Length -lt 20) { continue }
+            $t = 0.0; foreach ($v in $a) { $t += $v }
+            $qa += 1000.0 * $a.Length / $t
+            $c = [double[]]$a.Clone(); [array]::Sort($c)
+            $m = [math]::Max(1, [int][math]::Floor($c.Length / 100))
+            $w = 0.0; for ($i = $c.Length - $m; $i -lt $c.Length; $i++) { $w += $c[$i] }
+            $ql += 1000.0 * $m / $w
+        }
+        if ($qa.Count -ge 2) {
+            $sa = $qa | Measure-Object -Average -Maximum -Minimum
+            $sl = $ql | Measure-Object -Average -Maximum -Minimum
+            if ($sa.Average -gt 0) { $spreadAvg = [math]::Round(100.0 * ($sa.Maximum - $sa.Minimum) / $sa.Average, 1) }
+            if ($sl.Average -gt 0) { $spreadLow = [math]::Round(100.0 * ($sl.Maximum - $sl.Minimum) / $sl.Average, 1) }
+        }
+    }
     $n1 = [math]::Max(1, [int][math]::Floor($sorted.Length / 100))
     $slow = 0.0; for ($i = $sorted.Length - $n1; $i -lt $sorted.Length; $i++) { $slow += $sorted[$i] }
     # 0.1% low only with 1000 frames or more (else it is one single frame).
@@ -162,6 +191,8 @@ function Get-SIFpsStats {
         Low01    = $low01
         WorstMs  = [math]::Round($sorted[$sorted.Length - 1], 1)
         Stutters = $stutters
+        SpreadAvg = $spreadAvg
+        SpreadLow = $spreadLow
         Frames   = $ms.Count
         Sec      = [math]::Round($sum / 1000.0, 1)
     }
@@ -172,11 +203,14 @@ function Get-SIFpsVerdict {
     .SYNOPSIS
         The honest verdict of a before/after: 'Noise', 'Better', 'Worse' or 'Mixed'.
         A change under $script:SIFpsNoise percent (average and 1% low) is not counted as a change.
+        NoiseAvg / NoiseLow: how much the two captures moved by themselves (SpreadAvg / SpreadLow);
+        when that is more than $script:SIFpsNoise, the change must be bigger than that to count.
     #>
-    param([double]$DeltaAvg, [double]$DeltaLow)
-    $n = [double]$script:SIFpsNoise
-    $up   = ($DeltaAvg -ge $n) -or ($DeltaLow -ge $n)
-    $down = ($DeltaAvg -le -$n) -or ($DeltaLow -le -$n)
+    param([double]$DeltaAvg, [double]$DeltaLow, [double]$NoiseAvg = 0, [double]$NoiseLow = 0)
+    $na = [math]::Max([double]$script:SIFpsNoise, $NoiseAvg)
+    $nl = [math]::Max([double]$script:SIFpsNoise, $NoiseLow)
+    $up   = ($DeltaAvg -ge $na) -or ($DeltaLow -ge $nl)
+    $down = ($DeltaAvg -le -$na) -or ($DeltaLow -le -$nl)
     if ($up -and $down) { return 'Mixed' }
     if ($up) { return 'Better' }
     if ($down) { return 'Worse' }
@@ -262,7 +296,7 @@ function Complete-SIFpsMeasure {
     $list = @()
     if ($db.PSObject.Properties.Name -contains $name) { $list = @($db.$name) }
     $prev = $list | Select-Object -Last 1
-    $entry = [pscustomobject]@{ At = [datetime]::Now.ToString('s'); Avg = $st.Avg; Low1 = $st.Low1; Low01 = $st.Low01; WorstMs = $st.WorstMs; Stutters = $st.Stutters; Frames = $st.Frames; Sec = $st.Sec; Presets = ($presets -join ',') }
+    $entry = [pscustomobject]@{ At = [datetime]::Now.ToString('s'); Avg = $st.Avg; Low1 = $st.Low1; Low01 = $st.Low01; WorstMs = $st.WorstMs; Stutters = $st.Stutters; SpreadAvg = $st.SpreadAvg; SpreadLow = $st.SpreadLow; Frames = $st.Frames; Sec = $st.Sec; Presets = ($presets -join ',') }
     $list = @($list + $entry | Select-Object -Last 10)
     $db | Add-Member $name $list -Force
     try { [System.IO.File]::WriteAllText($script:SIFpsPath, ($db | ConvertTo-Json -Depth 5)) } catch { }
@@ -278,10 +312,16 @@ function Complete-SIFpsMeasure {
         $fmt = { param($d) if ($d -ge 0) { "+$d%" } else { "$d%" } }
         $msg += (Get-SIFpsText 'FpsCompare') -f ([string]$prev.At).Replace('T', ' '), $prev.Avg, $prev.Low1, (& $fmt $dAvg), (& $fmt $dLow)
         if ($prev.PSObject.Properties.Name -contains 'Stutters') { $msg += (Get-SIFpsText 'FpsStutCmp') -f $prev.Stutters, $st.Stutters }
-        $verdict = Get-SIFpsVerdict -DeltaAvg $dAvg -DeltaLow $dLow
-        if ($verdict -eq 'Noise') { $msg += (Get-SIFpsText 'FpsVNoise') -f $script:SIFpsNoise }
+        $nAvg = [double]$st.SpreadAvg; $nLow = [double]$st.SpreadLow
+        if ($prev.PSObject.Properties.Name -contains 'SpreadAvg') {
+            $nAvg = [math]::Max($nAvg, [double]$prev.SpreadAvg); $nLow = [math]::Max($nLow, [double]$prev.SpreadLow)
+        }
+        $verdict = Get-SIFpsVerdict -DeltaAvg $dAvg -DeltaLow $dLow -NoiseAvg $nAvg -NoiseLow $nLow
+        $unsteady = ($nAvg -gt $script:SIFpsNoise) -or ($nLow -gt $script:SIFpsNoise)
+        if ($verdict -eq 'Noise' -and $unsteady) { $msg += (Get-SIFpsText 'FpsVUnsteady') -f $nAvg, $nLow }
+        elseif ($verdict -eq 'Noise') { $msg += (Get-SIFpsText 'FpsVNoise') -f $script:SIFpsNoise }
         else { $msg += (Get-SIFpsText ('FpsV' + $verdict)) }
-        Write-SILog -Component 'FPS' -Message "$name verdict $verdict (avg $dAvg%, 1% low $dLow%)"
+        Write-SILog -Component 'FPS' -Message "$name verdict $verdict (avg $dAvg%, 1% low $dLow%, unsteady avg $nAvg% low $nLow%)"
         $info['prev_avg'] = $prev.Avg; $info['prev_low1'] = $prev.Low1; $info['prev_presets'] = [string]$prev.Presets
     }
     if ($list.Count -ge 3) {

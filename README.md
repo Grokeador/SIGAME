@@ -90,6 +90,8 @@ release after you say yes, SHA-256 checked). SIGAME shows:
 Measure in the same place of the game before and after a preset or a tweak. The numbers are yours: SIGAME does not
 promise a number of FPS.
 
+A verdict needs a steady capture. SIGAME cuts every capture in four parts of time and looks how far the average and the 1% low move between them with nothing changed. When that is more than 3%, a before/after difference must be bigger than that movement to count; otherwise the verdict says that no real change can be told and asks you to measure again in the same scene.
+
 ## GUARD: tells you when Windows puts a setting back
 
 A Windows update, a driver update or another tool can turn a tweak off without a word. After every **OTTIMIZZA**
