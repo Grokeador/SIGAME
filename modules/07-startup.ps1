@@ -159,6 +159,48 @@ function Get-SIRestorePointTimeText {
     return $stamp.ToString('yyyy-MM-dd HH:mm:ss')
 }
 
+$script:SIRestoreTimeoutSec = 240
+$script:SIRestoreFreqMarker = [System.IO.Path]::Combine($script:SIRoot, 'SI-GAME-srfreq.json')
+
+function Invoke-SICheckpointTimed {
+    <#
+    .SYNOPSIS
+        Checkpoint-Computer with a time limit, so a stuck Volume Shadow Copy service cannot
+        keep the start of SIGAME waiting for ever. Throws TimeoutException when the limit passes.
+    #>
+    param([int]$TimeoutSec = $script:SIRestoreTimeoutSec)
+    $ps = [powershell]::Create()
+    [void]$ps.AddScript("Checkpoint-Computer -Description 'SIGAME - before the first change' -RestorePointType 'MODIFY_SETTINGS' -WarningAction SilentlyContinue -ErrorAction Stop")
+    $async = $ps.BeginInvoke()
+    if (-not $async.AsyncWaitHandle.WaitOne([int]($TimeoutSec * 1000))) {
+        try { [void]$ps.BeginStop($null, $null) } catch { }
+        throw (New-Object System.TimeoutException("Windows did not finish the restore point in $TimeoutSec seconds."))
+    }
+    try { [void]$ps.EndInvoke($async) } finally { $ps.Dispose() }
+}
+
+function Restore-SIRestoreFrequency {
+    <#
+    .SYNOPSIS
+        Puts SystemRestorePointCreationFrequency back when an earlier run of SIGAME was closed
+        while it made a restore point (the marker file holds the value from before).
+    #>
+    try {
+        if (-not [System.IO.File]::Exists($script:SIRestoreFreqMarker)) { return }
+        $m = Read-SIJsonFile -Path $script:SIRestoreFreqMarker
+        $srPath = 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore'
+        if ($m -and $m.Existed) {
+            Set-SIRegistryValue -Path $srPath -Name 'SystemRestorePointCreationFrequency' -Value ([int]$m.Value) -Type 'DWord' | Out-Null
+        } elseif ($m) {
+            Remove-SIRegistryValue -Path $srPath -Name 'SystemRestorePointCreationFrequency' | Out-Null
+        }
+        [System.IO.File]::Delete($script:SIRestoreFreqMarker)
+        Write-SILog -Level 'OK' -Component 'RestorePoint' -Message 'The restore point frequency of Windows was put back (an earlier run was closed half way).'
+    } catch {
+        Write-SILog -Level 'WARN' -Component 'RestorePoint' -Message "The restore point frequency was not put back: $($_.Exception.Message)"
+    }
+}
+
 function New-SIRestorePoint {
     <#
     .SYNOPSIS
@@ -191,6 +233,7 @@ function New-SIRestorePoint {
     # Windows only allows one restore point every 24 hours by default. If a
     # recent SIGAME restore point (< 24h) already exists, reuse it immediately
     # instead of waiting ~30s for Checkpoint-Computer to silently no-op.
+    Restore-SIRestoreFrequency
     Clear-SICache -Keys @('RestorePoints')
     $existing = Get-SIRecentRestorePoint
     if ($existing) {
@@ -215,10 +258,18 @@ function New-SIRestorePoint {
     try { $oldFreq = Get-SIRegistryValue -Path $srPath -Name 'SystemRestorePointCreationFrequency' } catch { }
     try {
         # Bypass Windows 24-hour (1440 min) restore point creation frequency limit
+        try {
+            $mark = [pscustomobject]@{ Existed = [bool]($oldFreq -and $oldFreq.Exists); Value = $(if ($oldFreq -and $oldFreq.Exists) { [int]$oldFreq.Value } else { 0 }) }
+            [System.IO.File]::WriteAllText($script:SIRestoreFreqMarker, ($mark | ConvertTo-Json))
+        } catch { }
         try { Set-SIRegistryValue -Path $srPath -Name 'SystemRestorePointCreationFrequency' -Value 0 -Type 'DWord' | Out-Null } catch { }
         try {
-            Checkpoint-Computer -Description 'SIGAME - before the first change' -RestorePointType 'MODIFY_SETTINGS' -WarningAction SilentlyContinue -ErrorAction Stop
+            Invoke-SICheckpointTimed
             $created = $true
+        } catch [System.TimeoutException] {
+            $result.Message = [string]$_.Exception.Message + ' SIGAME goes on without a new restore point; "Undo all" still puts every change back.'
+            Write-SILog -Level 'WARN' -Component 'RestorePoint' -Message $result.Message
+            return $result
         } catch {
             $reason = [string]$_.Exception.Message
             Write-SILog -Level 'WARN' -Component 'RestorePoint' -Message "The first attempt did not work ($reason). System Restore is probably switched off, it is enabled and tried again ..."
@@ -230,7 +281,7 @@ function New-SIRestorePoint {
                 return $result
             }
             try {
-                Checkpoint-Computer -Description 'SIGAME - before the first change' -RestorePointType 'MODIFY_SETTINGS' -WarningAction SilentlyContinue -ErrorAction Stop
+                Invoke-SICheckpointTimed
                 $created = $true
             } catch {
                 $reason = [string]$_.Exception.Message
@@ -243,6 +294,7 @@ function New-SIRestorePoint {
             } else {
                 Remove-SIRegistryValue -Path $srPath -Name 'SystemRestorePointCreationFrequency' | Out-Null
             }
+            [System.IO.File]::Delete($script:SIRestoreFreqMarker)
         } catch { }
     }
 

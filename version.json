@@ -1,6 +1,6 @@
 {
-  "Version": "2026.11.14.1",
-  "Notes": "FPS measure with 0.1% low, stutters and an honest before/after verdict; GUARD names the tweaks a Windows or driver update turned off; English tray texts.",
+  "Version": "2026.11.14.2",
+  "Notes": "Start no longer waits forever on a stuck restore point (240 s limit); restore point frequency is put back after an interrupted run",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
@@ -36,7 +36,7 @@
     },
     {
       "Path": "modules/07-startup.ps1",
-      "Sha256": "1a23a9e525230d670afd0cbccc8a1dd0b18c5309a6de041cfe4a99f018118996"
+      "Sha256": "443df9b9f4b32f48aaeb3fef6061a1380c28a361ff035fb81cb99a57d2076ce0"
     },
     {
       "Path": "modules/08-boost.ps1",
@@ -48,7 +48,7 @@
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "4e6fa2834807386287a6581d21e4033d6446394ada9e91024a990fe986c14359"
+      "Sha256": "0c7e5531b4e9627579e9000f4bbe81fd806f757593c280142c2353e8d83acfc4"
     },
     {
       "Path": "modules/11-fps.ps1",
