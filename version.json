@@ -1,6 +1,6 @@
 {
-  "Version": "2026.11.14.3",
-  "Notes": "FPS verdict now checks how steady each capture is: no verdict when the difference is smaller than the capture's own movement",
+  "Version": "2026.11.15.1",
+  "Notes": "FPS: result card PNG copied to the clipboard; one-click Undo offer when a preset made the game slower",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
@@ -48,11 +48,11 @@
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "1d76ab7c2e4ab12262bf7fa3a88a75bcb76291c4c63ff3cbfa0985c113c89611"
+      "Sha256": "0a081a002e61789adf1a7384bca4f05050a82db71517b5c7cc4cdd80649e561a"
     },
     {
       "Path": "modules/11-fps.ps1",
-      "Sha256": "1d07265ac96bea243516b6f613846ca5d91fbc0a414fed802dbfb331c0064027"
+      "Sha256": "627520078baecb740a0e8bf2895f005d5a1836b200309c4cc08c6806697f32bc"
     },
     {
       "Path": "modules/12-guard.ps1",

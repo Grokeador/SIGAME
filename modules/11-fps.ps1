@@ -45,6 +45,9 @@ $script:SIFpsText = @{
         FpsVMixed   = "`n`nVERDICT: mixed. Average and 1% low moved in opposite directions: measure again in the same place of the game."
         FpsBest     = "`n`nBest of your last {0} measures: {1} FPS average, {2} FPS 1% low ({3}){4}"
         FpsBestSet  = ', SI PRESETS: {0}'
+        FpsUndoAsk  = "The FPS went DOWN after SI PRESET {0}.`n`nPut your original config back now (Undo)? Then restart the game and measure again."
+        FpsUndoDone = 'SI PRESET {0} undone: your original config is back. Restart the game and measure again.'
+        FpsCard     = "`n`nResult card saved in {0} and copied: paste it in Discord or Reddit with Ctrl+V."
     }
     'it' = @{
         BtnFps      = 'FPS'
@@ -71,6 +74,9 @@ $script:SIFpsText = @{
         FpsVMixed   = "`n`nVERDETTO: misto. Media e 1% low sono andati in direzioni opposte: misura di nuovo nello stesso punto del gioco."
         FpsBest     = "`n`nMigliore delle tue ultime {0} misure: {1} FPS media, {2} FPS 1% low ({3}){4}"
         FpsBestSet  = ', SI PRESET: {0}'
+        FpsUndoAsk  = "Gli FPS sono SCESI dopo il SI PRESET {0}.`n`nRimettere adesso la tua configurazione originale (Undo)? Poi riavvia il gioco e misura di nuovo."
+        FpsUndoDone = 'SI PRESET {0} annullato: la tua configurazione originale e'' tornata. Riavvia il gioco e misura di nuovo.'
+        FpsCard     = "`n`nScheda risultato salvata in {0} e copiata: incollala su Discord o Reddit con Ctrl+V."
     }
 }
 
@@ -232,6 +238,103 @@ function Get-SIActivePresets {
     return @($ids)
 }
 
+function New-SIFpsCard {
+    <#
+    .SYNOPSIS
+        A 1200x630 PNG of one measure (only the measured numbers), saved in Pictures\SIGAME and copied to the
+        clipboard, so a player can paste the proof in Discord or Reddit. Returns the path, or $null.
+    #>
+    param([string]$Name, $St, $Prev, [string]$Verdict, $DeltaAvg, $DeltaLow, [string]$Presets)
+    try {
+        Add-Type -AssemblyName System.Drawing
+        $dir = [System.IO.Path]::Combine([Environment]::GetFolderPath('MyPictures'), 'SIGAME')
+        [void][System.IO.Directory]::CreateDirectory($dir)
+        $safe = ($Name -replace '[^A-Za-z0-9 _-]', '').Trim()
+        if (-not $safe) { $safe = 'game' }
+        $path = [System.IO.Path]::Combine($dir, ('{0}-{1}.png' -f $safe, [datetime]::Now.ToString('yyyyMMdd-HHmmss')))
+
+        $bmp = New-Object System.Drawing.Bitmap 1200, 630
+        $g = [System.Drawing.Graphics]::FromImage($bmp)
+        $g.SmoothingMode = 'AntiAlias'; $g.TextRenderingHint = 'AntiAliasGridFit'
+        $bg   = [System.Drawing.Color]::FromArgb(11, 15, 23)
+        $gold = [System.Drawing.Color]::FromArgb(245, 184, 46)
+        $grey = [System.Drawing.Color]::FromArgb(150, 160, 175)
+        $g.Clear($bg)
+        $g.FillRectangle((New-Object System.Drawing.SolidBrush $gold), 0, 0, 1200, 10)
+        $fTitle = New-Object System.Drawing.Font 'Segoe UI', 40, ([System.Drawing.FontStyle]::Bold)
+        $fBig   = New-Object System.Drawing.Font 'Segoe UI', 64, ([System.Drawing.FontStyle]::Bold)
+        $fMid   = New-Object System.Drawing.Font 'Segoe UI', 22
+        $fSmall = New-Object System.Drawing.Font 'Segoe UI', 18
+        $white = [System.Drawing.Brushes]::White
+        $bGold = New-Object System.Drawing.SolidBrush $gold
+        $bGrey = New-Object System.Drawing.SolidBrush $grey
+
+        $g.DrawString($Name, $fTitle, $white, 50, 40)
+        $g.DrawString(('Measured with PresentMon, {0} s, {1} frames' -f $St.Sec, $St.Frames), $fSmall, $bGrey, 54, 108)
+        $cols = @(
+            @('AVERAGE FPS', $St.Avg), @('1% LOW', $St.Low1), @('0.1% LOW', $St.Low01), @('STUTTERS', $St.Stutters)
+        )
+        for ($i = 0; $i -lt $cols.Count; $i++) {
+            $x = 50 + $i * 280
+            $g.DrawString([string]$cols[$i][1], $fBig, $bGold, $x, 170)
+            $g.DrawString($cols[$i][0], $fMid, $bGrey, $x + 6, 268)
+        }
+        $y = 350
+        if ($Prev) {
+            $fmt = { param($d) if ($d -ge 0) { "+$d%" } else { "$d%" } }
+            $line = [string]::Format([cultureinfo]::InvariantCulture, 'Before: {0} avg, {1} 1% low   ->   change {2} avg, {3} 1% low', $Prev.Avg, $Prev.Low1, (& $fmt $DeltaAvg), (& $fmt $DeltaLow))
+            $g.DrawString($line, $fMid, $white, 54, $y)
+            $y += 50
+            $vText = @{ Better = 'VERDICT: FASTER'; Worse = 'VERDICT: SLOWER'; Mixed = 'VERDICT: MIXED'; Noise = 'VERDICT: NO REAL CHANGE' }[$Verdict]
+            if ($vText) { $g.DrawString($vText, $fTitle, $bGold, 50, $y); $y += 70 }
+        }
+        if ($Presets) { $g.DrawString(('SI PRESETS: {0}' -f $Presets.Replace(',', ', ')), $fSmall, $bGrey, 54, $y) }
+        $g.DrawString('SIGAME by SI NEWS  -  github.com/Grokeador/SIGAME', $fSmall, $bGold, 50, 570)
+        $g.DrawString([datetime]::Now.ToString('yyyy-MM-dd'), $fSmall, $bGrey, 1020, 570)
+        $g.Dispose()
+        $bmp.Save($path, [System.Drawing.Imaging.ImageFormat]::Png)
+        $bmp.Dispose()
+
+        try {
+            $img = New-Object System.Windows.Media.Imaging.BitmapImage
+            $img.BeginInit(); $img.CacheOption = 'OnLoad'; $img.UriSource = New-Object System.Uri $path; $img.EndInit()
+            [System.Windows.Clipboard]::SetImage($img)
+        } catch { }
+        Write-SILog -Component 'FPS' -Message "Result card: $path"
+        return $path
+    } catch {
+        Write-SILog -Level 'WARN' -Component 'FPS' -Message "Result card failed: $($_.Exception.Message)"
+        return $null
+    }
+}
+
+function Invoke-SIFpsAutoUndo {
+    <#
+    .SYNOPSIS
+        After a SLOWER verdict: the SI PRESETS applied between the two measures, which have an Undo, are offered
+        for Undo in one click. Nothing is undone without the player's YES.
+    #>
+    param([string]$Name, [string[]]$Now, [string]$Before)
+    $old = @(([string]$Before) -split ',' | Where-Object { $_ })
+    $added = @($Now | Where-Object { $_ -and ($old -notcontains $_) })
+    foreach ($id in $added) {
+        $entry = Get-SIPresetCatalog | Where-Object { [string]$_.Id -eq $id } | Select-Object -First 1
+        if (-not $entry -or -not $entry.Undo) { continue }
+        if (-not (Show-SIMessage -Window $script:SIWindow -Title (Get-SIFpsText 'FpsTitle') -Text ((Get-SIFpsText 'FpsUndoAsk') -f $entry.Title))) { continue }
+        $r = Invoke-SIPresetScript -Entry $entry -Undo
+        if ($r.Ok) {
+            $state = Get-SICommunityState
+            $state.Applied.PSObject.Properties.Remove($id)
+            Save-SICommunityState -State $state
+            Send-SITelemetry -Event (New-SITelemetryEvent -Kind 'preset_undo' -Preset $id -Message 'auto undo after slower fps')
+            [void][System.Windows.MessageBox]::Show($script:SIWindow, ((Get-SIFpsText 'FpsUndoDone') -f $entry.Title), (Get-SIFpsText 'FpsTitle'))
+        } else {
+            [void][System.Windows.MessageBox]::Show($script:SIWindow, (@($r.Lines) -join "`n"), "SI PRESET $($entry.Title)")
+        }
+        Write-SILog -Component 'FPS' -Message "Auto undo $id after slower verdict: ok=$($r.Ok)"
+    }
+}
+
 function Start-SIFpsMeasure {
     param($Game)
     if ($script:SIFpsRun) {
@@ -306,6 +409,7 @@ function Complete-SIFpsMeasure {
     if ($st.Low01 -gt 0) { $msg += (Get-SIFpsText 'FpsPro') -f $st.Low01, $st.WorstMs, $st.Stutters }
     else { $msg += (Get-SIFpsText 'FpsProShort') -f $st.WorstMs, $st.Stutters }
     $info = [ordered]@{ avg = $st.Avg; low1 = $st.Low1; frames = $st.Frames; sec = $st.Sec }
+    $verdict = ''; $dAvg = 0; $dLow = 0; $cardPrev = $null
     if ($prev -and $prev.Avg -gt 0 -and $prev.Low1 -gt 0) {
         $dAvg = [math]::Round(100.0 * ($st.Avg - $prev.Avg) / $prev.Avg, 1)
         $dLow = [math]::Round(100.0 * ($st.Low1 - $prev.Low1) / $prev.Low1, 1)
@@ -323,6 +427,7 @@ function Complete-SIFpsMeasure {
         else { $msg += (Get-SIFpsText ('FpsV' + $verdict)) }
         Write-SILog -Component 'FPS' -Message "$name verdict $verdict (avg $dAvg%, 1% low $dLow%, unsteady avg $nAvg% low $nLow%)"
         $info['prev_avg'] = $prev.Avg; $info['prev_low1'] = $prev.Low1; $info['prev_presets'] = [string]$prev.Presets
+        $cardPrev = $prev
     }
     if ($list.Count -ge 3) {
         $best = $list | Sort-Object { [double]$_.Avg } -Descending | Select-Object -First 1
@@ -331,10 +436,13 @@ function Complete-SIFpsMeasure {
     }
     if ($presets.Count) { $msg += (Get-SIFpsText 'FpsPresets') -f ($presets -join ', ') }
     if ((Get-SICommunityState).Telemetry -eq $true) { $msg += (Get-SIFpsText 'FpsShared') }
+    $card = New-SIFpsCard -Name $name -St $st -Prev $cardPrev -Verdict $verdict -DeltaAvg $dAvg -DeltaLow $dLow -Presets ($presets -join ',')
+    if ($card) { $msg += (Get-SIFpsText 'FpsCard') -f [System.IO.Path]::GetDirectoryName($card) }
 
     $exe = [System.IO.Path]::GetFileName([string]$Game.Exe)
     Send-SITelemetry -Event (New-SITelemetryEvent -Kind 'fps_measured' -Game $name -Store ([string]$Game.Store) -ExeName $exe `
         -Preset ($presets -join ',') -Message ($info | ConvertTo-Json -Compress))
     Set-SIStatusText -Text ("FPS {0}: {1} avg, {2} 1% low" -f $name, $st.Avg, $st.Low1)
     [void][System.Windows.MessageBox]::Show($script:SIWindow, $msg, (Get-SIFpsText 'FpsTitle'))
+    if ($verdict -eq 'Worse' -and $cardPrev) { Invoke-SIFpsAutoUndo -Name $name -Now $presets -Before ([string]$cardPrev.Presets) }
 }

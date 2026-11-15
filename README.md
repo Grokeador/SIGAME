@@ -85,7 +85,13 @@ release after you say yes, SHA-256 checked). SIGAME shows:
 - the **slowest frame** in ms and the **stutters**: frames slower than 2x the median frame;
 - the previous measure of the same game and a **verdict**: FASTER, SLOWER, mixed or **no real change**.
   A change under 3% in average and in 1% low is not counted as a change;
-- the best of your last measures of that game (up to 10 are kept) and the SI PRESETS that were active.
+- the best of your last measures of that game (up to 10 are kept) and the SI PRESETS that were active;
+- a **result card** (PNG, 1200x630) with the measured numbers and the verdict, saved in `Pictures\SIGAME` and copied
+  to the clipboard: paste it in Discord or Reddit with Ctrl+V.
+
+**SLOWER after a preset? One-click Undo.** If the verdict is SLOWER and an SI PRESET was applied between the two
+measures, SIGAME asks whether to put your original config back (the preset's own Undo). Nothing is undone without
+your YES. Then restart the game and measure again: presets change config files the game reads at start.
 
 Measure in the same place of the game before and after a preset or a tweak. The numbers are yours: SIGAME does not
 promise a number of FPS.
