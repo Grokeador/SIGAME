@@ -57,6 +57,19 @@ Check 'bound 0.5'          (Get-SIFpsBound -Share 0.5) 'CPU'
 Check 'bound 0.8'          (Get-SIFpsBound -Share 0.8) 'Balanced'
 Check 'bound unknown'      (Get-SIFpsBound -Share 0) ''
 
+# --- auto mode: the Undo offer waits until the game is closed
+$script:Undo = ''; $script:Running = $true
+function Get-SIGameProcess { param($Game) if ($script:Running) { 1 } }
+function Invoke-SIFpsAutoUndo { param($Name, $Now, $Before) $script:Undo = "$Name|$($Now -join ',')|$Before" }
+$script:SIFpsWatchTimer = [pscustomobject]@{} | Add-Member -MemberType ScriptMethod -Name Stop -Value { } -PassThru
+$script:SIFpsWatch = @{ Game = 'g'; UndoAfterExit = $true; Name = 'Game'; Now = @('a', 'b'); Before = 'a' }
+Step-SIFpsAutoWatch
+Check 'no undo while the game runs' $script:Undo ''
+$script:Running = $false
+Step-SIFpsAutoWatch
+Check 'undo offer after exit' $script:Undo 'Game|a,b|a'
+Check 'watch cleared' ($null -eq $script:SIFpsWatch) 'True'
+
 # --- verdict
 Check 'verdict +1 / -2'  (Get-SIFpsVerdict -DeltaAvg 1 -DeltaLow -2) 'Noise'
 Check 'verdict +5 / +1'  (Get-SIFpsVerdict -DeltaAvg 5 -DeltaLow 1) 'Better'

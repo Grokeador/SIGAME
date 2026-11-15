@@ -1,6 +1,6 @@
 {
-  "Version": "2026.11.15.2",
-  "Notes": "FPS measure: bottleneck (GPU/CPU), input-to-photon latency, automatic measure after PLAY; fix boost list error in HUD window",
+  "Version": "2026.11.15.3",
+  "Notes": "Auto measure: when the game got slower, the Undo offer comes after the game is closed",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
@@ -48,11 +48,11 @@
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "4f2fa883f542bf09a9bd7ab96f28875c351cf05f4fd8ea6a21edf74064b8877e"
+      "Sha256": "e7aa298b30d2a14469f569b1837f651fab836890bbe60e693220b9fe0a74d0ee"
     },
     {
       "Path": "modules/11-fps.ps1",
-      "Sha256": "2c9c3ffc28d2399fdfb0e4350f49f1693a9752c492c69642e4a0462cc1663a85"
+      "Sha256": "2115f5f8c37502fc5affad150a5f3d6a5042301b220bd62299e1c0bb66e549f3"
     },
     {
       "Path": "modules/12-guard.ps1",

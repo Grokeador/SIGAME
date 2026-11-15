@@ -55,7 +55,7 @@ $script:SIFpsText = @{
         FpsAutoAsk  = "Measure FPS automatically every time you start a game with PLAY?`n`nSIGAME waits 90 s for the game to load, measures 60 s with no popup, then shows a short notice and saves the result card. YES = on, NO = off (the FPS button still works)."
         FpsAutoDone = '{0}: {1} FPS average, {2} FPS 1% low.'
         FpsAutoVBetter = 'FASTER than last time.'
-        FpsAutoVWorse  = 'SLOWER than last time: press FPS in SIGAME to measure again and Undo the last preset.'
+        FpsAutoVWorse  = 'SLOWER than last time: when you close the game, SIGAME offers to Undo the presets added since then.'
         FpsAutoVMixed  = 'Mixed vs last time.'
         FpsAutoVNoise  = 'No real change vs last time.'
     }
@@ -94,7 +94,7 @@ $script:SIFpsText = @{
         FpsAutoAsk  = "Misurare gli FPS in automatico ogni volta che avvii un gioco con GIOCA?`n`nSIGAME aspetta 90 s che il gioco carichi, misura 60 s senza popup, poi mostra un breve avviso e salva la scheda risultato. SI' = attivo, NO = spento (il tasto FPS funziona sempre)."
         FpsAutoDone = '{0}: {1} FPS media, {2} FPS 1% low.'
         FpsAutoVBetter = "PIU' VELOCE dell'ultima volta."
-        FpsAutoVWorse  = "PIU' LENTO dell'ultima volta: premi FPS in SIGAME per misurare di nuovo e annullare l'ultimo preset."
+        FpsAutoVWorse  = "PIU' LENTO dell'ultima volta: quando chiudi il gioco, SIGAME propone di annullare i preset aggiunti da allora."
         FpsAutoVMixed  = "Misto rispetto all'ultima volta."
         FpsAutoVNoise  = "Nessun cambiamento reale rispetto all'ultima volta."
     }
@@ -413,6 +413,13 @@ function Step-SIFpsAutoWatch {
     $w = $script:SIFpsWatch
     if (-not $w) { $script:SIFpsWatchTimer.Stop(); return }
     $now = [datetime]::Now
+    if ($w.UndoAfterExit) {
+        if (Get-SIGameProcess -Game $w.Game) { return }
+        $script:SIFpsWatch = $null
+        $script:SIFpsWatchTimer.Stop()
+        Invoke-SIFpsAutoUndo -Name $w.Name -Now $w.Now -Before $w.Before
+        return
+    }
     if (-not $w.Found) {
         if (Get-SIGameProcess -Game $w.Game) { $w.Found = $now }
         elseif (($now - $w.Since).TotalMinutes -ge 5) { $script:SIFpsWatch = $null; $script:SIFpsWatchTimer.Stop() }
@@ -550,6 +557,12 @@ function Complete-SIFpsMeasure {
         $short = (Get-SIFpsText 'FpsAutoDone') -f $name, $st.Avg, $st.Low1
         if ($verdict) { $short += ' ' + (Get-SIFpsText ('FpsAutoV' + $verdict)) }
         try { Show-SITrayBalloon -Title (Get-SIFpsText 'FpsTitle') -Text $short } catch { }
+        # SLOWER: the Undo offer waits until the game is closed, so nothing pops up over the game.
+        if ($verdict -eq 'Worse' -and $cardPrev) {
+            $script:SIFpsWatch = @{ Game = $Game; Since = [datetime]::Now; Found = [datetime]::Now; UndoAfterExit = $true
+                Name = $name; Now = $presets; Before = [string]$cardPrev.Presets }
+            if ($script:SIFpsWatchTimer) { $script:SIFpsWatchTimer.Start() }
+        }
         return
     }
     [void][System.Windows.MessageBox]::Show($script:SIWindow, $msg, (Get-SIFpsText 'FpsTitle'))
