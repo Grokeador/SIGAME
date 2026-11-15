@@ -48,6 +48,16 @@ $script:SIFpsText = @{
         FpsUndoAsk  = "The FPS went DOWN after SI PRESET {0}.`n`nPut your original config back now (Undo)? Then restart the game and measure again."
         FpsUndoDone = 'SI PRESET {0} undone: your original config is back. Restart the game and measure again.'
         FpsCard     = "`n`nResult card saved in {0} and copied: paste it in Discord or Reddit with Ctrl+V."
+        FpsBoundGPU = "`n`nBOTTLENECK: GPU (the graphics card is busy {0}% of each frame). Lower resolution, shadows or upscaling quality to gain FPS; CPU tweaks will not help."
+        FpsBoundCPU = "`n`nBOTTLENECK: CPU or an FPS cap (the graphics card is busy only {0}% of each frame). Check FPS cap / V-Sync first; higher graphics settings cost almost no FPS here."
+        FpsBoundBal = "`n`nBOTTLENECK: balanced (the graphics card is busy {0}% of each frame)."
+        FpsInput    = "`nInput to photon: {0} ms (median, from your key and mouse presses during the measure)."
+        FpsAutoAsk  = "Measure FPS automatically every time you start a game with PLAY?`n`nSIGAME waits 90 s for the game to load, measures 60 s with no popup, then shows a short notice and saves the result card. YES = on, NO = off (the FPS button still works)."
+        FpsAutoDone = '{0}: {1} FPS average, {2} FPS 1% low.'
+        FpsAutoVBetter = 'FASTER than last time.'
+        FpsAutoVWorse  = 'SLOWER than last time: press FPS in SIGAME to measure again and Undo the last preset.'
+        FpsAutoVMixed  = 'Mixed vs last time.'
+        FpsAutoVNoise  = 'No real change vs last time.'
     }
     'it' = @{
         BtnFps      = 'FPS'
@@ -77,6 +87,16 @@ $script:SIFpsText = @{
         FpsUndoAsk  = "Gli FPS sono SCESI dopo il SI PRESET {0}.`n`nRimettere adesso la tua configurazione originale (Undo)? Poi riavvia il gioco e misura di nuovo."
         FpsUndoDone = 'SI PRESET {0} annullato: la tua configurazione originale e'' tornata. Riavvia il gioco e misura di nuovo.'
         FpsCard     = "`n`nScheda risultato salvata in {0} e copiata: incollala su Discord o Reddit con Ctrl+V."
+        FpsBoundGPU = "`n`nCOLLO DI BOTTIGLIA: GPU (la scheda video lavora il {0}% di ogni frame). Abbassa risoluzione, ombre o qualita' dell'upscaling per guadagnare FPS; i tweak della CPU non aiutano."
+        FpsBoundCPU = "`n`nCOLLO DI BOTTIGLIA: CPU o un limite FPS (la scheda video lavora solo il {0}% di ogni frame). Controlla prima limite FPS / V-Sync; qui la grafica piu' alta non costa quasi FPS."
+        FpsBoundBal = "`n`nCOLLO DI BOTTIGLIA: bilanciato (la scheda video lavora il {0}% di ogni frame)."
+        FpsInput    = "`nDall'input allo schermo: {0} ms (mediana, dai tuoi tasti e clic durante la misura)."
+        FpsAutoAsk  = "Misurare gli FPS in automatico ogni volta che avvii un gioco con GIOCA?`n`nSIGAME aspetta 90 s che il gioco carichi, misura 60 s senza popup, poi mostra un breve avviso e salva la scheda risultato. SI' = attivo, NO = spento (il tasto FPS funziona sempre)."
+        FpsAutoDone = '{0}: {1} FPS media, {2} FPS 1% low.'
+        FpsAutoVBetter = "PIU' VELOCE dell'ultima volta."
+        FpsAutoVWorse  = "PIU' LENTO dell'ultima volta: premi FPS in SIGAME per misurare di nuovo e annullare l'ultimo preset."
+        FpsAutoVMixed  = "Misto rispetto all'ultima volta."
+        FpsAutoVNoise  = "Nessun cambiamento reale rispetto all'ultima volta."
     }
 }
 
@@ -144,9 +164,16 @@ function Get-SIFpsStats {
     $chain = ($rows | Group-Object SwapChainAddress | Sort-Object Count -Descending | Select-Object -First 1).Group
     $inv = [System.Globalization.CultureInfo]::InvariantCulture
     $ms = [System.Collections.Generic.List[double]]::new()
+    $gpu = [System.Collections.Generic.List[double]]::new()
+    $inp = [System.Collections.Generic.List[double]]::new()
+    $fl = [System.Globalization.NumberStyles]::Float
     foreach ($r in $chain) {
         $v = 0.0
-        if ([double]::TryParse([string]$r.MsBetweenPresents, [System.Globalization.NumberStyles]::Float, $inv, [ref]$v) -and $v -gt 0) { $ms.Add($v) }
+        if ([double]::TryParse([string]$r.MsBetweenPresents, $fl, $inv, [ref]$v) -and $v -gt 0) { $ms.Add($v) }
+        $g = 0.0
+        if ([double]::TryParse([string]$r.MsGPUBusy, $fl, $inv, [ref]$g) -and $g -gt 0) { $gpu.Add($g) }
+        $l = 0.0
+        if ([double]::TryParse([string]$r.MsAllInputToPhotonLatency, $fl, $inv, [ref]$l) -and $l -gt 0) { $inp.Add($l) }
     }
     if ($ms.Count -lt 2) { return $null }
     $sum = 0.0; foreach ($v in $ms) { $sum += $v }
@@ -201,7 +228,24 @@ function Get-SIFpsStats {
         SpreadLow = $spreadLow
         Frames   = $ms.Count
         Sec      = [math]::Round($sum / 1000.0, 1)
+        # GPU busy share: median GPU busy time / median frame time (PresentMon MsGPUBusy). 0 = not measured.
+        GpuShare = $(if ($gpu.Count -ge 50) { $ga = $gpu.ToArray(); [array]::Sort($ga); [math]::Round($ga[[int][math]::Floor($ga.Length / 2)] / $median, 2) } else { 0 })
+        # Input to photon (PresentMon MsAllInputToPhotonLatency): median ms, only when the player pressed keys/mouse.
+        InputMs  = $(if ($inp.Count -ge 5) { $ia = $inp.ToArray(); [array]::Sort($ia); [math]::Round($ia[[int][math]::Floor($ia.Length / 2)], 1) } else { 0 })
     }
+}
+
+function Get-SIFpsBound {
+    <#
+    .SYNOPSIS
+        What holds the FPS back, from the GPU busy share: GPU (the graphics card works >= 90% of each frame),
+        CPU (<= 70%: the card waits for the processor, or for an FPS cap / V-Sync), Balanced in between, '' unknown.
+    #>
+    param([double]$Share)
+    if ($Share -le 0) { return '' }
+    if ($Share -ge 0.9) { return 'GPU' }
+    if ($Share -le 0.7) { return 'CPU' }
+    return 'Balanced'
 }
 
 function Get-SIFpsVerdict {
@@ -288,6 +332,11 @@ function New-SIFpsCard {
             $vText = @{ Better = 'VERDICT: FASTER'; Worse = 'VERDICT: SLOWER'; Mixed = 'VERDICT: MIXED'; Noise = 'VERDICT: NO REAL CHANGE' }[$Verdict]
             if ($vText) { $g.DrawString($vText, $fTitle, $bGold, 50, $y); $y += 70 }
         }
+        $bnd = Get-SIFpsBound -Share $St.GpuShare
+        $extra = @()
+        if ($bnd) { $extra += ('Bottleneck: {0} ({1}% GPU busy)' -f $bnd, [math]::Round(100 * $St.GpuShare)) }
+        if ($St.InputMs -gt 0) { $extra += [string]::Format([cultureinfo]::InvariantCulture, 'Input to photon: {0} ms', $St.InputMs) }
+        if ($extra.Count) { $g.DrawString(($extra -join '    '), $fMid, $white, 54, $y); $y += 45 }
         if ($Presets) { $g.DrawString(('SI PRESETS: {0}' -f $Presets.Replace(',', ', ')), $fSmall, $bGrey, 54, $y) }
         $g.DrawString('SIGAME by SI NEWS  -  github.com/Grokeador/SIGAME', $fSmall, $bGold, 50, 570)
         $g.DrawString([datetime]::Now.ToString('yyyy-MM-dd'), $fSmall, $bGrey, 1020, 570)
@@ -335,28 +384,76 @@ function Invoke-SIFpsAutoUndo {
     }
 }
 
-function Start-SIFpsMeasure {
+function Start-SIFpsAutoWatch {
+    <#
+    .SYNOPSIS
+        After PLAY: waits for the game process (up to 5 min), lets it load for 90 s, then measures 60 s with no
+        popup over the game. Asked once (YES/NO, saved as AutoFps); works only when PresentMon is already verified.
+    #>
     param($Game)
+    $state = Get-SICommunityState
+    if (-not ($state.PSObject.Properties.Name -contains 'AutoFps')) {
+        $yes = Show-SIMessage -Window $script:SIWindow -Title (Get-SIFpsText 'FpsTitle') -Text (Get-SIFpsText 'FpsAutoAsk')
+        $state | Add-Member 'AutoFps' ([bool]$yes) -Force
+        Save-SICommunityState -State $state
+        if ($yes) { [void](Get-SIPresentMonPath) }
+    }
+    if ($state.AutoFps -ne $true) { return }
+    $script:SIFpsWatch = @{ Game = $Game; Since = [datetime]::Now; Found = $null }
+    if (-not $script:SIFpsWatchTimer) {
+        $script:SIFpsWatchTimer = New-Object System.Windows.Threading.DispatcherTimer
+        $script:SIFpsWatchTimer.Interval = [TimeSpan]::FromSeconds(5)
+        $script:SIFpsWatchTimer.Add_Tick({ Step-SIFpsAutoWatch })
+    }
+    $script:SIFpsWatchTimer.Start()
+    Write-SILog -Component 'FPS' -Message "Auto measure armed: $($Game.Name)"
+}
+
+function Step-SIFpsAutoWatch {
+    $w = $script:SIFpsWatch
+    if (-not $w) { $script:SIFpsWatchTimer.Stop(); return }
+    $now = [datetime]::Now
+    if (-not $w.Found) {
+        if (Get-SIGameProcess -Game $w.Game) { $w.Found = $now }
+        elseif (($now - $w.Since).TotalMinutes -ge 5) { $script:SIFpsWatch = $null; $script:SIFpsWatchTimer.Stop() }
+        return
+    }
+    if (($now - $w.Found).TotalSeconds -lt 90) { return }
+    $script:SIFpsWatch = $null
+    $script:SIFpsWatchTimer.Stop()
+    if (-not $script:SIFpsRun) { Start-SIFpsMeasure -Game $w.Game -Auto }
+}
+
+function Start-SIFpsMeasure {
+    param($Game, [switch]$Auto)
     if ($script:SIFpsRun) {
-        [void][System.Windows.MessageBox]::Show($script:SIWindow, (Get-SIFpsText 'FpsBusy'), (Get-SIFpsText 'FpsTitle'))
+        if (-not $Auto) { [void][System.Windows.MessageBox]::Show($script:SIWindow, (Get-SIFpsText 'FpsBusy'), (Get-SIFpsText 'FpsTitle')) }
         return
     }
     $proc = Get-SIGameProcess -Game $Game
     if (-not $proc) {
-        [void][System.Windows.MessageBox]::Show($script:SIWindow,
-            ((Get-SIFpsText 'FpsNotRun') -f $Game.Name, $script:SIFpsDelay, $script:SIFpsSeconds), (Get-SIFpsText 'FpsTitle'))
+        if (-not $Auto) {
+            [void][System.Windows.MessageBox]::Show($script:SIWindow,
+                ((Get-SIFpsText 'FpsNotRun') -f $Game.Name, $script:SIFpsDelay, $script:SIFpsSeconds), (Get-SIFpsText 'FpsTitle'))
+        }
         return
     }
-    $pm = Get-SIPresentMonPath
+    if ($Auto) {
+        $pm = [System.IO.Path]::Combine($script:SIToolsPath, $script:SIPresentMon.File)
+        if (-not ([System.IO.File]::Exists($pm) -and (Get-FileHash -LiteralPath $pm -Algorithm SHA256).Hash -eq $script:SIPresentMon.Sha256)) { return }
+    } else {
+        $pm = Get-SIPresentMonPath
+    }
     if (-not $pm) { return }
 
     $csv = [System.IO.Path]::Combine($script:SIToolsPath, 'fps-last.csv')
     try { if ([System.IO.File]::Exists($csv)) { [System.IO.File]::Delete($csv) } } catch { }
-    $argLine = "--process_id $($proc.Id) --delay $($script:SIFpsDelay) --timed $($script:SIFpsSeconds) --terminate_after_timed " +
-               "--output_file `"$csv`" --no_console_stats --no_track_input --no_track_gpu " +
+    $delay = if ($Auto) { 0 } else { $script:SIFpsDelay }
+    $argLine = "--process_id $($proc.Id) --delay $delay --timed $($script:SIFpsSeconds) --terminate_after_timed " +
+               "--output_file `"$csv`" --no_console_stats --terminate_on_proc_exit " +
                "--session_name SIGAME_FPS --stop_existing_session"
     $p = Start-Process -FilePath $pm -ArgumentList $argLine -WindowStyle Hidden -PassThru
-    $script:SIFpsRun = @{ Game = $Game; Process = $p; Csv = $csv; Until = [datetime]::Now.AddSeconds($script:SIFpsDelay + $script:SIFpsSeconds + 30) }
+    $script:SIFpsRun = @{ Game = $Game; Process = $p; Csv = $csv; Auto = [bool]$Auto; Until = [datetime]::Now.AddSeconds($delay + $script:SIFpsSeconds + 30) }
     Write-SILog -Component 'FPS' -Message "Measure started: $($Game.Name) (pid $($proc.Id))"
     Set-SIStatusText -Text ((Get-SIFpsText 'FpsStatus') -f $Game.Name)
 
@@ -366,6 +463,7 @@ function Start-SIFpsMeasure {
         $script:SIFpsTimer.Add_Tick({ Step-SIFpsMeasure })
     }
     $script:SIFpsTimer.Start()
+    if ($Auto) { return }
     [void][System.Windows.MessageBox]::Show($script:SIWindow,
         ((Get-SIFpsText 'FpsStart') -f $Game.Name, $script:SIFpsDelay, $script:SIFpsSeconds), (Get-SIFpsText 'FpsTitle'))
 }
@@ -379,15 +477,16 @@ function Step-SIFpsMeasure {
     }
     $script:SIFpsTimer.Stop()
     $script:SIFpsRun = $null
-    Complete-SIFpsMeasure -Game $run.Game -CsvPath $run.Csv
+    Complete-SIFpsMeasure -Game $run.Game -CsvPath $run.Csv -Auto:$run.Auto
 }
 
 function Complete-SIFpsMeasure {
-    param($Game, [string]$CsvPath)
+    param($Game, [string]$CsvPath, [switch]$Auto)
     $name = [string]$Game.Name
     $st = Get-SIFpsStats -CsvPath $CsvPath
     if (-not $st) {
         Set-SIStatusText -Text ((Get-SIFpsText 'FpsNoFrames') -f $name)
+        if ($Auto) { return }
         [void][System.Windows.MessageBox]::Show($script:SIWindow, ((Get-SIFpsText 'FpsNoFrames') -f $name), (Get-SIFpsText 'FpsTitle'))
         return
     }
@@ -399,7 +498,7 @@ function Complete-SIFpsMeasure {
     $list = @()
     if ($db.PSObject.Properties.Name -contains $name) { $list = @($db.$name) }
     $prev = $list | Select-Object -Last 1
-    $entry = [pscustomobject]@{ At = [datetime]::Now.ToString('s'); Avg = $st.Avg; Low1 = $st.Low1; Low01 = $st.Low01; WorstMs = $st.WorstMs; Stutters = $st.Stutters; SpreadAvg = $st.SpreadAvg; SpreadLow = $st.SpreadLow; Frames = $st.Frames; Sec = $st.Sec; Presets = ($presets -join ',') }
+    $entry = [pscustomobject]@{ At = [datetime]::Now.ToString('s'); Avg = $st.Avg; Low1 = $st.Low1; Low01 = $st.Low01; WorstMs = $st.WorstMs; Stutters = $st.Stutters; SpreadAvg = $st.SpreadAvg; SpreadLow = $st.SpreadLow; Frames = $st.Frames; Sec = $st.Sec; GpuShare = $st.GpuShare; InputMs = $st.InputMs; Presets = ($presets -join ',') }
     $list = @($list + $entry | Select-Object -Last 10)
     $db | Add-Member $name $list -Force
     try { [System.IO.File]::WriteAllText($script:SIFpsPath, ($db | ConvertTo-Json -Depth 5)) } catch { }
@@ -408,7 +507,10 @@ function Complete-SIFpsMeasure {
     $msg = (Get-SIFpsText 'FpsResult') -f $name, $st.Avg, $st.Low1, $st.Frames, $st.Sec
     if ($st.Low01 -gt 0) { $msg += (Get-SIFpsText 'FpsPro') -f $st.Low01, $st.WorstMs, $st.Stutters }
     else { $msg += (Get-SIFpsText 'FpsProShort') -f $st.WorstMs, $st.Stutters }
-    $info = [ordered]@{ avg = $st.Avg; low1 = $st.Low1; frames = $st.Frames; sec = $st.Sec }
+    if ($st.InputMs -gt 0) { $msg += (Get-SIFpsText 'FpsInput') -f $st.InputMs }
+    $bound = Get-SIFpsBound -Share $st.GpuShare
+    if ($bound) { $msg += (Get-SIFpsText @{ GPU = 'FpsBoundGPU'; CPU = 'FpsBoundCPU'; Balanced = 'FpsBoundBal' }[$bound]) -f [math]::Round(100 * $st.GpuShare) }
+    $info = [ordered]@{ avg = $st.Avg; low1 = $st.Low1; frames = $st.Frames; sec = $st.Sec; gpu_share = $st.GpuShare; input_ms = $st.InputMs }
     $verdict = ''; $dAvg = 0; $dLow = 0; $cardPrev = $null
     if ($prev -and $prev.Avg -gt 0 -and $prev.Low1 -gt 0) {
         $dAvg = [math]::Round(100.0 * ($st.Avg - $prev.Avg) / $prev.Avg, 1)
@@ -443,6 +545,13 @@ function Complete-SIFpsMeasure {
     Send-SITelemetry -Event (New-SITelemetryEvent -Kind 'fps_measured' -Game $name -Store ([string]$Game.Store) -ExeName $exe `
         -Preset ($presets -join ',') -Message ($info | ConvertTo-Json -Compress))
     Set-SIStatusText -Text ("FPS {0}: {1} avg, {2} 1% low" -f $name, $st.Avg, $st.Low1)
+    if ($Auto) {
+        # No popup over the game: one tray notice; the full result is in the card, the log and the history.
+        $short = (Get-SIFpsText 'FpsAutoDone') -f $name, $st.Avg, $st.Low1
+        if ($verdict) { $short += ' ' + (Get-SIFpsText ('FpsAutoV' + $verdict)) }
+        try { Show-SITrayBalloon -Title (Get-SIFpsText 'FpsTitle') -Text $short } catch { }
+        return
+    }
     [void][System.Windows.MessageBox]::Show($script:SIWindow, $msg, (Get-SIFpsText 'FpsTitle'))
     if ($verdict -eq 'Worse' -and $cardPrev) { Invoke-SIFpsAutoUndo -Name $name -Now $presets -Before ([string]$cardPrev.Presets) }
 }

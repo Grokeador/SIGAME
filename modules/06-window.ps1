@@ -1756,6 +1756,12 @@ function Show-SIBoostList {
         exist yet and it is opened, so that the list can be seen at once.
     #>
     try {
+        # The CYBER-HUD window has no Advanced section: there is no list to
+        # show, so nothing is built and no error goes to the log.
+        if (-not (Get-SIElement -Name 'AdvancedHost')) {
+            Write-SILog -Level 'INFO' -Component 'Boost' -Message 'This window has no boost list, nothing to show.'
+            return
+        }
         # The boost list lives inside the Advanced section, so that section
         # has to be there before the list can be shown.
         if (-not $script:SIAdvancedBuilt) { Build-SIAdvancedContent }

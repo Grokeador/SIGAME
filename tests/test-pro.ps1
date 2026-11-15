@@ -42,6 +42,20 @@ $small = Join-Path $work 'small.csv'
 [System.IO.File]::WriteAllLines($small, @('SwapChainAddress,MsBetweenPresents') + (1..500 | ForEach-Object { '0xA,10.0' }))
 Check 'low01 under 1000 frames' (Get-SIFpsStats -CsvPath $small).Low01 0
 Check 'stutters flat run'       (Get-SIFpsStats -CsvPath $small).Stutters 0
+Check 'no GPU column = 0'       (Get-SIFpsStats -CsvPath $small).GpuShare 0
+
+# --- bottleneck and input latency (PresentMon MsGPUBusy, MsAllInputToPhotonLatency)
+$gcsv = Join-Path $work 'gpu.csv'
+$g = @('SwapChainAddress,MsBetweenPresents,MsGPUBusy,MsAllInputToPhotonLatency')
+for ($i = 0; $i -lt 200; $i++) { $g += ('0xA,10.0,9.5,{0}' -f $(if ($i % 20 -eq 0) { '30.0' } else { 'NA' })) }
+[System.IO.File]::WriteAllLines($gcsv, $g)
+$gs = Get-SIFpsStats -CsvPath $gcsv
+Check 'gpu share'          $gs.GpuShare 0.95
+Check 'input ms median'    $gs.InputMs 30
+Check 'bound 0.95'         (Get-SIFpsBound -Share 0.95) 'GPU'
+Check 'bound 0.5'          (Get-SIFpsBound -Share 0.5) 'CPU'
+Check 'bound 0.8'          (Get-SIFpsBound -Share 0.8) 'Balanced'
+Check 'bound unknown'      (Get-SIFpsBound -Share 0) ''
 
 # --- verdict
 Check 'verdict +1 / -2'  (Get-SIFpsVerdict -DeltaAvg 1 -DeltaLow -2) 'Noise'

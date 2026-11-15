@@ -4843,6 +4843,7 @@ function Build-SIGameLibrary {
         $capturedGame = $game
         $null = $btnPlay.Add_Click({
             Invoke-SILaunchGameOptimized -Game $capturedGame
+            try { Start-SIFpsAutoWatch -Game $capturedGame } catch { Write-SILog -Level 'WARN' -Component 'FPS' -Message "Auto measure: $($_.Exception.Message)" }
         }.GetNewClosure())
         [System.Windows.Controls.Grid]::SetColumn($btnPlay, 3)
         [void]$grid.Children.Add($btnPlay)

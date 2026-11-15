@@ -1,10 +1,10 @@
 {
-  "Version": "2026.11.15.1",
-  "Notes": "FPS: result card PNG copied to the clipboard; one-click Undo offer when a preset made the game slower",
+  "Version": "2026.11.15.2",
+  "Notes": "FPS measure: bottleneck (GPU/CPU), input-to-photon latency, automatic measure after PLAY; fix boost list error in HUD window",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
-      "Sha256": "8006a694270b78d157481abe26592ff7fa286e4f914e48f98f3c407c4e968566"
+      "Sha256": "0a3d891674d870747fd9c5aa6106d4e801866132b87fb35257585562b20adbbf"
     },
     {
       "Path": "modules/00-core.ps1",
@@ -32,7 +32,7 @@
     },
     {
       "Path": "modules/06-window.ps1",
-      "Sha256": "e81e235f385e88b07173d36ebacc747fa6ffd5e3c3286337464f893b300de2e8"
+      "Sha256": "135bb4e2e1430ae4b4c3ff6e75d5e3bdde422e41d138b6b284dd033283de3417"
     },
     {
       "Path": "modules/07-startup.ps1",
@@ -48,11 +48,11 @@
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "0a081a002e61789adf1a7384bca4f05050a82db71517b5c7cc4cdd80649e561a"
+      "Sha256": "4f2fa883f542bf09a9bd7ab96f28875c351cf05f4fd8ea6a21edf74064b8877e"
     },
     {
       "Path": "modules/11-fps.ps1",
-      "Sha256": "627520078baecb740a0e8bf2895f005d5a1836b200309c4cc08c6806697f32bc"
+      "Sha256": "2c9c3ffc28d2399fdfb0e4350f49f1693a9752c492c69642e4a0462cc1663a85"
     },
     {
       "Path": "modules/12-guard.ps1",
