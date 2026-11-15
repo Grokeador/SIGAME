@@ -96,6 +96,11 @@ release after you say yes, SHA-256 checked). SIGAME shows:
 **Automatic measure.** The first time you press PLAY, SIGAME asks whether to measure every game you start with PLAY.
 If YES, it waits 90 s for the game to load, measures 60 s with no popup over the game, then shows a short tray notice
 (numbers and verdict) and saves the result card. The FPS button keeps working as before.
+If a game got slower, SIGAME offers to Undo the presets added since the last measure only after you close the game.
+
+**Hotkey Ctrl+Shift+F10.** Press it inside the game, at the exact moment you want to test (a fight, a busy town):
+SIGAME measures 60 s of the running game from your list, with no popup, and shows the result in a tray notice.
+PresentMon must be there already (press FPS in SIGAME once).
 
 **SLOWER after a preset? One-click Undo.** If the verdict is SLOWER and an SI PRESET was applied between the two
 measures, SIGAME asks whether to put your original config back (the preset's own Undo). Nothing is undone without

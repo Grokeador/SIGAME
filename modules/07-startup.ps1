@@ -1319,6 +1319,7 @@ function Invoke-SIMain {
         # number would be lost.
         try { $startTimer.Stop() } catch { }
         Set-SIWindowOnScreenTime
+        try { Register-SIFpsHotkey } catch { }
         # The loading window has done its job: the real window is here.
         Close-SILoadingWindow
         # Background priority: the dispatcher finishes the paint first and

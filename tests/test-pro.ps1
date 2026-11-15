@@ -69,6 +69,9 @@ $script:Running = $false
 Step-SIFpsAutoWatch
 Check 'undo offer after exit' $script:Undo 'Game|a,b|a'
 Check 'watch cleared' ($null -eq $script:SIFpsWatch) 'True'
+$script:SIGameLibrary = @([pscustomobject]@{ Name = 'Game' })
+Invoke-SIFpsHotkey
+Check 'hotkey, no game running' $script:Balloon 'No game of your SIGAME list is running.'
 
 # --- verdict
 Check 'verdict +1 / -2'  (Get-SIFpsVerdict -DeltaAvg 1 -DeltaLow -2) 'Noise'

@@ -1,6 +1,6 @@
 {
-  "Version": "2026.11.15.3",
-  "Notes": "Auto measure: when the game got slower, the Undo offer comes after the game is closed",
+  "Version": "2026.11.15.4",
+  "Notes": "FPS hotkey Ctrl+Shift+F10: measure inside the game",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
@@ -36,7 +36,7 @@
     },
     {
       "Path": "modules/07-startup.ps1",
-      "Sha256": "443df9b9f4b32f48aaeb3fef6061a1380c28a361ff035fb81cb99a57d2076ce0"
+      "Sha256": "1ee08268424881f0f0283a41b8331828c7f833e1a0539e86d57ae198f220bfec"
     },
     {
       "Path": "modules/08-boost.ps1",
@@ -48,11 +48,11 @@
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "e7aa298b30d2a14469f569b1837f651fab836890bbe60e693220b9fe0a74d0ee"
+      "Sha256": "d13d60bd7ce3d04649cf9708d0f11e7e8f1e755186ec13a283cb2d6d5526f42d"
     },
     {
       "Path": "modules/11-fps.ps1",
-      "Sha256": "2115f5f8c37502fc5affad150a5f3d6a5042301b220bd62299e1c0bb66e549f3"
+      "Sha256": "b83a58c37ec24addf61cfe91a0b3adc1ced7687760b7ea890a999b6a0077cfe5"
     },
     {
       "Path": "modules/12-guard.ps1",

@@ -54,6 +54,9 @@ $script:SIFpsText = @{
         FpsInput    = "`nInput to photon: {0} ms (median, from your key and mouse presses during the measure)."
         FpsAutoAsk  = "Measure FPS automatically every time you start a game with PLAY?`n`nSIGAME waits 90 s for the game to load, measures 60 s with no popup, then shows a short notice and saves the result card. YES = on, NO = off (the FPS button still works)."
         FpsAutoDone = '{0}: {1} FPS average, {2} FPS 1% low.'
+        FpsKeyStart = '{0}: measuring {1} s, keep playing.'
+        FpsKeyNoGame = 'No game of your SIGAME list is running.'
+        FpsKeyNoTool = 'Press FPS in SIGAME once first, to get PresentMon.'
         FpsAutoVBetter = 'FASTER than last time.'
         FpsAutoVWorse  = 'SLOWER than last time: when you close the game, SIGAME offers to Undo the presets added since then.'
         FpsAutoVMixed  = 'Mixed vs last time.'
@@ -93,6 +96,9 @@ $script:SIFpsText = @{
         FpsInput    = "`nDall'input allo schermo: {0} ms (mediana, dai tuoi tasti e clic durante la misura)."
         FpsAutoAsk  = "Misurare gli FPS in automatico ogni volta che avvii un gioco con GIOCA?`n`nSIGAME aspetta 90 s che il gioco carichi, misura 60 s senza popup, poi mostra un breve avviso e salva la scheda risultato. SI' = attivo, NO = spento (il tasto FPS funziona sempre)."
         FpsAutoDone = '{0}: {1} FPS media, {2} FPS 1% low.'
+        FpsKeyStart = '{0}: misuro {1} s, continua a giocare.'
+        FpsKeyNoGame = 'Nessun gioco della tua lista SIGAME e'' in esecuzione.'
+        FpsKeyNoTool = 'Premi prima una volta FPS in SIGAME, per scaricare PresentMon.'
         FpsAutoVBetter = "PIU' VELOCE dell'ultima volta."
         FpsAutoVWorse  = "PIU' LENTO dell'ultima volta: quando chiudi il gioco, SIGAME propone di annullare i preset aggiunti da allora."
         FpsAutoVMixed  = "Misto rispetto all'ultima volta."
@@ -382,6 +388,54 @@ function Invoke-SIFpsAutoUndo {
         }
         Write-SILog -Component 'FPS' -Message "Auto undo $id after slower verdict: ok=$($r.Ok)"
     }
+}
+
+function Register-SIFpsHotkey {
+    <#
+    .SYNOPSIS
+        Ctrl+Shift+F10, anywhere (also inside the game): measures the game of the list that is running now, 60 s,
+        no popup over the game, result in a tray notice. Works when PresentMon is already verified (FPS button once).
+    #>
+    if ($script:SIFpsHotkeyOn -or -not $script:SIWindow) { return }
+    if (-not ('SIGameHotkey' -as [type])) {
+        Add-Type -TypeDefinition @'
+using System; using System.Runtime.InteropServices;
+public static class SIGameHotkey {
+    [DllImport("user32.dll")] public static extern bool RegisterHotKey(IntPtr h, int id, uint mods, uint vk);
+    [DllImport("user32.dll")] public static extern bool UnregisterHotKey(IntPtr h, int id);
+    public const int Id = 0x5347;
+    public static event Action Fired;
+    public static IntPtr Hook(IntPtr h, int msg, IntPtr w, IntPtr l, ref bool handled) {
+        if (msg == 0x0312 && w.ToInt32() == Id) { handled = true; var f = Fired; if (f != null) f(); }
+        return IntPtr.Zero;
+    }
+}
+'@
+    }
+    $helper = New-Object System.Windows.Interop.WindowInteropHelper($script:SIWindow)
+    $src = [System.Windows.Interop.HwndSource]::FromHwnd($helper.Handle)
+    if (-not $src) { return }
+    # MOD_CONTROL 0x2 + MOD_SHIFT 0x4 + MOD_NOREPEAT 0x4000, VK_F10 0x79
+    if (-not [SIGameHotkey]::RegisterHotKey($helper.Handle, [SIGameHotkey]::Id, 0x4006, 0x79)) {
+        Write-SILog -Level 'WARN' -Component 'FPS' -Message 'Ctrl+Shift+F10 is used by another program, no FPS hotkey.'
+        return
+    }
+    $src.AddHook([System.Windows.Interop.HwndSourceHook][SIGameHotkey].GetMethod('Hook').CreateDelegate([System.Windows.Interop.HwndSourceHook]))
+    [SIGameHotkey]::add_Fired([Action]{ try { Invoke-SIFpsHotkey } catch { Write-SILog -Level 'WARN' -Component 'FPS' -Message "Hotkey: $($_.Exception.Message)" } })
+    $script:SIFpsHotkeyOn = $true
+    Write-SILog -Component 'FPS' -Message 'FPS hotkey Ctrl+Shift+F10 ready.'
+}
+
+function Invoke-SIFpsHotkey {
+    Write-SILog -Component 'FPS' -Message 'Hotkey Ctrl+Shift+F10 pressed.'
+    $tell = { param($t) try { Show-SITrayBalloon -Title (Get-SIFpsText 'FpsTitle') -Text $t } catch { } }
+    if ($script:SIFpsRun) { & $tell (Get-SIFpsText 'FpsBusy'); return }
+    $game = @($script:SIGameLibrary) | Where-Object { $_ -and (Get-SIGameProcess -Game $_) } | Select-Object -First 1
+    if (-not $game) { & $tell (Get-SIFpsText 'FpsKeyNoGame'); return }
+    $pm = [System.IO.Path]::Combine($script:SIToolsPath, $script:SIPresentMon.File)
+    if (-not [System.IO.File]::Exists($pm)) { & $tell (Get-SIFpsText 'FpsKeyNoTool'); return }
+    Start-SIFpsMeasure -Game $game -Auto
+    if ($script:SIFpsRun) { & $tell ((Get-SIFpsText 'FpsKeyStart') -f $game.Name, $script:SIFpsSeconds) }
 }
 
 function Start-SIFpsAutoWatch {
