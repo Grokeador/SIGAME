@@ -533,6 +533,26 @@
       }
     },
     {
+      "Id": "vrc-si-ultra",
+      "Game": "VRChat (PC)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)vrchat",
+      "DetectPath": "%LOCALAPPDATA%Low\\VRChat\\VRChat",
+      "Script": "vrc-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://docs.vrchat.com/docs/configuration-file",
+      "Video": "https://youtu.be/E_vquJ9h6rM",
+      "Summary": {
+        "en": "Writes VRChat's own config.json, the file VRChat does not create and the app menu does not show: particle limiter on with VRChat's recommended limits, a bigger and longer cache sized by your free disk space, 8K camera, 4K F12 screenshots, first-person steadycam FOV 70. Your other keys stay. Keys and ranges from docs.vrchat.com. UNDO restores your file.",
+        "it": "Scrive il config.json di VRChat, il file che VRChat non crea e che il menu non mostra: limitatore di particelle attivo con i limiti consigliati da VRChat, cache più grande e più lunga in base allo spazio libero, fotocamera 8K, screenshot F12 in 4K, FOV 70 per la steadycam in prima persona. Le tue altre chiavi restano. Chiavi e limiti da docs.vrchat.com. UNDO rimette il tuo file.",
+        "pt-BR": "Escreve o config.json do proprio VRChat, o arquivo que o VRChat nao cria e o menu do app nao mostra: limitador de particulas ligado com os limites recomendados pelo VRChat, um cache maior e mais duradouro pelo seu espaco livre em disco, camera 8K, capturas F12 em 4K, FOV 70 da steadycam em primeira pessoa. Suas outras chaves ficam. Chaves e faixas de docs.vrchat.com. DESFAZER restaura seu arquivo.",
+        "es": "Escribe el config.json propio de VRChat, el archivo que VRChat no crea y el menu de la app no muestra: limitador de particulas activado con los limites recomendados por VRChat, una cache mas grande y duradera segun tu espacio libre en disco, camara 8K, capturas F12 en 4K, FOV 70 de la steadycam en primera persona. Tus otras claves se quedan. Claves y rangos de docs.vrchat.com. DESHACER restaura tu archivo.",
+        "de": "Schreibt die eigene config.json von VRChat, die Datei, die VRChat nicht anlegt und das App-Menue nicht zeigt: Partikel-Limiter an mit den von VRChat empfohlenen Grenzen, ein groesserer und laengerer Cache nach deinem freien Speicherplatz, 8K-Kamera, 4K-Screenshots mit F12, Ego-Steadycam-FOV 70. Deine anderen Schluessel bleiben. Schluessel und Bereiche von docs.vrchat.com. RUECKGAENGIG stellt deine Datei wieder her.",
+        "fr": "Ecrit le config.json de VRChat, le fichier que VRChat ne cree pas et que le menu de l'app n'affiche pas : limiteur de particules active avec les limites recommandees par VRChat, un cache plus grand et plus long selon ton espace disque libre, camera 8K, captures F12 en 4K, FOV 70 de la steadycam a la premiere personne. Tes autres cles restent. Cles et plages tirees de docs.vrchat.com. ANNULER restaure ton fichier."
+      }
+    },
+    {
       "Id": "f125-si-ultra",
       "Game": "F1 25 (PC)",
       "Title": "SI ULTRA",
@@ -550,6 +570,26 @@
         "es": "Edita el hardware_settings_config.xml propio de F1 25, solo los valores que el autor de F1-25-RE-Optimization lista como no limitados por el preset grafico: algoritmo SSAO, reflejos screen space, nubes, distancia de la hierba, actualizaciones de reflejos del coche. Siempre mas ligero, sin DLL. Cambiaste una opcion grafica en el menu? APLICAR, No, Si. Nombres de ese repo MIT. DESHACER restaura tu archivo.",
         "de": "Bearbeitet die eigene hardware_settings_config.xml von F1 25, nur die Werte, die der Autor von F1-25-RE-Optimization als nicht vom Grafik-Preset begrenzt auflistet: SSAO-Algorithmus, Screen-Space-Reflexionen, Wolken, Grasdistanz, Auto-Reflexions-Updates. Immer nur sparsamer, keine DLL. Eine Grafikoption im Menue geaendert? ANWENDEN, Nein, Ja. Namen aus diesem MIT-Repo. RUECKGAENGIG stellt deine Datei wieder her.",
         "fr": "Modifie le hardware_settings_config.xml de F1 25, seulement les valeurs que l'auteur de F1-25-RE-Optimization liste comme non bridees par le preset graphique : algorithme SSAO, reflets screen space, nuages, distance de l'herbe, mises a jour des reflets de la voiture. Toujours plus leger, sans DLL. Tu as change une option graphique dans le menu ? APPLIQUER, Non, Oui. Noms tires de ce repo MIT. ANNULER restaure ton fichier."
+      }
+    },
+    {
+      "Id": "smr-si-ultra",
+      "Game": "Marvel's Spider-Man Remastered (PC)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)spider.?man.{0,3}remaster",
+      "DetectPath": "",
+      "Script": "smr-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/IlyaMez/SpidyVR/blob/main/tools/vr_display.py",
+      "Video": "",
+      "Summary": {
+        "en": "Spider-Man Remastered has no config file: it reads Windows registry values. Sets the ones two public tools document: ray tracing, depth of field and vertical sync off, sharpening at its lowest, launcher popup off. Only values your game already saved, only ever cheaper. UNDO writes your exact old numbers back.",
+        "it": "Spider-Man Remastered non ha un file di configurazione: legge valori dal registro di Windows. Imposta quelli documentati da due strumenti pubblici: ray tracing, profondita di campo e sincronia verticale spenti, nitidezza al minimo, popup del launcher spento. Solo valori gia salvati dal gioco, solo piu leggero. UNDO rimette i tuoi numeri esatti.",
+        "pt-BR": "Spider-Man Remastered nao tem arquivo de configuracao: ele le valores do registro do Windows. Ajusta os que duas ferramentas publicas documentam: ray tracing, profundidade de campo e sincronizacao vertical desligados, nitidez no minimo, popup do launcher desligado. So valores que seu jogo ja salvou, sempre mais leves. UNDO grava de volta seus numeros antigos exatos.",
+        "es": "Spider-Man Remastered no tiene archivo de configuracion: lee valores del registro de Windows. Ajusta los que documentan dos herramientas publicas: trazado de rayos, profundidad de campo y sincronizacion vertical apagados, nitidez al minimo, ventana del launcher apagada. Solo valores que tu juego ya guardo, siempre mas ligeros. UNDO vuelve a escribir tus numeros anteriores exactos.",
+        "de": "Spider-Man Remastered hat keine Konfigurationsdatei: es liest Werte aus der Windows-Registry. Setzt die Werte, die zwei oeffentliche Tools dokumentieren: Raytracing, Tiefenschaerfe und vertikale Synchronisierung aus, Schaerfe auf Minimum, Launcher-Popup aus. Nur Werte, die dein Spiel schon gespeichert hat, immer nur leichter. UNDO schreibt deine exakten alten Zahlen zurueck.",
+        "fr": "Spider-Man Remastered n'a pas de fichier de configuration : il lit des valeurs du registre Windows. Regle celles que deux outils publics documentent : ray tracing, profondeur de champ et synchronisation verticale desactives, nettete au minimum, popup du launcher desactive. Seulement les valeurs deja enregistrees par ton jeu, toujours plus legeres. UNDO reecrit tes anciens nombres exacts."
       }
     },
     {
@@ -593,26 +633,6 @@
       }
     },
     {
-      "Id": "vrc-si-ultra",
-      "Game": "VRChat (PC)",
-      "Title": "SI ULTRA",
-      "Match": "(?i)vrchat",
-      "DetectPath": "%LOCALAPPDATA%Low\\VRChat\\VRChat",
-      "Script": "vrc-si-ultra.ps1",
-      "Version": 1,
-      "Undo": true,
-      "Source": "https://docs.vrchat.com/docs/configuration-file",
-      "Video": "https://youtu.be/E_vquJ9h6rM",
-      "Summary": {
-        "en": "Writes VRChat's own config.json, the file VRChat does not create and the app menu does not show: particle limiter on with VRChat's recommended limits, a bigger and longer cache sized by your free disk space, 8K camera, 4K F12 screenshots, first-person steadycam FOV 70. Your other keys stay. Keys and ranges from docs.vrchat.com. UNDO restores your file.",
-        "it": "Scrive il config.json di VRChat, il file che VRChat non crea e che il menu non mostra: limitatore di particelle attivo con i limiti consigliati da VRChat, cache più grande e più lunga in base allo spazio libero, fotocamera 8K, screenshot F12 in 4K, FOV 70 per la steadycam in prima persona. Le tue altre chiavi restano. Chiavi e limiti da docs.vrchat.com. UNDO rimette il tuo file.",
-        "pt-BR": "Escreve o config.json do proprio VRChat, o arquivo que o VRChat nao cria e o menu do app nao mostra: limitador de particulas ligado com os limites recomendados pelo VRChat, um cache maior e mais duradouro pelo seu espaco livre em disco, camera 8K, capturas F12 em 4K, FOV 70 da steadycam em primeira pessoa. Suas outras chaves ficam. Chaves e faixas de docs.vrchat.com. DESFAZER restaura seu arquivo.",
-        "es": "Escribe el config.json propio de VRChat, el archivo que VRChat no crea y el menu de la app no muestra: limitador de particulas activado con los limites recomendados por VRChat, una cache mas grande y duradera segun tu espacio libre en disco, camara 8K, capturas F12 en 4K, FOV 70 de la steadycam en primera persona. Tus otras claves se quedan. Claves y rangos de docs.vrchat.com. DESHACER restaura tu archivo.",
-        "de": "Schreibt die eigene config.json von VRChat, die Datei, die VRChat nicht anlegt und das App-Menue nicht zeigt: Partikel-Limiter an mit den von VRChat empfohlenen Grenzen, ein groesserer und laengerer Cache nach deinem freien Speicherplatz, 8K-Kamera, 4K-Screenshots mit F12, Ego-Steadycam-FOV 70. Deine anderen Schluessel bleiben. Schluessel und Bereiche von docs.vrchat.com. RUECKGAENGIG stellt deine Datei wieder her.",
-        "fr": "Ecrit le config.json de VRChat, le fichier que VRChat ne cree pas et que le menu de l'app n'affiche pas : limiteur de particules active avec les limites recommandees par VRChat, un cache plus grand et plus long selon ton espace disque libre, camera 8K, captures F12 en 4K, FOV 70 de la steadycam a la premiere personne. Tes autres cles restent. Cles et plages tirees de docs.vrchat.com. ANNULER restaure ton fichier."
-      }
-    },
-    {
       "Id": "hl-si-ultra",
       "Game": "Hogwarts Legacy (PC)",
       "Title": "SI ULTRA",
@@ -650,6 +670,66 @@
         "es": "Edita el config.ini propio de Monster Hunter Wilds, con lineas que los jugadores comparten en Steam y ResetEra: hilos de render segun tu CPU, prioridad del hilo de render, y un bias de texturas por encima del limite del menu desde 12 GB de VRAM. Devuelve la grafia original del motor si el famoso arreglo del typo toco tu archivo. Abrir las opciones graficas del juego reescribe el archivo: APLICA otra vez. DESHACER restaura tu archivo exactamente. Mide con tu propio contador de FPS.",
         "de": "Bearbeitet die eigene config.ini von Monster Hunter Wilds, mit Zeilen, die Spieler auf Steam und ResetEra teilen: Render-Threads passend zu deiner CPU, Prioritaet des Render-Threads und ein Textur-Bias ueber der Menuegrenze ab 12 GB VRAM. Stellt die Original-Schreibweise der Engine wieder her, wenn der beruehmte Tippfehler-Fix deine Datei veraendert hat. Das Oeffnen der Grafikoptionen im Spiel schreibt die Datei neu: dann erneut ANWENDEN. RUECKGAENGIG stellt deine Datei exakt wieder her. Miss mit deinem eigenen FPS-Zaehler.",
         "fr": "Modifie le config.ini de Monster Hunter Wilds, avec des lignes que les joueurs partagent sur Steam et ResetEra : threads de rendu selon ton CPU, priorite du thread de rendu, et un bias de textures au-dela de la limite du menu a partir de 12 Go de VRAM. Remet l'orthographe d'origine du moteur si la fameuse correction de faute de frappe a touche ton fichier. Ouvrir les options graphiques du jeu reecrit le fichier : APPLIQUE a nouveau. ANNULER restaure ton fichier a l'identique. Mesure avec ton propre compteur de FPS."
+      }
+    },
+    {
+      "Id": "kcd2-si-ultra",
+      "Game": "Kingdom Come: Deliverance II (PC)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)kingdom.?come.*deliverance.*(2|ii)",
+      "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\KingdomComeDeliverance2",
+      "Script": "kcd2-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/smo0ths/KCD2-CFG-ECT",
+      "Video": "",
+      "Summary": {
+        "en": "Writes Kingdom Come: Deliverance II's user.cfg with distance lines from players' published configs, past the Experimental defaults a Nexus comment lists. From 12 GB of VRAM five lines, from 8 GB two, under 8 GB nothing. Needs the Steam launch option +exec user.cfg. Players report the graphics menu replaces these values until the next start. UNDO restores your file exactly, or removes the one it created. Measure with your own FPS counter.",
+        "it": "Scrive lo user.cfg di Kingdom Come: Deliverance II con righe di distanza dai config pubblicati dai giocatori, oltre i default di Experimental indicati in un commento su Nexus. Da 12 GB di VRAM cinque righe, da 8 GB due, sotto 8 GB niente. Serve l'opzione di avvio Steam +exec user.cfg. I giocatori riportano che il menu grafico sostituisce questi valori fino al riavvio. UNDO rimette il file esatto o rimuove quello creato. Misura con il tuo contatore FPS.",
+        "pt-BR": "Grava o user.cfg de Kingdom Come: Deliverance II com linhas de distancia de configs publicadas por jogadores, alem dos padroes Experimental que um comentario no Nexus lista. Com 12 GB de VRAM cinco linhas, com 8 GB duas, abaixo de 8 GB nada. Precisa da opcao de inicializacao da Steam +exec user.cfg. Jogadores relatam que o menu grafico substitui esses valores ate o proximo inicio. UNDO restaura seu arquivo exatamente, ou remove o que criou. Meca com seu proprio contador de FPS.",
+        "es": "Escribe el user.cfg de Kingdom Come: Deliverance II con lineas de distancia de configs publicadas por jugadores, mas alla de los valores Experimental que lista un comentario en Nexus. Desde 12 GB de VRAM cinco lineas, desde 8 GB dos, por debajo de 8 GB nada. Necesita la opcion de lanzamiento de Steam +exec user.cfg. Los jugadores cuentan que el menu grafico reemplaza estos valores hasta el siguiente inicio. UNDO restaura tu archivo exacto, o borra el que creo. Mide con tu propio contador de FPS.",
+        "de": "Schreibt die user.cfg von Kingdom Come: Deliverance II mit Sichtweiten-Zeilen aus veroeffentlichten Spieler-Configs, ueber die Experimental-Standardwerte hinaus, die ein Nexus-Kommentar auflistet. Ab 12 GB VRAM fuenf Zeilen, ab 8 GB zwei, unter 8 GB nichts. Braucht die Steam-Startoption +exec user.cfg. Spieler berichten, dass das Grafikmenue diese Werte bis zum naechsten Start ersetzt. UNDO stellt deine Datei exakt wieder her oder entfernt die neu erstellte. Miss mit deinem eigenen FPS-Zaehler.",
+        "fr": "Ecrit le user.cfg de Kingdom Come: Deliverance II avec des lignes de distance tirees de configs publiees par des joueurs, au-dela des valeurs Experimental qu'un commentaire Nexus liste. Des 12 Go de VRAM cinq lignes, des 8 Go deux, sous 8 Go rien. Necessite l'option de lancement Steam +exec user.cfg. Des joueurs signalent que le menu graphique remplace ces valeurs jusqu'au prochain demarrage. UNDO restaure ton fichier exact, ou supprime celui qu'il a cree. Mesure avec ton propre compteur de FPS."
+      }
+    },
+    {
+      "Id": "sf-si-ultra",
+      "Game": "Starfield (PC)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)starfield",
+      "DetectPath": "%USERPROFILE%\\Documents\\My Games\\Starfield",
+      "Script": "sf-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://stepmodifications.org/forum/topic/19019-starfield-default-values-for-all-known-valid-ini-settings/",
+      "Video": "",
+      "Summary": {
+        "en": "Writes lines the Starfield menu has no slider for into the game's own override file, StarfieldCustom.ini, picked from YOUR render scale, video memory and threads, using key names from the list dumped from the game's executable and values from players' posts. Your other lines stay. UNDO restores your file exactly, or removes the one it created. Measure with your own FPS counter.",
+        "it": "Scrive nel file di override del gioco, StarfieldCustom.ini, righe che il menu di Starfield non ha, scelte dalla TUA scala di rendering, memoria video e thread, con i nomi delle chiavi dalla lista estratta dall'eseguibile del gioco e i valori dai post dei giocatori. Le tue altre righe restano. UNDO rimette il tuo file esatto, o toglie quello creato. Misura con il tuo contatore FPS.",
+        "pt-BR": "Grava linhas que o menu de Starfield nao tem como slider no arquivo de substituicao do proprio jogo, StarfieldCustom.ini, escolhidas pela SUA escala de renderizacao, memoria de video e threads, com nomes de chaves da lista extraida do executavel do jogo e valores de posts de jogadores. Suas outras linhas ficam. UNDO restaura seu arquivo exatamente, ou remove o que criou. Meca com seu proprio contador de FPS.",
+        "es": "Escribe lineas que el menu de Starfield no tiene como deslizador en el archivo de sobrescritura del propio juego, StarfieldCustom.ini, elegidas segun TU escala de renderizado, memoria de video e hilos, con nombres de claves de la lista extraida del ejecutable del juego y valores de posts de jugadores. Tus otras lineas se quedan. UNDO restaura tu archivo exacto, o borra el que creo. Mide con tu propio contador de FPS.",
+        "de": "Schreibt Zeilen, fuer die das Starfield-Menue keinen Regler hat, in die eigene Override-Datei des Spiels, StarfieldCustom.ini, ausgewaehlt nach DEINER Renderskalierung, deinem Videospeicher und deinen Threads, mit Schluesselnamen aus der Liste, die aus der Spiel-EXE ausgelesen wurde, und Werten aus Spieler-Posts. Deine anderen Zeilen bleiben. UNDO stellt deine Datei exakt wieder her oder entfernt die neu erstellte. Miss mit deinem eigenen FPS-Zaehler.",
+        "fr": "Ecrit des lignes sans curseur dans le menu de Starfield dans le fichier de surcharge du jeu lui-meme, StarfieldCustom.ini, choisies selon TON echelle de rendu, ta memoire video et tes threads, avec des noms de cles tires de la liste extraite de l'executable du jeu et des valeurs de posts de joueurs. Tes autres lignes restent. UNDO restaure ton fichier exact, ou supprime celui qu'il a cree. Mesure avec ton propre compteur de FPS."
+      }
+    },
+    {
+      "Id": "witcher3-si-ultra",
+      "Game": "The Witcher 3: Wild Hunt (PC, AMDLSS5 mod)",
+      "Title": "SI ULTRA",
+      "Match": "(?i)witcher.?3",
+      "DetectPath": "%ProgramFiles(x86)%\\Steam\\steamapps\\common\\The Witcher 3",
+      "Script": "witcher3-si-ultra.ps1",
+      "Version": 1,
+      "Undo": true,
+      "Source": "https://github.com/Wehaveall/AMDLSS5",
+      "Video": "",
+      "Summary": {
+        "en": "For the AMDLSS5 mod 1.6.1 on an AMD RX 9070 or RX 9070 XT: writes back the structure, style and filter keys of the mod's own Witcher 3 profile in dlssnr_on_amd.ini, which Restore defaults in its menu replaces. On the RX 9070, which the author did not test, it also sets the network resolution to 75 percent, our limit. On any other card it writes nothing. We ran it on a test folder, not in the game. UNDO restores your exact file.",
+        "it": "Per la mod AMDLSS5 1.6.1 su AMD RX 9070 o RX 9070 XT: riscrive in dlssnr_on_amd.ini le chiavi di struttura, stile e filtri del profilo Witcher 3 della mod, che Restore defaults nel suo menu sostituisce. Sulla RX 9070, che l'autore non ha provato, imposta anche la risoluzione della rete al 75 percento, un nostro limite. Su ogni altra scheda non scrive nulla. Provato su una cartella di test, non nel gioco. UNDO rimette il tuo file esatto.",
+        "pt-BR": "Para o mod AMDLSS5 1.6.1 em uma AMD RX 9070 ou RX 9070 XT: grava de volta as chaves de estrutura, estilo e filtro do perfil Witcher 3 do proprio mod em dlssnr_on_amd.ini, que o Restore defaults do menu dele substitui. Na RX 9070, que o autor nao testou, tambem define a resolucao da rede em 75 por cento, nosso limite. Em qualquer outra placa nao grava nada. Rodamos em uma pasta de teste, nao no jogo. UNDO restaura seu arquivo exato.",
+        "es": "Para el mod AMDLSS5 1.6.1 en una AMD RX 9070 o RX 9070 XT: vuelve a escribir las claves de estructura, estilo y filtro del perfil Witcher 3 del propio mod en dlssnr_on_amd.ini, que el Restore defaults de su menu reemplaza. En la RX 9070, que el autor no probo, tambien pone la resolucion de la red al 75 por ciento, nuestro limite. En cualquier otra tarjeta no escribe nada. Lo ejecutamos en una carpeta de prueba, no en el juego. UNDO restaura tu archivo exacto.",
+        "de": "Fuer die Mod AMDLSS5 1.6.1 auf einer AMD RX 9070 oder RX 9070 XT: schreibt die Struktur-, Stil- und Filter-Schluessel des mod-eigenen Witcher-3-Profils in dlssnr_on_amd.ini zurueck, die Restore defaults in ihrem Menue ersetzt. Auf der RX 9070, die der Autor nicht getestet hat, setzt es ausserdem die Netzaufloesung auf 75 Prozent, unser Limit. Auf jeder anderen Karte schreibt es nichts. Wir haben es in einem Testordner ausgefuehrt, nicht im Spiel. UNDO stellt deine exakte Datei wieder her.",
+        "fr": "Pour le mod AMDLSS5 1.6.1 sur une AMD RX 9070 ou RX 9070 XT : reecrit les cles de structure, de style et de filtre du profil Witcher 3 du mod dans dlssnr_on_amd.ini, que Restore defaults de son menu remplace. Sur la RX 9070, que l'auteur n'a pas testee, regle aussi la resolution du reseau a 75 pour cent, notre limite. Sur toute autre carte il n'ecrit rien. Nous l'avons lance sur un dossier de test, pas dans le jeu. UNDO restaure ton fichier exact."
       }
     },
     {

@@ -18,7 +18,7 @@
 #   - Sending never blocks the window and never shows an error to the player.
 # ===========================================================================
 
-$script:SIGameVersion     = '2026.11.18.3'
+$script:SIGameVersion     = '2026.11.18.4'
 $script:SIPresetsPath     = [System.IO.Path]::Combine($script:SIRoot, 'presets')
 $script:SICatalogPath     = [System.IO.Path]::Combine($script:SIPresetsPath, 'catalog.json')
 $script:SIFeedbackCfgPath = [System.IO.Path]::Combine($script:SIRoot, 'SI-GAME-feedback.json')
@@ -71,6 +71,8 @@ $script:SICommunityText = @{
         UpdateDone      = 'SIGAME {0} is installed. SIGAME restarts now.'
         UpdateFail      = 'The update was not installed, nothing was changed: {0}'
         UpdatedTo       = 'SIGAME updated itself to {0}.'
+        TrayTitle       = 'SIGAME is running in the tray'
+        TrayText        = 'Auto-Boost is watching for your games in the background.'
         WhatsNew        = 'SIGAME updated itself to {0}.`n`nWhat is new:`n{1}'
         PresetsAuto     = 'New SI PRESETS downloaded: {0}'
     }
@@ -119,6 +121,8 @@ $script:SICommunityText = @{
         UpdateDone      = 'SIGAME {0} e installato. SIGAME si riavvia adesso.'
         UpdateFail      = 'Aggiornamento non installato, niente e cambiato: {0}'
         UpdatedTo       = 'SIGAME si e aggiornato da solo alla {0}.'
+        TrayTitle       = 'SIGAME e attivo nella barra delle icone'
+        TrayText        = 'Auto-Boost controlla i tuoi giochi in background.'
         WhatsNew        = 'SIGAME si e aggiornato da solo alla {0}.`n`nNovita:`n{1}'
         PresetsAuto     = 'Nuovi SI PRESETS scaricati: {0}'
     }
@@ -171,6 +175,8 @@ $script:SICommunityText['pt-BR'] = @{
     UpdateDone      = 'SIGAME {0} instalado. O SIGAME reinicia agora.'
     UpdateFail      = 'A atualizacao nao foi instalada, nada mudou: {0}'
     UpdatedTo       = 'O SIGAME se atualizou sozinho para a {0}.'
+    TrayTitle       = 'O SIGAME esta rodando na bandeja'
+    TrayText        = 'O Auto-Boost esta de olho nos seus jogos em segundo plano.'
     WhatsNew        = 'O SIGAME se atualizou sozinho para a {0}.`n`nNovidades:`n{1}'
     PresetsAuto     = 'Novos SI PRESETS baixados: {0}'
     PresetsSearch   = 'Buscar jogo...'
@@ -222,6 +228,8 @@ $script:SICommunityText['es'] = @{
     UpdateDone      = 'SIGAME {0} instalado. SIGAME se reinicia ahora.'
     UpdateFail      = 'La actualizacion no se instalo, nada cambio: {0}'
     UpdatedTo       = 'SIGAME se actualizo solo a la {0}.'
+    TrayTitle       = 'SIGAME se esta ejecutando en la bandeja'
+    TrayText        = 'Auto-Boost vigila tus juegos en segundo plano.'
     WhatsNew        = 'SIGAME se actualizo solo a la {0}.`n`nNovedades:`n{1}'
     PresetsAuto     = 'Nuevos SI PRESETS descargados: {0}'
     PresetsSearch   = 'Buscar juego...'
@@ -273,6 +281,8 @@ $script:SICommunityText['de'] = @{
     UpdateDone      = 'SIGAME {0} ist installiert. SIGAME startet jetzt neu.'
     UpdateFail      = 'Das Update wurde nicht installiert, nichts wurde geaendert: {0}'
     UpdatedTo       = 'SIGAME hat sich selbst auf {0} aktualisiert.'
+    TrayTitle       = 'SIGAME laeuft im Infobereich'
+    TrayText        = 'Auto-Boost achtet im Hintergrund auf deine Spiele.'
     WhatsNew        = 'SIGAME hat sich selbst auf {0} aktualisiert.`n`nNeu:`n{1}'
     PresetsAuto     = 'Neue SI PRESETS heruntergeladen: {0}'
     PresetsSearch   = 'Spiel suchen...'
@@ -324,6 +334,8 @@ $script:SICommunityText['fr'] = @{
     UpdateDone      = 'SIGAME {0} est installe. SIGAME redemarre maintenant.'
     UpdateFail      = "La mise a jour n'a pas ete installee, rien n'a change: {0}"
     UpdatedTo       = "SIGAME s'est mis a jour tout seul vers {0}."
+    TrayTitle       = 'SIGAME tourne dans la zone de notification'
+    TrayText        = 'Auto-Boost surveille tes jeux en arriere-plan.'
     WhatsNew        = "SIGAME s'est mis a jour tout seul vers {0}.`n`nNouveautes :`n{1}"
     PresetsAuto     = 'Nouveaux SI PRESETS telecharges: {0}'
     PresetsSearch   = 'Chercher un jeu...'
@@ -557,6 +569,19 @@ function Update-SIPresetLibrary {
             ([string]$_.Script -match '^[A-Za-z0-9_.-]+\.ps1$') -and
             ((-not $local.ContainsKey([string]$_.Id)) -or ([int]$_.Version -gt $local[[string]$_.Id])) })
     if ($todo.Count -eq 0) {
+        # only texts changed (summaries, translations): keep the local catalog current
+        try {
+            $localUpd = ''
+            if (Test-Path -LiteralPath $script:SICatalogPath) {
+                $localUpd = [string]((Get-Content -LiteralPath $script:SICatalogPath -Raw -Encoding UTF8 | ConvertFrom-Json).Updated)
+            }
+            if ([string]$remote.Updated -and ([string]$remote.Updated -ne $localUpd)) {
+                [void][System.IO.Directory]::CreateDirectory($script:SIPresetsPath)
+                [System.IO.File]::WriteAllText($script:SICatalogPath, $remoteText)
+                [void](Get-SIPresetCatalog -Reload)
+                Write-SILog -Component 'Presets' -Message "Catalog texts refreshed to $($remote.Updated)"
+            }
+        } catch { Write-SILog -Level 'WARN' -Component 'Presets' -Message "Catalog refresh: $($_.Exception.Message)" }
         if ($Auto) { return }
         Set-SIStatusText -Text ((Get-SICommunityText 'PresetsUpToDate') -f $remote.Updated)
         return

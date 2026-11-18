@@ -4988,7 +4988,7 @@ function Build-SIRows {
     if ($script:SIStartMinimized -and $script:SIWindow) {
         try {
             $script:SIWindow.Hide()
-            Show-SITrayBalloon -Title 'SIGAME is running in the tray' -Text 'Auto-Boost is watching for your games in the background.'
+            Show-SITrayBalloon -Title (Get-SICommunityText 'TrayTitle') -Text (Get-SICommunityText 'TrayText')
         } catch { }
     }
 }

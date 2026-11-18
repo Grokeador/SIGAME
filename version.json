@@ -1,10 +1,10 @@
 {
-  "Version": "2026.11.18.3",
-  "Notes": "SI PRESETS descriptions in pt-BR, es, de, fr; FPS popups translated; long game names wrap; game list shows at once; what's new after an update",
+  "Version": "2026.11.18.4",
+  "Notes": "4 new SI PRESETS (Kingdom Come Deliverance II, Starfield, Spider-Man Remastered, Witcher 3 AMDLSS5) in 6 languages; preset descriptions now refresh even without new presets; tray message in your language.",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
-      "Sha256": "0d2a6cd5a21dbe0e0bcd0cac780c9aef9dba5028c80fb72232f362016791186d"
+      "Sha256": "9efc953950a6f85d32cc02744bbce49ecfa4b9e45c2b048b68e6e404a2c19a38"
     },
     {
       "Path": "modules/00-core.ps1",
@@ -48,7 +48,7 @@
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "a856a1e0892d6acf1026d658f8c37bbc01dd357d713b087e24682750b150f7f1"
+      "Sha256": "27800549432d5bb9fe3ed1f2aa5f91d9d62dd6e2a564c24f32048d4cdea54e68"
     },
     {
       "Path": "modules/11-fps.ps1",
@@ -60,10 +60,10 @@
     }
   ],
   "NotesLang": {
-    "it": "Descrizioni dei SI PRESETS in pt-BR, es, de, fr; popup FPS tradotti; i nomi lunghi dei giochi vanno a capo; la lista dei giochi appare subito; novita dopo un aggiornamento",
-    "pt-BR": "Descricoes dos SI PRESETS em pt-BR, es, de, fr; popups de FPS traduzidos; nomes longos de jogos quebram a linha; a lista de jogos aparece na hora; novidades depois de uma atualizacao",
-    "es": "Descripciones de los SI PRESETS en pt-BR, es, de, fr; ventanas de FPS traducidas; los nombres largos de juegos saltan de linea; la lista de juegos aparece al instante; novedades tras una actualizacion",
-    "de": "SI PRESETS-Beschreibungen auf pt-BR, es, de, fr; FPS-Fenster uebersetzt; lange Spielnamen brechen um; die Spieleliste erscheint sofort; Neuigkeiten nach einem Update",
-    "fr": "Descriptions des SI PRESETS en pt-BR, es, de, fr ; fenetres FPS traduites ; les noms de jeux longs passent a la ligne ; la liste des jeux s'affiche tout de suite ; nouveautes apres une mise a jour"
+    "it": "4 nuovi SI PRESETS (Kingdom Come Deliverance II, Starfield, Spider-Man Remastered, Witcher 3 AMDLSS5) in 6 lingue; le descrizioni dei preset si aggiornano anche senza preset nuovi; messaggio della barra nella tua lingua.",
+    "pt-BR": "4 novos SI PRESETS (Kingdom Come Deliverance II, Starfield, Spider-Man Remastered, Witcher 3 AMDLSS5) em 6 idiomas; as descricoes dos presets se atualizam mesmo sem presets novos; mensagem da bandeja no seu idioma.",
+    "es": "4 nuevos SI PRESETS (Kingdom Come Deliverance II, Starfield, Spider-Man Remastered, Witcher 3 AMDLSS5) en 6 idiomas; las descripciones de los presets se actualizan aunque no haya presets nuevos; mensaje de la bandeja en tu idioma.",
+    "de": "4 neue SI PRESETS (Kingdom Come Deliverance II, Starfield, Spider-Man Remastered, Witcher 3 AMDLSS5) in 6 Sprachen; Preset-Beschreibungen aktualisieren sich auch ohne neue Presets; Infobereich-Meldung in deiner Sprache.",
+    "fr": "4 nouveaux SI PRESETS (Kingdom Come Deliverance II, Starfield, Spider-Man Remastered, Witcher 3 AMDLSS5) en 6 langues ; les descriptions des presets se mettent a jour meme sans nouveaux presets ; message de la zone de notification dans ta langue."
   }
 }
