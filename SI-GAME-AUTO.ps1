@@ -17,7 +17,11 @@ param(
     [string]$WorkerMode = 'prepare',
     [string]$WorkerRequest = '',
     [string]$WorkerResult = '',
-    [switch]$Minimized
+    [switch]$Minimized,
+    [string]$Preset = '',
+    [string]$UndoPreset = '',
+    [switch]$ListPresets,
+    [switch]$Silent
 )
 
 # ============================ 1. CLOCK & FAST UAC =========================
@@ -61,6 +65,22 @@ if (-not $Worker) {
     if (-not $isAdmin) {
         try {
             $minArg = if ($Minimized) { ' -Minimized' } else { '' }
+            # command line: the same arguments, a visible console for the result
+            $cliArg = ''
+            if ($ListPresets) { $cliArg += ' -ListPresets' }
+            if ($Preset) { $cliArg += " -Preset `"$Preset`"" }
+            if ($UndoPreset) { $cliArg += " -UndoPreset `"$UndoPreset`"" }
+            if ($Silent) { $cliArg += ' -Silent' }
+            if ($cliArg) {
+                $psi = [System.Diagnostics.ProcessStartInfo]::new('powershell.exe')
+                $psi.Arguments = "-NoProfile -ExecutionPolicy Bypass -File `"$script:SICurrentScript`"$cliArg"
+                $psi.Verb = 'runas'
+                $psi.WorkingDirectory = $script:SIRoot
+                $psi.UseShellExecute = $true
+                if ($Silent) { $psi.WindowStyle = [System.Diagnostics.ProcessWindowStyle]::Hidden }
+                [void][System.Diagnostics.Process]::Start($psi)
+                [System.Environment]::Exit(0)
+            }
             $psi = [System.Diagnostics.ProcessStartInfo]::new('powershell.exe')
             $psi.Arguments = "-NoProfile -ExecutionPolicy Bypass -STA -WindowStyle Hidden -File `"$script:SICurrentScript`"$minArg"
             $psi.Verb = 'runas'
@@ -206,6 +226,7 @@ $script:SIModuleList = @(
     '11-fps.ps1'
     '12-guard.ps1'
     '13-tweaktext.ps1'
+    '14-pro.ps1'
 )
 
 foreach ($module in $script:SIModuleList) {
@@ -5323,6 +5344,14 @@ function Update-SIWorkerResult {
 }
 
 # =============================== 9. START ===================================
+
+# command line (modules/14-pro.ps1): no window, the result in the console and in SI-GAME.log
+if (-not $Worker -and ($ListPresets -or $Preset -or $UndoPreset)) {
+    $cliCode = 1
+    try { $cliCode = Invoke-SICli -Preset $Preset -UndoPreset $UndoPreset -ListPresets:$ListPresets } catch { [System.Console]::WriteLine($_.Exception.Message) }
+    if (-not $Silent) { Start-Sleep -Seconds 6 }
+    [System.Environment]::Exit([int]$cliCode)
+}
 
 try {
     Invoke-SIRun

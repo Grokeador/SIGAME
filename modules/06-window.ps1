@@ -1573,6 +1573,11 @@ function Build-SIAdvancedParts {
     $script:SINames['DesktopInfo'] = $desktopInfo
     $null = $toolsPanel.Children.Add($desktopInfo)
 
+    # --- PC CHECK AND PRO TOOLS (modules/14-pro.ps1) ---------------------------
+    if (Get-Command Add-SIProToolsSection -ErrorAction SilentlyContinue) {
+        try { Add-SIProToolsSection -Panel $toolsPanel -Window $window } catch { Write-SILog -Level 'WARN' -Component 'Pro' -Message "PRO tools: $($_.Exception.Message)" }
+    }
+
     # --- the list of the tweaks -------------------------------------------------
     $scroller = [System.Windows.Controls.ScrollViewer]::new()
     $scroller.VerticalScrollBarVisibility = 'Auto'

@@ -690,7 +690,8 @@
         "es": "Escribe el user.cfg de Kingdom Come: Deliverance II con lineas de distancia de configs publicadas por jugadores, mas alla de los valores Experimental que lista un comentario en Nexus. Desde 12 GB de VRAM cinco lineas, desde 8 GB dos, por debajo de 8 GB nada. Necesita la opcion de lanzamiento de Steam +exec user.cfg. Los jugadores cuentan que el menu grafico reemplaza estos valores hasta el siguiente inicio. UNDO restaura tu archivo exacto, o borra el que creo. Mide con tu propio contador de FPS.",
         "de": "Schreibt die user.cfg von Kingdom Come: Deliverance II mit Sichtweiten-Zeilen aus veroeffentlichten Spieler-Configs, ueber die Experimental-Standardwerte hinaus, die ein Nexus-Kommentar auflistet. Ab 12 GB VRAM fuenf Zeilen, ab 8 GB zwei, unter 8 GB nichts. Braucht die Steam-Startoption +exec user.cfg. Spieler berichten, dass das Grafikmenue diese Werte bis zum naechsten Start ersetzt. UNDO stellt deine Datei exakt wieder her oder entfernt die neu erstellte. Miss mit deinem eigenen FPS-Zaehler.",
         "fr": "Ecrit le user.cfg de Kingdom Come: Deliverance II avec des lignes de distance tirees de configs publiees par des joueurs, au-dela des valeurs Experimental qu'un commentaire Nexus liste. Des 12 Go de VRAM cinq lignes, des 8 Go deux, sous 8 Go rien. Necessite l'option de lancement Steam +exec user.cfg. Des joueurs signalent que le menu graphique remplace ces valeurs jusqu'au prochain demarrage. UNDO restaure ton fichier exact, ou supprime celui qu'il a cree. Mesure avec ton propre compteur de FPS."
-      }
+      },
+      "LaunchOptions": "+exec user.cfg"
     },
     {
       "Id": "sf-si-ultra",

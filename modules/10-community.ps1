@@ -18,7 +18,7 @@
 #   - Sending never blocks the window and never shows an error to the player.
 # ===========================================================================
 
-$script:SIGameVersion     = '2026.11.18.7'
+$script:SIGameVersion     = '2026.11.18.8'
 $script:SIPresetsPath     = [System.IO.Path]::Combine($script:SIRoot, 'presets')
 $script:SICatalogPath     = [System.IO.Path]::Combine($script:SIPresetsPath, 'catalog.json')
 $script:SIFeedbackCfgPath = [System.IO.Path]::Combine($script:SIRoot, 'SI-GAME-feedback.json')
@@ -533,6 +533,7 @@ function Invoke-SIGamePreset {
         Save-SICommunityState -State $state
         Set-SIStatusText -Text ((Get-SICommunityText 'PresetDone') -f $Entry.Title)
         [void][System.Windows.MessageBox]::Show($win, (@($r.Lines) -join "`n"), "SI PRESET $($Entry.Title)")
+        if (-not $undo -and (Get-Command Show-SILaunchOptionsHint -ErrorAction SilentlyContinue)) { Show-SILaunchOptionsHint -Entry $Entry -Window $win }
         $kind = if ($undo) { 'preset_undo' } else { 'preset_applied' }
         Send-SITelemetry -Event (New-SITelemetryEvent -Kind $kind -Preset ([string]$Entry.Id) -Message $undoNote)
     } else {
@@ -789,6 +790,7 @@ function Start-SIUpdateCheck {
             if ($state.PSObject.Properties.Name -contains 'JustUpdatedNotes') { $wn = [string]$state.JustUpdatedNotes; $state.PSObject.Properties.Remove('JustUpdatedNotes') }
             if ($wn -and $script:SIWindow) {
                 $script:SIWhatsNewText = (Get-SICommunityText 'WhatsNew') -f [string]$state.JustUpdated, $wn
+                $state | Add-Member 'LastNotes' $script:SIWhatsNewText -Force
                 [void]$script:SIWindow.Dispatcher.BeginInvoke([System.Windows.Threading.DispatcherPriority]::ApplicationIdle, [action]{
                     try { Show-SIInfoBox -Text $script:SIWhatsNewText } catch { }
                 })
@@ -945,6 +947,9 @@ function Show-SIPresetsWindow {
                 & $script:SIPresetsFill $script:SIPresetsQuery
             }.GetNewClosure())
             [void]$dock.Children.Add($btn)
+            if ($isOn -and (Get-Command Add-SIPresetVoteButtons -ErrorAction SilentlyContinue)) {
+                try { Add-SIPresetVoteButtons -Dock $dock -Entry $e -Window $script:SIPresetsWin } catch { }
+            }
             $txt = [System.Windows.Controls.StackPanel]::new()
             $head = [System.Windows.Controls.WrapPanel]::new()
             $t1 = [System.Windows.Controls.TextBlock]::new()

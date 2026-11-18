@@ -1,10 +1,10 @@
 {
-  "Version": "2026.11.18.7",
-  "Notes": "Tweak state lines (ON/OFF) now in Italian, Portuguese, Spanish, German and French",
+  "Version": "2026.11.18.8",
+  "Notes": "PRO tools in Advanced: power and GPU driver check with the official driver page, support zip, export/import profile, What's new button. Game start note when a SI PRESET is ready or the PC is on battery. Steam launch option copied after a preset that needs it. Thumbs up/down on applied presets. Command line: -ListPresets, -Preset <id>, -UndoPreset <id>, -Silent.",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
-      "Sha256": "a025607eff419b617ba512fa2b95b0b3ef314e62a9aff57140ddb77a64c7af3a"
+      "Sha256": "dd8dc2dc85c1f47d0dbfdf558cbe25af6b0646c9bcd76ae89faa20f513c96bf0"
     },
     {
       "Path": "modules/00-core.ps1",
@@ -32,7 +32,7 @@
     },
     {
       "Path": "modules/06-window.ps1",
-      "Sha256": "9dfa3691dde0514bca67a9a9aa2ae2ccc0b51fc0a42b7655da9d1d6c231543e9"
+      "Sha256": "1c81d76b3188dfa0eb4374d0bf4fccb438363614e831ec003aca4eca6911c53b"
     },
     {
       "Path": "modules/07-startup.ps1",
@@ -44,11 +44,11 @@
     },
     {
       "Path": "modules/09-autoboost.ps1",
-      "Sha256": "74fda8e528d00476245a65d2c54be4af7c17882fed1f90ba5dd8fc633e3bd2ec"
+      "Sha256": "c84f84555836c37531717156ab2dc4bcd63dceab6462c695a1402e28c385731c"
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "f54f4df3bcf8752f9c0b46d860a63033a85f00669c1bcf32fd6b59680de44d1b"
+      "Sha256": "47c5953a274a81777b7d0899a2db3a888cf0bc93cb645a3e86d87238d0a22286"
     },
     {
       "Path": "modules/11-fps.ps1",
@@ -61,13 +61,17 @@
     {
       "Path": "modules/13-tweaktext.ps1",
       "Sha256": "a17a3a17848e6019c80c08f0753386949cd432172fad3b1ad1830b28fae0cb03"
+    },
+    {
+      "Path": "modules/14-pro.ps1",
+      "Sha256": "dce3fa9235bf330929c927c2346d11be4356754b14d6b10f3f4e4bc501313f74"
     }
   ],
   "NotesLang": {
-    "it": "Le righe di stato dei tweak (ATTIVO/SPENTO) ora in italiano, portoghese, spagnolo, tedesco e francese",
-    "pt-BR": "As linhas de estado dos tweaks (LIGADO/DESLIGADO) agora em portugues, italiano, espanhol, alemao e frances",
-    "es": "Las lineas de estado de los tweaks (ACTIVADO/DESACTIVADO) ahora en espanol, italiano, portugues, aleman y frances",
-    "de": "Die Statuszeilen der Tweaks (AN/AUS) jetzt auf Deutsch, Italienisch, Portugiesisch, Spanisch und Franzoesisch",
-    "fr": "Les lignes d'etat des reglages (ACTIVE/DESACTIVE) maintenant en francais, italien, portugais, espagnol et allemand"
+    "it": "Strumenti PRO in Avanzate: controllo alimentazione e driver GPU con la pagina driver ufficiale, zip di supporto, esporta/importa profilo, pulsante Novita. Avviso all'avvio del gioco quando un SI PRESET e pronto o il PC e a batteria. Opzione di avvio Steam copiata dopo un preset che la richiede. Pollice su/giu sui preset applicati. Riga di comando: -ListPresets, -Preset <id>, -UndoPreset <id>, -Silent.",
+    "pt-BR": "Ferramentas PRO em Avancado: checagem de energia e driver da GPU com a pagina oficial de drivers, zip de suporte, exportar/importar perfil, botao Novidades. Aviso ao abrir o jogo quando um SI PRESET esta pronto ou o PC esta na bateria. Opcao de inicializacao da Steam copiada depois de um preset que precisa dela. Joinha para cima/baixo nos presets aplicados. Linha de comando: -ListPresets, -Preset <id>, -UndoPreset <id>, -Silent.",
+    "es": "Herramientas PRO en Avanzado: revision de energia y driver de la GPU con la pagina oficial de drivers, zip de soporte, exportar/importar perfil, boton Novedades. Aviso al iniciar el juego cuando un SI PRESET esta listo o el PC va con bateria. Opcion de lanzamiento de Steam copiada tras un preset que la necesita. Pulgar arriba/abajo en los presets aplicados. Linea de comandos: -ListPresets, -Preset <id>, -UndoPreset <id>, -Silent.",
+    "de": "PRO-Werkzeuge unter Erweitert: Strom- und GPU-Treiber-Check mit der offiziellen Treiberseite, Support-Zip, Profil exportieren/importieren, Button Neuigkeiten. Hinweis beim Spielstart, wenn ein SI PRESET bereit ist oder der PC im Akkubetrieb laeuft. Steam-Startoption wird nach einem Preset kopiert, das sie braucht. Daumen hoch/runter bei angewendeten Presets. Kommandozeile: -ListPresets, -Preset <id>, -UndoPreset <id>, -Silent.",
+    "fr": "Outils PRO dans Avance : verification de l'alimentation et du pilote GPU avec la page officielle des pilotes, zip de support, exporter/importer le profil, bouton Nouveautes. Note au lancement du jeu quand un SI PRESET est pret ou que le PC est sur batterie. Option de lancement Steam copiee apres un preset qui en a besoin. Pouce haut/bas sur les presets appliques. Ligne de commande : -ListPresets, -Preset <id>, -UndoPreset <id>, -Silent."
   }
 }

@@ -292,6 +292,7 @@ function Update-SIAutoBoost {
             if ($script:SIAutoBoostLastSeen -ne $game) {
                 $script:SIAutoBoostLastSeen = $game
                 Write-SILog -Component 'AutoBoost' -Message "the game $game is running."
+                if (Get-Command Invoke-SIGameStartHints -ErrorAction SilentlyContinue) { Invoke-SIGameStartHints -Game $game }
             }
 
             if ($script:SIBoostIsActive) {
