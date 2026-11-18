@@ -51,7 +51,7 @@ with the built-in **live test** (timer, ping/jitter, free RAM).
 
 The configs we build in the SI NEWS videos live in the `presets` folder (`presets/catalog.json` lists them).
 When SIGAME finds one of those games, its card shows **SI PRESET**: one click backs up the game's config and applies it,
-a second click offers **Undo**. **SI PRESETS** lists them all and **Check for new presets** downloads new ones from this repo.
+a second click offers **Undo**. **SI PRESETS** lists them all and new ones arrive by themselves at every start (or press **Check for new presets**).
 
 | Preset | Game | What it does |
 |---|---|---|
@@ -152,10 +152,12 @@ by SI NEWS. A REQUEST you send yourself goes out even with the stats off.
 
 ## Updates
 
-SIGAME checks this repo for a newer version at most once a day (and when you press **Check for new presets**).
-It reads `version.json`, **asks you first**, then downloads the app scripts listed there from this repo, checks the
-SHA-256 of every file against `version.json`, keeps the old scripts in `SI-GAME-update-backup` and restarts.
-If a file does not match, nothing is changed. Say **No** and it does not ask again for that version.
+SIGAME updates itself at every start, in the background (the window never waits for the network).
+It reads `version.json`, downloads the app scripts listed there from this repo, checks the SHA-256 of every file
+against `version.json`, keeps the old scripts in `SI-GAME-update-backup` and restarts; the status bar then says
+which version it updated to. If a file does not match, nothing is changed. New SI PRESETS are downloaded at every
+start too: they are only files, nothing runs before you press **APPLY**. Offline = SIGAME starts as usual.
+**Check for new presets** does the same check on demand and asks first.
 Offline, the check is skipped silently.
 
 ## Files SIGAME writes next to itself

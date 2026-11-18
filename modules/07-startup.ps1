@@ -1242,7 +1242,7 @@ function Start-SISlowStart {
 
         # The window says it when the administrator rights are not there, so
         # that the user knows why some tweaks do not work.
-        # A newer SIGAME on GitHub? Asked in the background, at most once a day.
+        # A newer SIGAME on GitHub? Asked in the background, at every start.
         try { Start-SIUpdateCheck } catch { }
 
         if ($script:SIWithoutAdmin) {

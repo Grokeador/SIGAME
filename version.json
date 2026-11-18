@@ -1,6 +1,6 @@
 {
-  "Version": "2026.11.15.4",
-  "Notes": "FPS hotkey Ctrl+Shift+F10: measure inside the game",
+  "Version": "2026.11.18.1",
+  "Notes": "SIGAME and SI PRESETS now update by themselves at every start",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
@@ -36,7 +36,7 @@
     },
     {
       "Path": "modules/07-startup.ps1",
-      "Sha256": "1ee08268424881f0f0283a41b8331828c7f833e1a0539e86d57ae198f220bfec"
+      "Sha256": "8e797cf25b42175b1c43548a058f3241230dc2674827503617d65f21185e6a8f"
     },
     {
       "Path": "modules/08-boost.ps1",
@@ -48,7 +48,7 @@
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "d13d60bd7ce3d04649cf9708d0f11e7e8f1e755186ec13a283cb2d6d5526f42d"
+      "Sha256": "00fdfb5679ab2a8878cb922e5e4898723a3ed6ed3a909f243399157d06134fac"
     },
     {
       "Path": "modules/11-fps.ps1",
