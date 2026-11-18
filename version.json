@@ -1,6 +1,6 @@
 {
-  "Version": "2026.11.18.4",
-  "Notes": "4 new SI PRESETS (Kingdom Come Deliverance II, Starfield, Spider-Man Remastered, Witcher 3 AMDLSS5) in 6 languages; preset descriptions now refresh even without new presets; tray message in your language.",
+  "Version": "2026.11.18.5",
+  "Notes": "New tweaks: End task on the taskbar (WinUtil) and Games task priority (MMCSS) in Optimize; both undo with UNDO.",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
@@ -16,7 +16,7 @@
     },
     {
       "Path": "modules/02-tweaks.ps1",
-      "Sha256": "6afad4efc35567f75e764f667cd58999887cd6f2e6db6166cbe857ee1aeb76a7"
+      "Sha256": "437b41bcfa41cd1027da906a0c1a36627b5ddfad9474ea8b2a03b46d16fdbb53"
     },
     {
       "Path": "modules/03-features.ps1",
@@ -48,7 +48,7 @@
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "27800549432d5bb9fe3ed1f2aa5f91d9d62dd6e2a564c24f32048d4cdea54e68"
+      "Sha256": "38ce9f5021831fbda21bb991239a73a8aa10e3c4ee50c0dc83bca627309bd0c1"
     },
     {
       "Path": "modules/11-fps.ps1",
@@ -60,10 +60,10 @@
     }
   ],
   "NotesLang": {
-    "it": "4 nuovi SI PRESETS (Kingdom Come Deliverance II, Starfield, Spider-Man Remastered, Witcher 3 AMDLSS5) in 6 lingue; le descrizioni dei preset si aggiornano anche senza preset nuovi; messaggio della barra nella tua lingua.",
-    "pt-BR": "4 novos SI PRESETS (Kingdom Come Deliverance II, Starfield, Spider-Man Remastered, Witcher 3 AMDLSS5) em 6 idiomas; as descricoes dos presets se atualizam mesmo sem presets novos; mensagem da bandeja no seu idioma.",
-    "es": "4 nuevos SI PRESETS (Kingdom Come Deliverance II, Starfield, Spider-Man Remastered, Witcher 3 AMDLSS5) en 6 idiomas; las descripciones de los presets se actualizan aunque no haya presets nuevos; mensaje de la bandeja en tu idioma.",
-    "de": "4 neue SI PRESETS (Kingdom Come Deliverance II, Starfield, Spider-Man Remastered, Witcher 3 AMDLSS5) in 6 Sprachen; Preset-Beschreibungen aktualisieren sich auch ohne neue Presets; Infobereich-Meldung in deiner Sprache.",
-    "fr": "4 nouveaux SI PRESETS (Kingdom Come Deliverance II, Starfield, Spider-Man Remastered, Witcher 3 AMDLSS5) en 6 langues ; les descriptions des presets se mettent a jour meme sans nouveaux presets ; message de la zone de notification dans ta langue."
+    "it": "Nuovi tweak: Termina attivita nella barra delle applicazioni (WinUtil) e priorita del task Games (MMCSS) in Ottimizza; entrambi si annullano con UNDO.",
+    "pt-BR": "Novos tweaks: Finalizar tarefa na barra de tarefas (WinUtil) e prioridade da tarefa Games (MMCSS) em Otimizar; os dois se desfazem com UNDO.",
+    "es": "Nuevos tweaks: Finalizar tarea en la barra de tareas (WinUtil) y prioridad de la tarea Games (MMCSS) en Optimizar; los dos se deshacen con UNDO.",
+    "de": "Neue Tweaks: Task beenden in der Taskleiste (WinUtil) und Prioritaet der Games-Aufgabe (MMCSS) in Optimieren; beide lassen sich mit UNDO rueckgaengig machen.",
+    "fr": "Nouveaux tweaks : Fin de tache dans la barre des taches (WinUtil) et priorite de la tache Games (MMCSS) dans Optimiser ; les deux s'annulent avec UNDO."
   }
 }

@@ -1083,6 +1083,40 @@ function Get-SITweakTable {
         }
     }
 
+    # --------------------------------------- Round 6: End task on the taskbar
+    $tweaks += @{
+        Id          = 'TaskbarEndTask'
+        Name        = 'End task on the taskbar'
+        Description = 'Adds End task to the right-click menu of the taskbar, so a frozen game closes in one click. Windows 11 only.'
+        Source      = 'WinUtil: WPFTweaksEndTaskOnTaskbar'
+        Group       = 'Windows speed'
+        Gaming      = $true
+        Optimize    = $true
+        OnText      = 'End task is in the taskbar menu'
+        OffText     = 'End task is not in the taskbar menu'
+        Registry    = @(
+            @{ Path = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\TaskbarDeveloperSettings'; Name = 'TaskbarEndTask'; Type = 'DWord'; Value = 1 }
+        )
+    }
+
+    # ------------------------------------ Round 6: MMCSS Games task profile
+    $tweaks += @{
+        Id          = 'MmcssGamesTask'
+        Name        = 'Games task priority (MMCSS)'
+        Description = 'Gives the Windows Games task the High scheduling category, priority 6 and high I/O priority. UNDO puts your old values back. A restart is needed.'
+        Source      = 'Microsoft: learn.microsoft.com multimedia class scheduler service (MMCSS) task values'
+        Group       = 'FPS'
+        Gaming      = $true
+        Optimize    = $true
+        OnText      = 'The Games task is High, priority 6'
+        OffText     = 'The Games task is not at High, priority 6'
+        Registry    = @(
+            @{ Path = 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games'; Name = 'Scheduling Category'; Type = 'String'; Value = 'High' }
+            @{ Path = 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games'; Name = 'Priority'; Type = 'DWord'; Value = 6 }
+            @{ Path = 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games'; Name = 'SFIO Priority'; Type = 'String'; Value = 'High' }
+        )
+    }
+
     $script:SITweakTableCache = $tweaks
     return $tweaks
 }
