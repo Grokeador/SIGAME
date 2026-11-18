@@ -649,6 +649,24 @@
         "en": "Installs mastercomfig 9.100.1 (MIT, by mastercoms, official release, SHA-256 checked) in tf\\custom, as its install page says: your autoexec and class configs move to tf\\cfg\\overrides so they keep running, and the preset is picked for your graphics card (NVIDIA/AMD = high, Intel only = low, else medium). Config files only. Close the game first. UNDO removes it and moves your files back.",
         "it": "Installa mastercomfig 9.100.1 (MIT, di mastercoms, release ufficiale, SHA-256 controllato) in tf\\custom, come dice la sua pagina di installazione: il tuo autoexec e i config delle classi vanno in tf\\cfg\\overrides cosi restano attivi, e il preset viene scelto per la tua scheda video (NVIDIA/AMD = high, solo Intel = low, altrimenti medium). Solo file di config. Chiudi prima il gioco. UNDO lo rimuove e rimette i tuoi file."
       }
+    },
+    {
+      "Id": "roblox-si-flags",
+      "Game": "Roblox (app from roblox.com)",
+      "Title": "SI FLAGS",
+      "Match": "(?i)roblox",
+      "DetectPath": "%LOCALAPPDATA%\\Roblox\\Versions",
+      "Script": "roblox-si-flags.ps1",
+      "Version": 1,
+      "Undo": true,
+      "NeedsGame": false,
+      "Args": "",
+      "Source": "https://devforum.roblox.com/t/3966569",
+      "Video": "",
+      "Summary": {
+        "en": "Writes only Fast Flags from Roblox's official allowlist into Roblox's own ClientAppSettings.json: grass off and MSAA off; on Intel-only graphics also the lowest texture quality. Roblox says flags off that list are ignored and no action is taken against users. Your other flags stay. Close Roblox first; after a Roblox update APPLY again. Bloxstrap users: set the same flags in Bloxstrap. Backup first, UNDO restores your file exactly. Measure with your own FPS counter.",
+        "it": "Scrive solo Fast Flag della lista ufficiale consentita da Roblox nel file ClientAppSettings.json di Roblox: erba disattivata e MSAA disattivato; con sola grafica Intel anche le texture al minimo. Roblox dice che i flag fuori lista vengono ignorati e nessuna azione viene presa contro gli utenti. Gli altri tuoi flag restano. Chiudi prima Roblox; dopo un aggiornamento di Roblox fai APPLY di nuovo. Chi usa Bloxstrap: imposta gli stessi flag in Bloxstrap. Backup prima, UNDO rimette il tuo file esatto. Misura con il tuo contatore FPS."
+      }
     }
   ]
 }
