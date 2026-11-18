@@ -523,6 +523,132 @@
         "en": "Edits Monster Hunter Wilds' own config.ini, with lines players share on Steam and ResetEra: render threads matched to your CPU, render thread priority, and a texture bias past the menu's limit from 12 GB of VRAM. Puts back the engine's own spelling if the famous typo fix touched your file. Opening the game's graphics options rewrites the file: APPLY again. UNDO restores your file exactly. Measure with your own FPS counter.",
         "it": "Modifica il config.ini di Monster Hunter Wilds, con le righe condivise dai giocatori su Steam e ResetEra: thread di render adattati alla tua CPU, priorità del thread di render e un bias delle texture oltre il limite del menu da 12 GB di VRAM. Rimette il nome originale del motore se il famoso fix del typo ha toccato il tuo file. Aprire le opzioni grafiche del gioco riscrive il file: APPLY di nuovo. UNDO rimette il file esatto. Misura con il tuo contatore FPS."
       }
+    },
+    {
+      "Id": "tekken8-si-ue",
+      "Game": "TEKKEN 8 (PC, Unreal Engine 5)",
+      "Title": "SI UE",
+      "Match": "(?i)tekken.?8",
+      "DetectPath": "",
+      "Script": "si-ue.ps1",
+      "Version": 1,
+      "Undo": true,
+      "NeedsGame": true,
+      "Args": "-Name \"TEKKEN 8\"",
+      "Source": "https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-console-variables-reference",
+      "Video": "",
+      "Summary": {
+        "en": "Writes five Epic engine lines into TEKKEN 8's own Engine.ini (your user folder, [SystemSettings]): motion blur, depth of field, chromatic aberration and film grain off, only ever cheaper. The config folder is found from the game's own Unreal exe; nothing in the game folder is touched. Online games may ignore these lines. Close the game first. Backup first, UNDO restores your file exactly. Measure with your own FPS counter.",
+        "it": "Scrive cinque righe del motore Epic nel file Engine.ini di TEKKEN 8 (cartella utente, [SystemSettings]): motion blur, profondita di campo, aberrazione cromatica e grana disattivati, solo piu leggero. La cartella config viene trovata dall'exe Unreal del gioco; nella cartella del gioco non si tocca niente. I giochi online possono ignorare queste righe. Chiudi prima il gioco. Backup prima, UNDO rimette il tuo file esatto. Misura con il tuo contatore FPS."
+      }
+    },
+    {
+      "Id": "hinokami-si-ue",
+      "Game": "Demon Slayer -Kimetsu no Yaiba- The Hinokami Chronicles (PC, Unreal Engine 4)",
+      "Title": "SI UE",
+      "Match": "(?i)hinokami.?chronicles(?!.?2)",
+      "DetectPath": "",
+      "Script": "si-ue.ps1",
+      "Version": 1,
+      "Undo": true,
+      "NeedsGame": true,
+      "Args": "-Name \"The Hinokami Chronicles\"",
+      "Source": "https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-console-variables-reference",
+      "Video": "",
+      "Summary": {
+        "en": "Writes five Epic engine lines into The Hinokami Chronicles's own Engine.ini (your user folder, [SystemSettings]): motion blur, depth of field, chromatic aberration and film grain off, only ever cheaper. The config folder is found from the game's own Unreal exe; nothing in the game folder is touched. Online games may ignore these lines. Close the game first. Backup first, UNDO restores your file exactly. Measure with your own FPS counter.",
+        "it": "Scrive cinque righe del motore Epic nel file Engine.ini di The Hinokami Chronicles (cartella utente, [SystemSettings]): motion blur, profondita di campo, aberrazione cromatica e grana disattivati, solo piu leggero. La cartella config viene trovata dall'exe Unreal del gioco; nella cartella del gioco non si tocca niente. I giochi online possono ignorare queste righe. Chiudi prima il gioco. Backup prima, UNDO rimette il tuo file esatto. Misura con il tuo contatore FPS."
+      }
+    },
+    {
+      "Id": "taxilife-si-ue",
+      "Game": "Taxi Life: A City Driving Simulator (PC, Unreal Engine 5)",
+      "Title": "SI UE",
+      "Match": "(?i)taxi.?life",
+      "DetectPath": "",
+      "Script": "si-ue.ps1",
+      "Version": 1,
+      "Undo": true,
+      "NeedsGame": true,
+      "Args": "-Name \"Taxi Life\"",
+      "Source": "https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-console-variables-reference",
+      "Video": "",
+      "Summary": {
+        "en": "Writes five Epic engine lines into Taxi Life's own Engine.ini (your user folder, [SystemSettings]): motion blur, depth of field, chromatic aberration and film grain off, only ever cheaper. The config folder is found from the game's own Unreal exe; nothing in the game folder is touched. Online games may ignore these lines. Close the game first. Backup first, UNDO restores your file exactly. Measure with your own FPS counter.",
+        "it": "Scrive cinque righe del motore Epic nel file Engine.ini di Taxi Life (cartella utente, [SystemSettings]): motion blur, profondita di campo, aberrazione cromatica e grana disattivati, solo piu leggero. La cartella config viene trovata dall'exe Unreal del gioco; nella cartella del gioco non si tocca niente. I giochi online possono ignorare queste righe. Chiudi prima il gioco. Backup prima, UNDO rimette il tuo file esatto. Misura con il tuo contatore FPS."
+      }
+    },
+    {
+      "Id": "chivalry2-si-ue",
+      "Game": "Chivalry 2 (PC, Unreal Engine 4)",
+      "Title": "SI UE",
+      "Match": "(?i)chivalry.?2",
+      "DetectPath": "",
+      "Script": "si-ue.ps1",
+      "Version": 1,
+      "Undo": true,
+      "NeedsGame": true,
+      "Args": "-Name \"Chivalry 2\"",
+      "Source": "https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-console-variables-reference",
+      "Video": "",
+      "Summary": {
+        "en": "Writes five Epic engine lines into Chivalry 2's own Engine.ini (your user folder, [SystemSettings]): motion blur, depth of field, chromatic aberration and film grain off, only ever cheaper. The config folder is found from the game's own Unreal exe; nothing in the game folder is touched. Online games may ignore these lines. Close the game first. Backup first, UNDO restores your file exactly. Measure with your own FPS counter.",
+        "it": "Scrive cinque righe del motore Epic nel file Engine.ini di Chivalry 2 (cartella utente, [SystemSettings]): motion blur, profondita di campo, aberrazione cromatica e grana disattivati, solo piu leggero. La cartella config viene trovata dall'exe Unreal del gioco; nella cartella del gioco non si tocca niente. I giochi online possono ignorare queste righe. Chiudi prima il gioco. Backup prima, UNDO rimette il tuo file esatto. Misura con il tuo contatore FPS."
+      }
+    },
+    {
+      "Id": "sandstorm-si-ue",
+      "Game": "Insurgency: Sandstorm (PC, Unreal Engine 4)",
+      "Title": "SI UE",
+      "Match": "(?i)insurgency.?sandstorm",
+      "DetectPath": "",
+      "Script": "si-ue.ps1",
+      "Version": 1,
+      "Undo": true,
+      "NeedsGame": true,
+      "Args": "-Name \"Insurgency: Sandstorm\"",
+      "Source": "https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-console-variables-reference",
+      "Video": "",
+      "Summary": {
+        "en": "Writes five Epic engine lines into Insurgency: Sandstorm's own Engine.ini (your user folder, [SystemSettings]): motion blur, depth of field, chromatic aberration and film grain off, only ever cheaper. The config folder is found from the game's own Unreal exe; nothing in the game folder is touched. Online games may ignore these lines. Close the game first. Backup first, UNDO restores your file exactly. Measure with your own FPS counter.",
+        "it": "Scrive cinque righe del motore Epic nel file Engine.ini di Insurgency: Sandstorm (cartella utente, [SystemSettings]): motion blur, profondita di campo, aberrazione cromatica e grana disattivati, solo piu leggero. La cartella config viene trovata dall'exe Unreal del gioco; nella cartella del gioco non si tocca niente. I giochi online possono ignorare queste righe. Chiudi prima il gioco. Backup prima, UNDO rimette il tuo file esatto. Misura con il tuo contatore FPS."
+      }
+    },
+    {
+      "Id": "townfall-si-ue",
+      "Game": "SILENT HILL: Townfall (PC, Unreal Engine 5)",
+      "Title": "SI UE",
+      "Match": "(?i)silent.?hill.?townfall",
+      "DetectPath": "",
+      "Script": "si-ue.ps1",
+      "Version": 1,
+      "Undo": true,
+      "NeedsGame": true,
+      "Args": "-Name \"SILENT HILL: Townfall\"",
+      "Source": "https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-console-variables-reference",
+      "Video": "",
+      "Summary": {
+        "en": "Writes five Epic engine lines into SILENT HILL: Townfall's own Engine.ini (your user folder, [SystemSettings]): motion blur, depth of field, chromatic aberration and film grain off, only ever cheaper. The config folder is found from the game's own Unreal exe; nothing in the game folder is touched. Online games may ignore these lines. Close the game first. Backup first, UNDO restores your file exactly. Measure with your own FPS counter.",
+        "it": "Scrive cinque righe del motore Epic nel file Engine.ini di SILENT HILL: Townfall (cartella utente, [SystemSettings]): motion blur, profondita di campo, aberrazione cromatica e grana disattivati, solo piu leggero. La cartella config viene trovata dall'exe Unreal del gioco; nella cartella del gioco non si tocca niente. I giochi online possono ignorare queste righe. Chiudi prima il gioco. Backup prima, UNDO rimette il tuo file esatto. Misura con il tuo contatore FPS."
+      }
+    },
+    {
+      "Id": "tf2-si-comfig",
+      "Game": "Team Fortress 2 (Steam)",
+      "Title": "SI COMFIG",
+      "Match": "(?i)team.?fortress.?2",
+      "DetectPath": "",
+      "Script": "tf2-si-comfig.ps1",
+      "Version": 1,
+      "Undo": true,
+      "NeedsGame": true,
+      "Args": "",
+      "Source": "https://github.com/mastercomfig/mastercomfig",
+      "Video": "",
+      "Summary": {
+        "en": "Installs mastercomfig 9.100.1 (MIT, by mastercoms, official release, SHA-256 checked) in tf\\custom, as its install page says: your autoexec and class configs move to tf\\cfg\\overrides so they keep running, and the preset is picked for your graphics card (NVIDIA/AMD = high, Intel only = low, else medium). Config files only. Close the game first. UNDO removes it and moves your files back.",
+        "it": "Installa mastercomfig 9.100.1 (MIT, di mastercoms, release ufficiale, SHA-256 controllato) in tf\\custom, come dice la sua pagina di installazione: il tuo autoexec e i config delle classi vanno in tf\\cfg\\overrides cosi restano attivi, e il preset viene scelto per la tua scheda video (NVIDIA/AMD = high, solo Intel = low, altrimenti medium). Solo file di config. Chiudi prima il gioco. UNDO lo rimuove e rimette i tuoi file."
+      }
     }
   ]
 }
