@@ -1,6 +1,6 @@
 {
-  "Version": "2026.11.18.6",
-  "Notes": "Tweak names and descriptions now in Italian, Portuguese, Spanish, German and French",
+  "Version": "2026.11.18.7",
+  "Notes": "Tweak state lines (ON/OFF) now in Italian, Portuguese, Spanish, German and French",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
@@ -48,7 +48,7 @@
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "6d2307dc429f10c0a6dfa1e9749c51657098272438f9a12a9627669aa03cbf62"
+      "Sha256": "f54f4df3bcf8752f9c0b46d860a63033a85f00669c1bcf32fd6b59680de44d1b"
     },
     {
       "Path": "modules/11-fps.ps1",
@@ -60,14 +60,14 @@
     },
     {
       "Path": "modules/13-tweaktext.ps1",
-      "Sha256": "3d77709c1c73658590f64e954718195f9f0c413d1c9772bf32d3e32c1b3f8134"
+      "Sha256": "a17a3a17848e6019c80c08f0753386949cd432172fad3b1ad1830b28fae0cb03"
     }
   ],
   "NotesLang": {
-    "it": "Nomi e descrizioni dei tweak ora in italiano, portoghese, spagnolo, tedesco e francese",
-    "pt-BR": "Nomes e descricoes dos tweaks agora em portugues, italiano, espanhol, alemao e frances",
-    "es": "Nombres y descripciones de los tweaks ahora en espanol, italiano, portugues, aleman y frances",
-    "de": "Namen und Beschreibungen der Tweaks jetzt auf Deutsch, Italienisch, Portugiesisch, Spanisch und Franzoesisch",
-    "fr": "Noms et descriptions des reglages maintenant en francais, italien, portugais, espagnol et allemand"
+    "it": "Le righe di stato dei tweak (ATTIVO/SPENTO) ora in italiano, portoghese, spagnolo, tedesco e francese",
+    "pt-BR": "As linhas de estado dos tweaks (LIGADO/DESLIGADO) agora em portugues, italiano, espanhol, alemao e frances",
+    "es": "Las lineas de estado de los tweaks (ACTIVADO/DESACTIVADO) ahora en espanol, italiano, portugues, aleman y frances",
+    "de": "Die Statuszeilen der Tweaks (AN/AUS) jetzt auf Deutsch, Italienisch, Portugiesisch, Spanisch und Franzoesisch",
+    "fr": "Les lignes d'etat des reglages (ACTIVE/DESACTIVE) maintenant en francais, italien, portugais, espagnol et allemand"
   }
 }

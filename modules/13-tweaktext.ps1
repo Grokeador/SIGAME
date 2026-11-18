@@ -131,6 +131,130 @@ $script:SITweakText = @{
     }
 }
 
+# the texts of the state line (OnText / OffText), same languages
+$script:SITweakStateText = @{
+    'it' = @{
+        GameMode = @('Modalita gioco ATTIVA', 'Modalita gioco SPENTA')
+        MouseAcceleration = @('Accelerazione SPENTA', 'Accelerazione ATTIVA')
+        BackgroundApps = @('App in background SPENTE', 'App in background permesse')
+        VisualEffects = @('Prestazioni migliori impostate', 'Non impostato su prestazioni migliori')
+        DeliveryOptimization = @('Ottimizzazione recapito SPENTA', 'Ottimizzazione recapito permessa')
+        Telemetry = @('Telemetria ridotta', 'Telemetria non ridotta')
+        ActivityHistory = @('Cronologia attivita SPENTA', 'Cronologia attivita ATTIVA')
+        MultiplaneOverlay = @('Multiplane Overlay disattivato', 'Multiplane Overlay in modalita predefinita di Windows')
+        Widgets = @('Widget rimossi', 'Widget installati')
+        WindowsAI = @('Funzioni IA spente', 'Funzioni IA ancora attive')
+        UltimatePerformance = @('Prestazioni eccellenti disponibile', 'Prestazioni eccellenti non installato')
+        GameDVR = @('Registrazione in background SPENTA', 'Registrazione in background ATTIVA')
+        HAGS = @('Pianificazione hardware ATTIVA', 'Pianificazione hardware SPENTA')
+        WindowedGameOptimizations = @('Ottimizzazioni in finestra ATTIVE', 'Ottimizzazioni in finestra SPENTE')
+        TCPAutoTuning = @('Auto-tuning TCP su normal', 'Auto-tuning TCP non su normal')
+        DNSServer = @('Server DNS impostato', 'Server DNS di Windows')
+        NetworkThrottling = @('Limitazione rete spenta (0xFFFFFFFF)', 'Limitazione rete al valore predefinito di Windows (10)')
+        SystemResponsiveness = @('Reattivita del sistema a 10 (Windows: 20)', 'Reattivita del sistema al valore di Windows (20)')
+        TransparencyEffects = @('Effetti di trasparenza SPENTI', 'Effetti di trasparenza ATTIVI')
+        HibernationOff = @('Ibernazione spenta', 'Ibernazione attiva')
+        TaskbarEndTask = @('Termina attivita e nel menu della barra', 'Termina attivita non e nel menu della barra')
+        MmcssGamesTask = @('Task Games su High, priorita 6', 'Task Games non su High, priorita 6')
+    }
+    'pt-BR' = @{
+        GameMode = @('Modo de jogo LIGADO', 'Modo de jogo DESLIGADO')
+        MouseAcceleration = @('Aceleracao DESLIGADA', 'Aceleracao LIGADA')
+        BackgroundApps = @('Apps em segundo plano DESLIGADOS', 'Apps em segundo plano permitidos')
+        VisualEffects = @('Melhor desempenho definido', 'Nao esta em melhor desempenho')
+        DeliveryOptimization = @('Otimizacao de entrega DESLIGADA', 'Otimizacao de entrega permitida')
+        Telemetry = @('Telemetria reduzida', 'Telemetria nao reduzida')
+        ActivityHistory = @('Historico de atividades DESLIGADO', 'Historico de atividades LIGADO')
+        MultiplaneOverlay = @('Multiplane Overlay desativado', 'Multiplane Overlay no modo padrao do Windows')
+        Widgets = @('Widgets removidos', 'Widgets instalados')
+        WindowsAI = @('Recursos de IA desligados', 'Recursos de IA ainda ativos')
+        UltimatePerformance = @('Desempenho Maximo disponivel', 'Desempenho Maximo nao instalado')
+        GameDVR = @('Captura em segundo plano DESLIGADA', 'Captura em segundo plano LIGADA')
+        HAGS = @('Agendamento por hardware LIGADO', 'Agendamento por hardware DESLIGADO')
+        WindowedGameOptimizations = @('Otimizacoes em janela LIGADAS', 'Otimizacoes em janela DESLIGADAS')
+        TCPAutoTuning = @('Ajuste automatico TCP em normal', 'Ajuste automatico TCP fora de normal')
+        DNSServer = @('Servidor DNS definido', 'Servidor DNS do Windows')
+        NetworkThrottling = @('Limitacao de rede desligada (0xFFFFFFFF)', 'Limitacao de rede no padrao do Windows (10)')
+        SystemResponsiveness = @('Responsividade do sistema em 10 (Windows: 20)', 'Responsividade do sistema no padrao do Windows (20)')
+        TransparencyEffects = @('Efeitos de transparencia DESLIGADOS', 'Efeitos de transparencia LIGADOS')
+        HibernationOff = @('Hibernacao desligada', 'Hibernacao ligada')
+        TaskbarEndTask = @('Finalizar tarefa esta no menu da barra', 'Finalizar tarefa nao esta no menu da barra')
+        MmcssGamesTask = @('Tarefa Games em High, prioridade 6', 'Tarefa Games fora de High, prioridade 6')
+    }
+    'es' = @{
+        GameMode = @('Modo juego ACTIVADO', 'Modo juego DESACTIVADO')
+        MouseAcceleration = @('Aceleracion DESACTIVADA', 'Aceleracion ACTIVADA')
+        BackgroundApps = @('Apps en segundo plano DESACTIVADAS', 'Apps en segundo plano permitidas')
+        VisualEffects = @('Mejor rendimiento aplicado', 'No esta en mejor rendimiento')
+        DeliveryOptimization = @('Optimizacion de distribucion DESACTIVADA', 'Optimizacion de distribucion permitida')
+        Telemetry = @('Telemetria reducida', 'Telemetria no reducida')
+        ActivityHistory = @('Historial de actividad DESACTIVADO', 'Historial de actividad ACTIVADO')
+        MultiplaneOverlay = @('Multiplane Overlay desactivado', 'Multiplane Overlay en el modo predeterminado de Windows')
+        Widgets = @('Widgets quitados', 'Widgets instalados')
+        WindowsAI = @('Funciones de IA apagadas', 'Funciones de IA todavia activas')
+        UltimatePerformance = @('Maximo rendimiento disponible', 'Maximo rendimiento no instalado')
+        GameDVR = @('Captura en segundo plano DESACTIVADA', 'Captura en segundo plano ACTIVADA')
+        HAGS = @('Programacion por hardware ACTIVADA', 'Programacion por hardware DESACTIVADA')
+        WindowedGameOptimizations = @('Optimizaciones en ventana ACTIVADAS', 'Optimizaciones en ventana DESACTIVADAS')
+        TCPAutoTuning = @('Ajuste automatico TCP en normal', 'Ajuste automatico TCP no esta en normal')
+        DNSServer = @('Servidor DNS configurado', 'Servidor DNS de Windows')
+        NetworkThrottling = @('Limitacion de red apagada (0xFFFFFFFF)', 'Limitacion de red en el valor de Windows (10)')
+        SystemResponsiveness = @('Capacidad de respuesta en 10 (Windows: 20)', 'Capacidad de respuesta en el valor de Windows (20)')
+        TransparencyEffects = @('Efectos de transparencia DESACTIVADOS', 'Efectos de transparencia ACTIVADOS')
+        HibernationOff = @('Hibernacion apagada', 'Hibernacion activada')
+        TaskbarEndTask = @('Finalizar tarea esta en el menu de la barra', 'Finalizar tarea no esta en el menu de la barra')
+        MmcssGamesTask = @('Tarea Games en High, prioridad 6', 'Tarea Games no esta en High, prioridad 6')
+    }
+    'de' = @{
+        GameMode = @('Spielmodus ist AN', 'Spielmodus ist AUS')
+        MouseAcceleration = @('Beschleunigung ist AUS', 'Beschleunigung ist AN')
+        BackgroundApps = @('Hintergrund-Apps sind AUS', 'Hintergrund-Apps sind erlaubt')
+        VisualEffects = @('Beste Leistung ist gesetzt', 'Nicht auf beste Leistung gesetzt')
+        DeliveryOptimization = @('Uebermittlungsoptimierung ist AUS', 'Uebermittlungsoptimierung ist erlaubt')
+        Telemetry = @('Telemetrie ist reduziert', 'Telemetrie ist nicht reduziert')
+        ActivityHistory = @('Aktivitaetsverlauf ist AUS', 'Aktivitaetsverlauf ist AN')
+        MultiplaneOverlay = @('Multiplane Overlay ist deaktiviert', 'Multiplane Overlay ist im Windows-Standardmodus')
+        Widgets = @('Widgets sind entfernt', 'Widgets sind installiert')
+        WindowsAI = @('KI-Funktionen sind aus', 'KI-Funktionen sind noch aktiv')
+        UltimatePerformance = @('Ultimative Leistung ist verfuegbar', 'Ultimative Leistung ist nicht installiert')
+        GameDVR = @('Hintergrundaufnahme ist AUS', 'Hintergrundaufnahme ist AN')
+        HAGS = @('Hardwareplanung ist AN', 'Hardwareplanung ist AUS')
+        WindowedGameOptimizations = @('Fensteroptimierungen sind AN', 'Fensteroptimierungen sind AUS')
+        TCPAutoTuning = @('TCP-Autotuning ist normal', 'TCP-Autotuning ist nicht normal')
+        DNSServer = @('DNS-Server ist gesetzt', 'DNS-Server von Windows')
+        NetworkThrottling = @('Netzwerkdrosselung ist aus (0xFFFFFFFF)', 'Netzwerkdrosselung auf Windows-Standard (10)')
+        SystemResponsiveness = @('Systemreaktionsfaehigkeit ist 10 (Windows: 20)', 'Systemreaktionsfaehigkeit auf Windows-Standard (20)')
+        TransparencyEffects = @('Transparenzeffekte sind AUS', 'Transparenzeffekte sind AN')
+        HibernationOff = @('Ruhezustand ist aus', 'Ruhezustand ist an')
+        TaskbarEndTask = @('Task beenden ist im Taskleistenmenue', 'Task beenden ist nicht im Taskleistenmenue')
+        MmcssGamesTask = @('Games-Aufgabe ist High, Prioritaet 6', 'Games-Aufgabe ist nicht High, Prioritaet 6')
+    }
+    'fr' = @{
+        GameMode = @('Mode jeu ACTIVE', 'Mode jeu DESACTIVE')
+        MouseAcceleration = @('Acceleration DESACTIVEE', 'Acceleration ACTIVEE')
+        BackgroundApps = @('Applis en arriere-plan DESACTIVEES', 'Applis en arriere-plan autorisees')
+        VisualEffects = @('Meilleures performances reglees', 'Pas regle sur meilleures performances')
+        DeliveryOptimization = @('Optimisation de la distribution DESACTIVEE', 'Optimisation de la distribution autorisee')
+        Telemetry = @('Telemetrie reduite', 'Telemetrie non reduite')
+        ActivityHistory = @('Historique des activites DESACTIVE', 'Historique des activites ACTIVE')
+        MultiplaneOverlay = @('Multiplane Overlay desactive', 'Multiplane Overlay en mode Windows par defaut')
+        Widgets = @('Widgets retires', 'Widgets installes')
+        WindowsAI = @('Fonctions IA desactivees', 'Fonctions IA encore actives')
+        UltimatePerformance = @('Performances optimales disponible', 'Performances optimales non installe')
+        GameDVR = @('Capture en arriere-plan DESACTIVEE', 'Capture en arriere-plan ACTIVEE')
+        HAGS = @('Planification materielle ACTIVEE', 'Planification materielle DESACTIVEE')
+        WindowedGameOptimizations = @('Optimisations en fenetre ACTIVEES', 'Optimisations en fenetre DESACTIVEES')
+        TCPAutoTuning = @('Reglage auto TCP sur normal', 'Reglage auto TCP pas sur normal')
+        DNSServer = @('Serveur DNS regle', 'Serveur DNS de Windows')
+        NetworkThrottling = @('Limitation reseau desactivee (0xFFFFFFFF)', 'Limitation reseau a la valeur Windows par defaut (10)')
+        SystemResponsiveness = @('Reactivite du systeme a 10 (Windows : 20)', 'Reactivite du systeme a la valeur Windows (20)')
+        TransparencyEffects = @('Effets de transparence DESACTIVES', 'Effets de transparence ACTIVES')
+        HibernationOff = @('Hibernation desactivee', 'Hibernation activee')
+        TaskbarEndTask = @('Fin de tache est dans le menu de la barre', 'Fin de tache n''est pas dans le menu de la barre')
+        MmcssGamesTask = @('Tache Games en High, priorite 6', 'Tache Games pas en High, priorite 6')
+    }
+}
+
 function Set-SITweakLanguage {
     <#
     .SYNOPSIS
@@ -147,6 +271,11 @@ function Set-SITweakLanguage {
         $pair = $tab[[string]$t.Id]
         $t.Name = [string]$pair[0]
         $t.Description = [string]$pair[1]
+        if ($script:SITweakStateText.ContainsKey($lang) -and $script:SITweakStateText[$lang].ContainsKey([string]$t.Id)) {
+            $st = $script:SITweakStateText[$lang][[string]$t.Id]
+            $t.OnText = [string]$st[0]
+            $t.OffText = [string]$st[1]
+        }
     }
 }
 
