@@ -1879,6 +1879,8 @@ function Build-SIGameLibrary {
         $name.FontWeight = 'SemiBold'
         $name.VerticalAlignment = 'Center'
         $name.TextTrimming = 'CharacterEllipsis'
+        $name.TextWrapping = 'Wrap'   # long names on two lines, not 'Emily is A...'
+        $name.MaxHeight = 34
         $name.ToolTip = ([string]$game.Name + ' - ' + $exe)
         [System.Windows.Controls.Grid]::SetColumn($name, 1)
         $null = $head.Children.Add($name)

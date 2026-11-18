@@ -4867,6 +4867,8 @@ function Build-SIGameLibrary {
         $gName.FontWeight = 'SemiBold'
         $gName.Foreground = Get-SIBrush $c.Text
         $gName.TextTrimming = 'CharacterEllipsis'
+        $gName.TextWrapping = 'Wrap'   # long names on two lines, not 'Emily is A...'
+        $gName.MaxHeight = 34
         $gName.ToolTip = $exe
         [void]$infoStack.Children.Add($gName)
 
@@ -4938,11 +4940,51 @@ function Build-SIGameLibrary {
     }
 }
 
+# 18/11: the game list of the last start is shown at once (SI-GAME-games.json),
+# the full scan of the stores runs a moment later, when the window is already filled.
+$script:SIGameCachePath = [System.IO.Path]::Combine($script:SIRoot, 'SI-GAME-games.json')
+
+function Save-SIGameCache {
+    try {
+        $rows = @($script:SIGameLibrary | ForEach-Object {
+            [pscustomobject]@{ Id = [string]$_.Id; Name = [string]$_.Name; Store = [string]$_.Store; Exe = [string]$_.Exe; Folder = [string]$_.Folder } })
+        [System.IO.File]::WriteAllText($script:SIGameCachePath, (ConvertTo-Json -InputObject $rows -Depth 3))
+    } catch { }
+}
+
+function Read-SIGameCache {
+    $d = Read-SIJsonFile -Path $script:SIGameCachePath
+    if (-not $d) { return @() }
+    return @(@($d) | Where-Object { $_.Exe -and [System.IO.File]::Exists([string]$_.Exe) })
+}
+
+function Update-SIGameScan {
+    $before = (@($script:SIGameLibrary | ForEach-Object { [string]$_.Exe }) -join '|')
+    try { $script:SIGameLibrary = @(Get-SIExtendedGames) } catch { return }
+    Save-SIGameCache
+    $after = (@($script:SIGameLibrary | ForEach-Object { [string]$_.Exe }) -join '|')
+    if ($after -ne $before) { Update-SIAutoDashboard }
+}
+
 function Build-SIRows {
+    $deferScan = $false
     if (-not $script:SIGameLibrary -or @($script:SIGameLibrary).Count -eq 0) {
-        try { $script:SIGameLibrary = @(Get-SIExtendedGames) } catch { }
+        $cached = @(Read-SIGameCache)
+        if ($cached.Count -gt 0) {
+            $script:SIGameLibrary = $cached
+            $deferScan = $true
+        } else {
+            try { $script:SIGameLibrary = @(Get-SIExtendedGames) } catch { }
+            Save-SIGameCache
+        }
     }
     Update-SIAutoDashboard
+    if ($deferScan -and $script:SIWindow) {
+        $scanTimer = New-Object System.Windows.Threading.DispatcherTimer
+        $scanTimer.Interval = [TimeSpan]::FromSeconds(4)
+        $null = $scanTimer.Add_Tick({ $scanTimer.Stop(); Update-SIGameScan }.GetNewClosure())
+        $scanTimer.Start()
+    }
     if ($script:SIStartMinimized -and $script:SIWindow) {
         try {
             $script:SIWindow.Hide()

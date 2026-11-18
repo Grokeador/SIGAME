@@ -1,10 +1,10 @@
 {
-  "Version": "2026.11.18.2",
-  "Notes": "SI PRESETS search, your games first, APPLIED badge; window fully translated (pt-BR, es, de, fr); layout fixes; launcher warning on Add game",
+  "Version": "2026.11.18.3",
+  "Notes": "SI PRESETS descriptions in pt-BR, es, de, fr; FPS popups translated; long game names wrap; game list shows at once; what's new after an update",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
-      "Sha256": "48d932b9f73010f8149ba5f42d43580b01eaf05bf863be4f47ddd868ed67c276"
+      "Sha256": "0d2a6cd5a21dbe0e0bcd0cac780c9aef9dba5028c80fb72232f362016791186d"
     },
     {
       "Path": "modules/00-core.ps1",
@@ -32,7 +32,7 @@
     },
     {
       "Path": "modules/06-window.ps1",
-      "Sha256": "135bb4e2e1430ae4b4c3ff6e75d5e3bdde422e41d138b6b284dd033283de3417"
+      "Sha256": "9dfa3691dde0514bca67a9a9aa2ae2ccc0b51fc0a42b7655da9d1d6c231543e9"
     },
     {
       "Path": "modules/07-startup.ps1",
@@ -48,15 +48,22 @@
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "e5d5dba229b84a27e7cb65ff46fdabdeb5d32a0417c876b090eeebe6d41647e6"
+      "Sha256": "a856a1e0892d6acf1026d658f8c37bbc01dd357d713b087e24682750b150f7f1"
     },
     {
       "Path": "modules/11-fps.ps1",
-      "Sha256": "b83a58c37ec24addf61cfe91a0b3adc1ced7687760b7ea890a999b6a0077cfe5"
+      "Sha256": "3566478cf092231278897d9a106625c66214f8e4b2d3589519dc36dccc4be7db"
     },
     {
       "Path": "modules/12-guard.ps1",
       "Sha256": "3f98137858aeb6de6ef673ba53cc67dc9b28fe9c44c92bcce976393a5b7859a7"
     }
-  ]
+  ],
+  "NotesLang": {
+    "it": "Descrizioni dei SI PRESETS in pt-BR, es, de, fr; popup FPS tradotti; i nomi lunghi dei giochi vanno a capo; la lista dei giochi appare subito; novita dopo un aggiornamento",
+    "pt-BR": "Descricoes dos SI PRESETS em pt-BR, es, de, fr; popups de FPS traduzidos; nomes longos de jogos quebram a linha; a lista de jogos aparece na hora; novidades depois de uma atualizacao",
+    "es": "Descripciones de los SI PRESETS en pt-BR, es, de, fr; ventanas de FPS traducidas; los nombres largos de juegos saltan de linea; la lista de juegos aparece al instante; novedades tras una actualizacion",
+    "de": "SI PRESETS-Beschreibungen auf pt-BR, es, de, fr; FPS-Fenster uebersetzt; lange Spielnamen brechen um; die Spieleliste erscheint sofort; Neuigkeiten nach einem Update",
+    "fr": "Descriptions des SI PRESETS en pt-BR, es, de, fr ; fenetres FPS traduites ; les noms de jeux longs passent a la ligne ; la liste des jeux s'affiche tout de suite ; nouveautes apres une mise a jour"
+  }
 }

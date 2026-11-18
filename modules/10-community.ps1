@@ -18,7 +18,7 @@
 #   - Sending never blocks the window and never shows an error to the player.
 # ===========================================================================
 
-$script:SIGameVersion     = '2026.11.18.2'
+$script:SIGameVersion     = '2026.11.18.3'
 $script:SIPresetsPath     = [System.IO.Path]::Combine($script:SIRoot, 'presets')
 $script:SICatalogPath     = [System.IO.Path]::Combine($script:SIPresetsPath, 'catalog.json')
 $script:SIFeedbackCfgPath = [System.IO.Path]::Combine($script:SIRoot, 'SI-GAME-feedback.json')
@@ -71,6 +71,7 @@ $script:SICommunityText = @{
         UpdateDone      = 'SIGAME {0} is installed. SIGAME restarts now.'
         UpdateFail      = 'The update was not installed, nothing was changed: {0}'
         UpdatedTo       = 'SIGAME updated itself to {0}.'
+        WhatsNew        = 'SIGAME updated itself to {0}.`n`nWhat is new:`n{1}'
         PresetsAuto     = 'New SI PRESETS downloaded: {0}'
     }
     'it' = @{
@@ -118,6 +119,7 @@ $script:SICommunityText = @{
         UpdateDone      = 'SIGAME {0} e installato. SIGAME si riavvia adesso.'
         UpdateFail      = 'Aggiornamento non installato, niente e cambiato: {0}'
         UpdatedTo       = 'SIGAME si e aggiornato da solo alla {0}.'
+        WhatsNew        = 'SIGAME si e aggiornato da solo alla {0}.`n`nNovita:`n{1}'
         PresetsAuto     = 'Nuovi SI PRESETS scaricati: {0}'
     }
 }
@@ -169,6 +171,7 @@ $script:SICommunityText['pt-BR'] = @{
     UpdateDone      = 'SIGAME {0} instalado. O SIGAME reinicia agora.'
     UpdateFail      = 'A atualizacao nao foi instalada, nada mudou: {0}'
     UpdatedTo       = 'O SIGAME se atualizou sozinho para a {0}.'
+    WhatsNew        = 'O SIGAME se atualizou sozinho para a {0}.`n`nNovidades:`n{1}'
     PresetsAuto     = 'Novos SI PRESETS baixados: {0}'
     PresetsSearch   = 'Buscar jogo...'
     PresetApplied   = 'APLICADO'
@@ -219,6 +222,7 @@ $script:SICommunityText['es'] = @{
     UpdateDone      = 'SIGAME {0} instalado. SIGAME se reinicia ahora.'
     UpdateFail      = 'La actualizacion no se instalo, nada cambio: {0}'
     UpdatedTo       = 'SIGAME se actualizo solo a la {0}.'
+    WhatsNew        = 'SIGAME se actualizo solo a la {0}.`n`nNovedades:`n{1}'
     PresetsAuto     = 'Nuevos SI PRESETS descargados: {0}'
     PresetsSearch   = 'Buscar juego...'
     PresetApplied   = 'APLICADO'
@@ -269,6 +273,7 @@ $script:SICommunityText['de'] = @{
     UpdateDone      = 'SIGAME {0} ist installiert. SIGAME startet jetzt neu.'
     UpdateFail      = 'Das Update wurde nicht installiert, nichts wurde geaendert: {0}'
     UpdatedTo       = 'SIGAME hat sich selbst auf {0} aktualisiert.'
+    WhatsNew        = 'SIGAME hat sich selbst auf {0} aktualisiert.`n`nNeu:`n{1}'
     PresetsAuto     = 'Neue SI PRESETS heruntergeladen: {0}'
     PresetsSearch   = 'Spiel suchen...'
     PresetApplied   = 'ANGEWENDET'
@@ -319,6 +324,7 @@ $script:SICommunityText['fr'] = @{
     UpdateDone      = 'SIGAME {0} est installe. SIGAME redemarre maintenant.'
     UpdateFail      = "La mise a jour n'a pas ete installee, rien n'a change: {0}"
     UpdatedTo       = "SIGAME s'est mis a jour tout seul vers {0}."
+    WhatsNew        = "SIGAME s'est mis a jour tout seul vers {0}.`n`nNouveautes :`n{1}"
     PresetsAuto     = 'Nouveaux SI PRESETS telecharges: {0}'
     PresetsSearch   = 'Chercher un jeu...'
     PresetApplied   = 'APPLIQUE'
@@ -688,8 +694,7 @@ function Invoke-SIUpdateOffer {
     if ($state.PSObject.Properties.Name -contains 'UpdateSkipped') { $skipped = [string]$state.UpdateSkipped }
     # -Quiet = the start of SIGAME: installs by itself, no question (owner 18/11).
     # The button still asks. Every file is checked (SHA-256 + parse) before anything changes.
-    $notes = ''
-    if ($Manifest.PSObject.Properties.Name -contains 'Notes') { $notes = [string]$Manifest.Notes }
+    $notes = Get-SIUpdateNotes -Manifest $Manifest
     $text = (Get-SICommunityText 'UpdateAsk') -f [string]$Manifest.Version, $script:SIGameVersion, $notes
     if (-not $Quiet -and -not (Show-SIMessage -Window $script:SIWindow -Title 'SIGAME' -Text $text)) {
         $state | Add-Member 'UpdateSkipped' ([string]$Manifest.Version) -Force
@@ -707,14 +712,31 @@ function Invoke-SIUpdateOffer {
     if ($Quiet) {
         $state = Get-SICommunityState
         $state | Add-Member 'JustUpdated' ([string]$Manifest.Version) -Force
+        $state | Add-Member 'JustUpdatedNotes' (Get-SIUpdateNotes -Manifest $Manifest) -Force
         Save-SICommunityState -State $state
         Write-SILog -Component 'Update' -Message "SIGAME $($Manifest.Version) installed by itself, restarting."
         Restart-SISigame
         return $true
     }
-    [void][System.Windows.MessageBox]::Show($script:SIWindow, ((Get-SICommunityText 'UpdateDone') -f [string]$Manifest.Version), 'SIGAME')
+    Show-SIInfoBox -Text ((Get-SICommunityText 'UpdateDone') -f [string]$Manifest.Version)
     Restart-SISigame
     return $true
+}
+
+function Show-SIInfoBox {
+    # One OK box for the update messages (the tests replace it).
+    param([string]$Text)
+    [void][System.Windows.MessageBox]::Show($script:SIWindow, $Text, 'SIGAME')
+}
+
+function Get-SIUpdateNotes {
+    # version.json: Notes (English) + optional NotesLang.<language>
+    param($Manifest)
+    $lang = Get-SISILanguage
+    if ($Manifest.PSObject.Properties.Name -contains 'NotesLang' -and $Manifest.NotesLang -and
+        $Manifest.NotesLang.PSObject.Properties.Name -contains $lang) { return [string]$Manifest.NotesLang.$lang }
+    if ($Manifest.PSObject.Properties.Name -contains 'Notes') { return [string]$Manifest.Notes }
+    return ''
 }
 
 function Test-SIUpdateNow {
@@ -737,6 +759,15 @@ function Start-SIUpdateCheck {
         $state = Get-SICommunityState
         if ($state.PSObject.Properties.Name -contains 'JustUpdated') {
             Set-SIStatusText -Text ((Get-SICommunityText 'UpdatedTo') -f [string]$state.JustUpdated)
+            # 18/11: what is new, once, after the window has finished its start-up work
+            $wn = ''
+            if ($state.PSObject.Properties.Name -contains 'JustUpdatedNotes') { $wn = [string]$state.JustUpdatedNotes; $state.PSObject.Properties.Remove('JustUpdatedNotes') }
+            if ($wn -and $script:SIWindow) {
+                $script:SIWhatsNewText = (Get-SICommunityText 'WhatsNew') -f [string]$state.JustUpdated, $wn
+                [void]$script:SIWindow.Dispatcher.BeginInvoke([System.Windows.Threading.DispatcherPriority]::ApplicationIdle, [action]{
+                    try { Show-SIInfoBox -Text $script:SIWhatsNewText } catch { }
+                })
+            }
             $state.PSObject.Properties.Remove('JustUpdated')
             Save-SICommunityState -State $state
         }
