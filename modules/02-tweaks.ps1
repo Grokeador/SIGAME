@@ -1117,6 +1117,7 @@ function Get-SITweakTable {
         )
     }
 
+    if (Get-Command Set-SITweakLanguage -ErrorAction SilentlyContinue) { Set-SITweakLanguage -Tweaks $tweaks }
     $script:SITweakTableCache = $tweaks
     return $tweaks
 }

@@ -205,6 +205,7 @@ $script:SIModuleList = @(
     '10-community.ps1'
     '11-fps.ps1'
     '12-guard.ps1'
+    '13-tweaktext.ps1'
 )
 
 foreach ($module in $script:SIModuleList) {

@@ -1,10 +1,10 @@
 {
-  "Version": "2026.11.18.5",
-  "Notes": "New tweaks: End task on the taskbar (WinUtil) and Games task priority (MMCSS) in Optimize; both undo with UNDO.",
+  "Version": "2026.11.18.6",
+  "Notes": "Tweak names and descriptions now in Italian, Portuguese, Spanish, German and French",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
-      "Sha256": "9efc953950a6f85d32cc02744bbce49ecfa4b9e45c2b048b68e6e404a2c19a38"
+      "Sha256": "a025607eff419b617ba512fa2b95b0b3ef314e62a9aff57140ddb77a64c7af3a"
     },
     {
       "Path": "modules/00-core.ps1",
@@ -16,7 +16,7 @@
     },
     {
       "Path": "modules/02-tweaks.ps1",
-      "Sha256": "437b41bcfa41cd1027da906a0c1a36627b5ddfad9474ea8b2a03b46d16fdbb53"
+      "Sha256": "0e2e6fbacc079763be0e45f149ec2941aa52710ed8c43ece3be8a7e7aec33970"
     },
     {
       "Path": "modules/03-features.ps1",
@@ -48,7 +48,7 @@
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "38ce9f5021831fbda21bb991239a73a8aa10e3c4ee50c0dc83bca627309bd0c1"
+      "Sha256": "6d2307dc429f10c0a6dfa1e9749c51657098272438f9a12a9627669aa03cbf62"
     },
     {
       "Path": "modules/11-fps.ps1",
@@ -57,13 +57,17 @@
     {
       "Path": "modules/12-guard.ps1",
       "Sha256": "3f98137858aeb6de6ef673ba53cc67dc9b28fe9c44c92bcce976393a5b7859a7"
+    },
+    {
+      "Path": "modules/13-tweaktext.ps1",
+      "Sha256": "3d77709c1c73658590f64e954718195f9f0c413d1c9772bf32d3e32c1b3f8134"
     }
   ],
   "NotesLang": {
-    "it": "Nuovi tweak: Termina attivita nella barra delle applicazioni (WinUtil) e priorita del task Games (MMCSS) in Ottimizza; entrambi si annullano con UNDO.",
-    "pt-BR": "Novos tweaks: Finalizar tarefa na barra de tarefas (WinUtil) e prioridade da tarefa Games (MMCSS) em Otimizar; os dois se desfazem com UNDO.",
-    "es": "Nuevos tweaks: Finalizar tarea en la barra de tareas (WinUtil) y prioridad de la tarea Games (MMCSS) en Optimizar; los dos se deshacen con UNDO.",
-    "de": "Neue Tweaks: Task beenden in der Taskleiste (WinUtil) und Prioritaet der Games-Aufgabe (MMCSS) in Optimieren; beide lassen sich mit UNDO rueckgaengig machen.",
-    "fr": "Nouveaux tweaks : Fin de tache dans la barre des taches (WinUtil) et priorite de la tache Games (MMCSS) dans Optimiser ; les deux s'annulent avec UNDO."
+    "it": "Nomi e descrizioni dei tweak ora in italiano, portoghese, spagnolo, tedesco e francese",
+    "pt-BR": "Nomes e descricoes dos tweaks agora em portugues, italiano, espanhol, alemao e frances",
+    "es": "Nombres y descripciones de los tweaks ahora en espanol, italiano, portugues, aleman y frances",
+    "de": "Namen und Beschreibungen der Tweaks jetzt auf Deutsch, Italienisch, Portugiesisch, Spanisch und Franzoesisch",
+    "fr": "Noms et descriptions des reglages maintenant en francais, italien, portugais, espagnol et allemand"
   }
 }
