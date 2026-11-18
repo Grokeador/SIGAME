@@ -1,10 +1,10 @@
 {
-  "Version": "2026.11.18.1",
-  "Notes": "SIGAME and SI PRESETS now update by themselves at every start",
+  "Version": "2026.11.18.2",
+  "Notes": "SI PRESETS search, your games first, APPLIED badge; window fully translated (pt-BR, es, de, fr); layout fixes; launcher warning on Add game",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
-      "Sha256": "0a3d891674d870747fd9c5aa6106d4e801866132b87fb35257585562b20adbbf"
+      "Sha256": "48d932b9f73010f8149ba5f42d43580b01eaf05bf863be4f47ddd868ed67c276"
     },
     {
       "Path": "modules/00-core.ps1",
@@ -48,7 +48,7 @@
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "00fdfb5679ab2a8878cb922e5e4898723a3ed6ed3a909f243399157d06134fac"
+      "Sha256": "e5d5dba229b84a27e7cb65ff46fdabdeb5d32a0417c876b090eeebe6d41647e6"
     },
     {
       "Path": "modules/11-fps.ps1",

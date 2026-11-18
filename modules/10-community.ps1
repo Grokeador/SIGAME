@@ -18,7 +18,7 @@
 #   - Sending never blocks the window and never shows an error to the player.
 # ===========================================================================
 
-$script:SIGameVersion     = '2026.11.18.1'
+$script:SIGameVersion     = '2026.11.18.2'
 $script:SIPresetsPath     = [System.IO.Path]::Combine($script:SIRoot, 'presets')
 $script:SICatalogPath     = [System.IO.Path]::Combine($script:SIPresetsPath, 'catalog.json')
 $script:SIFeedbackCfgPath = [System.IO.Path]::Combine($script:SIRoot, 'SI-GAME-feedback.json')
@@ -121,6 +121,245 @@ $script:SICommunityText = @{
         PresetsAuto     = 'Nuovi SI PRESETS scaricati: {0}'
     }
 }
+
+# Same texts in the other languages of the window (18/11): before, pt-BR, es, de and fr
+# windows showed these lines in English. ASCII only, like the rest of the file.
+$script:SICommunityText['pt-BR'] = @{
+    BtnPresets      = 'SI PRESETS'
+    BtnRequest      = 'PEDIR'
+    BtnPreset       = 'SI PRESET'
+    BtnFeedback     = 'Pedir um jogo / Feedback'
+    ReqTitle        = 'Pedir um SI PRESET'
+    ReqIntro        = 'Diga ao SI NEWS qual jogo voce quer otimizar e o que quer dele. Os jogos mais pedidos ganham um preset extremo dentro do SIGAME.'
+    ReqGame         = 'Jogo (tambem um que o SIGAME nao ve):'
+    ReqWants        = 'O que voce quer?'
+    WantFps         = 'Mais FPS'
+    WantUltra       = 'Graficos alem dos limites do menu'
+    WantWide        = 'Ultrawide / 144 Hz+'
+    WantLoad        = 'Carregamento mais rapido'
+    WantStutter     = 'Tirar travadas / crashes'
+    WantLowEnd      = 'Jogavel em PC fraco'
+    ReqMessage      = 'Mais alguma coisa? (opcional)'
+    ReqPreview      = 'O que sera enviado:'
+    ReqSend         = 'ENVIAR'
+    ReqCancel       = 'Cancelar'
+    ReqNoGame       = 'Escreva primeiro o nome do jogo.'
+    ReqSent         = 'Pedido enviado ao SI NEWS: {0}. Obrigado!'
+    TelemetryOn     = 'Estatisticas anonimas ON: uma vez por semana o SI NEWS recebe os nomes dos seus jogos + modelo de CPU/GPU e RAM (sem id, sem arquivos) para escolher os proximos SI PRESETS.'
+    TelemetryOff    = 'Estatisticas anonimas OFF.'
+    TelemetryTurnOff = 'Desligar'
+    TelemetryTurnOn  = 'Ligar'
+    AskAfterAdd     = 'Jogo adicionado: {0}. Quer que o SI NEWS faca um SI PRESET extremo para ele?'
+    PresetConfirm   = "{0} - {1}`n`n{2}`n`nAplicar agora?"
+    PresetDone      = 'SI PRESET {0} aplicado. Detalhes em SI-GAME.log.'
+    PresetFail      = 'SI PRESET {0} nao foi aplicado: {1}'
+    PresetUndoAsk   = "O SI PRESET {0} ja esta aplicado.`n`nSIM = volta a sua configuracao original (Desfazer)`nNAO = aplica de novo"
+    PresetsTitle    = 'SI PRESETS'
+    PresetsIntro    = 'Configuracoes extremas feitas nos videos do SI NEWS. Encontrado = o jogo esta neste PC.'
+    PresetFound     = 'encontrado neste PC'
+    PresetNotFound  = 'nao encontrado'
+    PresetApply     = 'APLICAR'
+    PresetsUpdate   = 'Buscar novos presets'
+    PresetsUpToDate = 'Presets atualizados ({0}).'
+    PresetsNew      = "{0} SI PRESETS novos ou atualizados estao no GitHub:`n`n{1}`n`nBaixar agora?"
+    PresetsGot      = '{0} SI PRESETS baixados.'
+    PresetsOffline  = 'Nao foi possivel acessar o GitHub: {0}'
+    UpdateAsk       = "SIGAME {0} esta no GitHub (esta copia e a {1}).`n`n{2}`n`nAtualizar agora? Suas configuracoes, backups e presets ficam como estao."
+    UpdateBusy      = 'Baixando SIGAME {0}...'
+    UpdateDone      = 'SIGAME {0} instalado. O SIGAME reinicia agora.'
+    UpdateFail      = 'A atualizacao nao foi instalada, nada mudou: {0}'
+    UpdatedTo       = 'O SIGAME se atualizou sozinho para a {0}.'
+    PresetsAuto     = 'Novos SI PRESETS baixados: {0}'
+    PresetsSearch   = 'Buscar jogo...'
+    PresetApplied   = 'APLICADO'
+    PresetsNone     = 'Nenhum preset para esta busca.'
+}
+$script:SICommunityText['es'] = @{
+    BtnPresets      = 'SI PRESETS'
+    BtnRequest      = 'PEDIR'
+    BtnPreset       = 'SI PRESET'
+    BtnFeedback     = 'Pedir un juego / Feedback'
+    ReqTitle        = 'Pedir un SI PRESET'
+    ReqIntro        = 'Dile a SI NEWS que juego quieres optimizar y que quieres de el. Los juegos mas pedidos reciben un preset extremo dentro de SIGAME.'
+    ReqGame         = 'Juego (tambien uno que SIGAME no ve):'
+    ReqWants        = 'Que quieres?'
+    WantFps         = 'Mas FPS'
+    WantUltra       = 'Graficos mas alla de los limites del menu'
+    WantWide        = 'Ultrawide / 144 Hz+'
+    WantLoad        = 'Cargas mas rapidas'
+    WantStutter     = 'Quitar tirones / crashes'
+    WantLowEnd      = 'Jugable en PC debil'
+    ReqMessage      = 'Algo mas? (opcional)'
+    ReqPreview      = 'Lo que se enviara:'
+    ReqSend         = 'ENVIAR'
+    ReqCancel       = 'Cancelar'
+    ReqNoGame       = 'Escribe primero el nombre del juego.'
+    ReqSent         = 'Pedido enviado a SI NEWS: {0}. Gracias!'
+    TelemetryOn     = 'Estadisticas anonimas ON: una vez por semana SI NEWS recibe los nombres de tus juegos + modelo de CPU/GPU y RAM (sin id, sin archivos) para elegir los proximos SI PRESETS.'
+    TelemetryOff    = 'Estadisticas anonimas OFF.'
+    TelemetryTurnOff = 'Desactivar'
+    TelemetryTurnOn  = 'Activar'
+    AskAfterAdd     = 'Juego agregado: {0}. Quieres que SI NEWS haga un SI PRESET extremo para el?'
+    PresetConfirm   = "{0} - {1}`n`n{2}`n`nAplicarlo ahora?"
+    PresetDone      = 'SI PRESET {0} aplicado. Detalles en SI-GAME.log.'
+    PresetFail      = 'SI PRESET {0} no se aplico: {1}'
+    PresetUndoAsk   = "El SI PRESET {0} ya esta aplicado.`n`nSI = vuelve tu configuracion original (Deshacer)`nNO = aplicarlo de nuevo"
+    PresetsTitle    = 'SI PRESETS'
+    PresetsIntro    = 'Configuraciones extremas hechas en los videos de SI NEWS. Encontrado = el juego esta en este PC.'
+    PresetFound     = 'encontrado en este PC'
+    PresetNotFound  = 'no encontrado'
+    PresetApply     = 'APLICAR'
+    PresetsUpdate   = 'Buscar nuevos presets'
+    PresetsUpToDate = 'Presets al dia ({0}).'
+    PresetsNew      = "Hay {0} SI PRESETS nuevos o actualizados en GitHub:`n`n{1}`n`nDescargarlos ahora?"
+    PresetsGot      = '{0} SI PRESETS descargados.'
+    PresetsOffline  = 'No se pudo llegar a GitHub: {0}'
+    UpdateAsk       = "SIGAME {0} esta en GitHub (esta copia es la {1}).`n`n{2}`n`nActualizar ahora? Tus ajustes, backups y presets quedan como estan."
+    UpdateBusy      = 'Descargando SIGAME {0}...'
+    UpdateDone      = 'SIGAME {0} instalado. SIGAME se reinicia ahora.'
+    UpdateFail      = 'La actualizacion no se instalo, nada cambio: {0}'
+    UpdatedTo       = 'SIGAME se actualizo solo a la {0}.'
+    PresetsAuto     = 'Nuevos SI PRESETS descargados: {0}'
+    PresetsSearch   = 'Buscar juego...'
+    PresetApplied   = 'APLICADO'
+    PresetsNone     = 'Ningun preset para esta busqueda.'
+}
+$script:SICommunityText['de'] = @{
+    BtnPresets      = 'SI PRESETS'
+    BtnRequest      = 'ANFRAGEN'
+    BtnPreset       = 'SI PRESET'
+    BtnFeedback     = 'Spiel anfragen / Feedback'
+    ReqTitle        = 'SI PRESET anfragen'
+    ReqIntro        = 'Sag SI NEWS, welches Spiel optimiert werden soll und was du davon willst. Die meistgefragten Spiele bekommen ein extremes Preset in SIGAME.'
+    ReqGame         = 'Spiel (auch eins, das SIGAME nicht sieht):'
+    ReqWants        = 'Was willst du?'
+    WantFps         = 'Mehr FPS'
+    WantUltra       = 'Grafik ueber die Menue-Grenzen hinaus'
+    WantWide        = 'Ultrawide / 144 Hz+'
+    WantLoad        = 'Schnelleres Laden'
+    WantStutter     = 'Ruckler / Abstuerze beheben'
+    WantLowEnd      = 'Spielbar auf schwachem PC'
+    ReqMessage      = 'Sonst noch etwas? (optional)'
+    ReqPreview      = 'Was gesendet wird:'
+    ReqSend         = 'SENDEN'
+    ReqCancel       = 'Abbrechen'
+    ReqNoGame       = 'Schreib zuerst den Namen des Spiels.'
+    ReqSent         = 'Anfrage an SI NEWS gesendet: {0}. Danke!'
+    TelemetryOn     = 'Anonyme Statistik AN: einmal pro Woche bekommt SI NEWS die Namen deiner Spiele + CPU/GPU-Modell und RAM (keine ID, keine Dateien), um die naechsten SI PRESETS zu waehlen.'
+    TelemetryOff    = 'Anonyme Statistik AUS.'
+    TelemetryTurnOff = 'Ausschalten'
+    TelemetryTurnOn  = 'Einschalten'
+    AskAfterAdd     = 'Spiel hinzugefuegt: {0}. Soll SI NEWS ein extremes SI PRESET dafuer machen?'
+    PresetConfirm   = "{0} - {1}`n`n{2}`n`nJetzt anwenden?"
+    PresetDone      = 'SI PRESET {0} angewendet. Details in SI-GAME.log.'
+    PresetFail      = 'SI PRESET {0} wurde nicht angewendet: {1}'
+    PresetUndoAsk   = "SI PRESET {0} ist schon angewendet.`n`nJA = deine Original-Konfiguration zurueck (Rueckgaengig)`nNEIN = erneut anwenden"
+    PresetsTitle    = 'SI PRESETS'
+    PresetsIntro    = 'Extreme Konfigurationen aus den SI NEWS Videos. Gefunden = das Spiel ist auf diesem PC.'
+    PresetFound     = 'auf diesem PC gefunden'
+    PresetNotFound  = 'nicht gefunden'
+    PresetApply     = 'ANWENDEN'
+    PresetsUpdate   = 'Nach neuen Presets suchen'
+    PresetsUpToDate = 'Presets sind aktuell ({0}).'
+    PresetsNew      = "{0} neue oder aktualisierte SI PRESETS sind auf GitHub:`n`n{1}`n`nJetzt herunterladen?"
+    PresetsGot      = '{0} SI PRESETS heruntergeladen.'
+    PresetsOffline  = 'GitHub nicht erreichbar: {0}'
+    UpdateAsk       = "SIGAME {0} ist auf GitHub (diese Kopie ist {1}).`n`n{2}`n`nJetzt aktualisieren? Einstellungen, Backups und Presets bleiben, wie sie sind."
+    UpdateBusy      = 'Lade SIGAME {0} herunter...'
+    UpdateDone      = 'SIGAME {0} ist installiert. SIGAME startet jetzt neu.'
+    UpdateFail      = 'Das Update wurde nicht installiert, nichts wurde geaendert: {0}'
+    UpdatedTo       = 'SIGAME hat sich selbst auf {0} aktualisiert.'
+    PresetsAuto     = 'Neue SI PRESETS heruntergeladen: {0}'
+    PresetsSearch   = 'Spiel suchen...'
+    PresetApplied   = 'ANGEWENDET'
+    PresetsNone     = 'Kein Preset fuer diese Suche.'
+}
+$script:SICommunityText['fr'] = @{
+    BtnPresets      = 'SI PRESETS'
+    BtnRequest      = 'DEMANDER'
+    BtnPreset       = 'SI PRESET'
+    BtnFeedback     = 'Demander un jeu / Feedback'
+    ReqTitle        = 'Demander un SI PRESET'
+    ReqIntro        = 'Dis a SI NEWS quel jeu tu veux optimiser et ce que tu en attends. Les jeux les plus demandes recoivent un preset extreme dans SIGAME.'
+    ReqGame         = 'Jeu (meme un que SIGAME ne voit pas):'
+    ReqWants        = 'Que veux-tu?'
+    WantFps         = 'Plus de FPS'
+    WantUltra       = 'Graphismes au-dela des limites du menu'
+    WantWide        = 'Ultrawide / 144 Hz+'
+    WantLoad        = 'Chargements plus rapides'
+    WantStutter     = 'Corriger saccades / crashs'
+    WantLowEnd      = 'Jouable sur un PC faible'
+    ReqMessage      = 'Autre chose? (facultatif)'
+    ReqPreview      = 'Ce qui sera envoye:'
+    ReqSend         = 'ENVOYER'
+    ReqCancel       = 'Annuler'
+    ReqNoGame       = "Ecris d'abord le nom du jeu."
+    ReqSent         = 'Demande envoyee a SI NEWS: {0}. Merci!'
+    TelemetryOn     = 'Stats anonymes ON: une fois par semaine SI NEWS recoit les noms de tes jeux + modele CPU/GPU et RAM (pas d id, pas de fichiers) pour choisir les prochains SI PRESETS.'
+    TelemetryOff    = 'Stats anonymes OFF.'
+    TelemetryTurnOff = 'Desactiver'
+    TelemetryTurnOn  = 'Activer'
+    AskAfterAdd     = 'Jeu ajoute: {0}. Veux-tu que SI NEWS fasse un SI PRESET extreme pour lui?'
+    PresetConfirm   = "{0} - {1}`n`n{2}`n`nL'appliquer maintenant?"
+    PresetDone      = 'SI PRESET {0} applique. Details dans SI-GAME.log.'
+    PresetFail      = "SI PRESET {0} n'a pas ete applique: {1}"
+    PresetUndoAsk   = "Le SI PRESET {0} est deja applique.`n`nOUI = remettre ta configuration d'origine (Annuler)`nNON = l'appliquer de nouveau"
+    PresetsTitle    = 'SI PRESETS'
+    PresetsIntro    = 'Configurations extremes faites dans les videos SI NEWS. Trouve = le jeu est sur ce PC.'
+    PresetFound     = 'trouve sur ce PC'
+    PresetNotFound  = 'non trouve'
+    PresetApply     = 'APPLIQUER'
+    PresetsUpdate   = 'Chercher de nouveaux presets'
+    PresetsUpToDate = 'Presets a jour ({0}).'
+    PresetsNew      = "{0} SI PRESETS nouveaux ou mis a jour sont sur GitHub:`n`n{1}`n`nLes telecharger maintenant?"
+    PresetsGot      = '{0} SI PRESETS telecharges.'
+    PresetsOffline  = 'GitHub injoignable: {0}'
+    UpdateAsk       = "SIGAME {0} est sur GitHub (cette copie est la {1}).`n`n{2}`n`nMettre a jour maintenant? Tes reglages, sauvegardes et presets restent tels quels."
+    UpdateBusy      = 'Telechargement de SIGAME {0}...'
+    UpdateDone      = 'SIGAME {0} est installe. SIGAME redemarre maintenant.'
+    UpdateFail      = "La mise a jour n'a pas ete installee, rien n'a change: {0}"
+    UpdatedTo       = "SIGAME s'est mis a jour tout seul vers {0}."
+    PresetsAuto     = 'Nouveaux SI PRESETS telecharges: {0}'
+    PresetsSearch   = 'Chercher un jeu...'
+    PresetApplied   = 'APPLIQUE'
+    PresetsNone     = 'Aucun preset pour cette recherche.'
+}
+$script:SICommunityText['en'].PresetsSearch = 'Search game...'
+$script:SICommunityText['en'].PresetApplied = 'APPLIED'
+$script:SICommunityText['en'].PresetsNone   = 'No preset for this search.'
+$script:SICommunityText['it'].PresetsSearch = 'Cerca gioco...'
+$script:SICommunityText['it'].PresetApplied = 'APPLICATO'
+$script:SICommunityText['it'].PresetsNone   = 'Nessun preset per questa ricerca.'
+$script:SICommunityText['pt-BR'].GamesScanning = 'Procurando jogos neste PC...'
+$script:SICommunityText['es'].GamesScanning = 'Buscando juegos en este PC...'
+$script:SICommunityText['de'].GamesScanning = 'Suche Spiele auf diesem PC...'
+$script:SICommunityText['fr'].GamesScanning = 'Recherche des jeux sur ce PC...'
+$script:SICommunityText['en'].GamesScanning = 'Looking for games on this PC...'
+$script:SICommunityText['it'].GamesScanning = 'Cerco i giochi su questo PC...'
+$script:SICommunityText['en'].AddTitle    = 'Select the game executable (.exe) to add'
+$script:SICommunityText['en'].AddDone     = 'Game added to the list: {0}. Press OPTIMIZE or PLAY to optimize it.'
+$script:SICommunityText['en'].AddFail     = 'The game could not be added: {0}'
+$script:SICommunityText['en'].AddLauncher = "{0} looks like a launcher, not the game. SIGAME needs the exe of the game itself (inside the game folder, often in a Bin or Binaries folder).`n`nAdd {0} anyway?"
+$script:SICommunityText['it'].AddTitle    = 'Scegli l''eseguibile del gioco (.exe) da aggiungere'
+$script:SICommunityText['it'].AddDone     = 'Gioco aggiunto alla lista: {0}. Premi OTTIMIZZA o GIOCA per ottimizzarlo.'
+$script:SICommunityText['it'].AddFail     = 'Il gioco non e stato aggiunto: {0}'
+$script:SICommunityText['it'].AddLauncher = "{0} sembra un launcher, non il gioco. SIGAME ha bisogno dell'exe del gioco stesso (nella cartella del gioco, spesso in Bin o Binaries).`n`nAggiungere {0} lo stesso?"
+$script:SICommunityText['pt-BR'].AddTitle    = 'Escolha o executavel do jogo (.exe) para adicionar'
+$script:SICommunityText['pt-BR'].AddDone     = 'Jogo adicionado a lista: {0}. Pressione OTIMIZAR ou JOGAR para otimiza-lo.'
+$script:SICommunityText['pt-BR'].AddFail     = 'Nao foi possivel adicionar o jogo: {0}'
+$script:SICommunityText['pt-BR'].AddLauncher = "{0} parece um launcher, nao o jogo. O SIGAME precisa do exe do proprio jogo (na pasta do jogo, muitas vezes em Bin ou Binaries).`n`nAdicionar {0} mesmo assim?"
+$script:SICommunityText['es'].AddTitle    = 'Elige el ejecutable del juego (.exe) para agregar'
+$script:SICommunityText['es'].AddDone     = 'Juego agregado a la lista: {0}. Pulsa OPTIMIZAR o JUGAR para optimizarlo.'
+$script:SICommunityText['es'].AddFail     = 'No se pudo agregar el juego: {0}'
+$script:SICommunityText['es'].AddLauncher = "{0} parece un launcher, no el juego. SIGAME necesita el exe del propio juego (en la carpeta del juego, a menudo en Bin o Binaries).`n`nAgregar {0} de todos modos?"
+$script:SICommunityText['de'].AddTitle    = 'Waehle die Exe-Datei des Spiels (.exe)'
+$script:SICommunityText['de'].AddDone     = 'Spiel zur Liste hinzugefuegt: {0}. Druecke OPTIMIEREN oder SPIELEN, um es zu optimieren.'
+$script:SICommunityText['de'].AddFail     = 'Das Spiel konnte nicht hinzugefuegt werden: {0}'
+$script:SICommunityText['de'].AddLauncher = "{0} sieht wie ein Launcher aus, nicht wie das Spiel. SIGAME braucht die Exe des Spiels selbst (im Spielordner, oft in Bin oder Binaries).`n`n{0} trotzdem hinzufuegen?"
+$script:SICommunityText['fr'].AddTitle    = 'Choisis l''executable du jeu (.exe) a ajouter'
+$script:SICommunityText['fr'].AddDone     = 'Jeu ajoute a la liste: {0}. Appuie sur OPTIMISER ou JOUER pour l''optimiser.'
+$script:SICommunityText['fr'].AddFail     = 'Le jeu n''a pas pu etre ajoute: {0}'
+$script:SICommunityText['fr'].AddLauncher = "{0} ressemble a un launcher, pas au jeu. SIGAME a besoin de l'exe du jeu lui-meme (dans le dossier du jeu, souvent dans Bin ou Binaries).`n`nAjouter {0} quand meme?"
 
 function Get-SICommunityText {
     param([Parameter(Mandatory = $true)][string]$Key)
@@ -540,13 +779,36 @@ function Start-SIUpdateCheck {
     } catch { }
 }
 
+function Test-SIPresetFound {
+    <#
+    .SYNOPSIS
+        Found = the preset's folder exists OR a game card of this PC matches the
+        preset's Match (Steam/Epic/GOG games in any library folder count too).
+    #>
+    param($Entry)
+    if (Test-SIPresetDetected -Entry $Entry) { return $true }
+    if (-not $Entry.Match) { return $false }
+    foreach ($g in @($script:SIGameLibrary)) {
+        $hay = @([string]$g.Name, [System.IO.Path]::GetFileName([string]$g.Exe),
+                 [System.IO.Path]::GetFileName([string]$g.Folder)) -join ' | '
+        if ($hay -match [string]$Entry.Match) { return $true }
+    }
+    return $false
+}
+
 function Show-SIPresetsWindow {
+    <#
+    .SYNOPSIS
+        The SI PRESETS list: search box, the games of this PC first, APPLIED
+        badge on the presets that are on (press APPLY again to Undo).
+    #>
+    param([switch]$NoShow)  # NoShow: build only (tests and screenshots)
     $c = $script:SIColors
     $w = [System.Windows.Window]::new()
     $w.Title = (Get-SICommunityText 'PresetsTitle')
-    $w.Width = 560
+    $w.Width = 600
     $w.SizeToContent = 'Height'
-    $w.MaxHeight = 640
+    $w.MaxHeight = 700
     $w.WindowStartupLocation = 'CenterOwner'
     if ($script:SIWindow) { $w.Owner = $script:SIWindow }
     $w.Background = Get-SIBrush $c.Background
@@ -557,70 +819,152 @@ function Show-SIPresetsWindow {
     $intro.Text = (Get-SICommunityText 'PresetsIntro')
     $intro.Foreground = Get-SIBrush $c.Muted
     $intro.TextWrapping = 'Wrap'
-    $intro.Margin = [System.Windows.Thickness]::new(0, 0, 0, 10)
+    $intro.Margin = [System.Windows.Thickness]::new(0, 0, 0, 8)
     [void]$root.Children.Add($intro)
+
+    # search: a hint drawn under a transparent box (no placeholder in WPF)
+    $sGrid = [System.Windows.Controls.Grid]::new()
+    $sGrid.Margin = [System.Windows.Thickness]::new(0, 0, 0, 8)
+    $hint = [System.Windows.Controls.TextBlock]::new()
+    $hint.Text = (Get-SICommunityText 'PresetsSearch')
+    $hint.Foreground = Get-SIBrush $c.Muted
+    $hint.Margin = [System.Windows.Thickness]::new(9, 6, 0, 0)
+    $hint.IsHitTestVisible = $false
+    $box = [System.Windows.Controls.TextBox]::new()
+    $box.Height = 28
+    $box.Padding = [System.Windows.Thickness]::new(5, 4, 5, 0)
+    $box.Background = [System.Windows.Media.Brushes]::Transparent
+    $box.Foreground = Get-SIBrush $c.Text
+    $box.CaretBrush = Get-SIBrush $c.Text
+    $box.BorderBrush = Get-SIBrush $c.BorderGold
+    $back = [System.Windows.Controls.Border]::new()
+    $back.Background = Get-SIBrush $c.PanelAlt
+    $back.CornerRadius = [System.Windows.CornerRadius]::new(4)
+    [void]$sGrid.Children.Add($back)
+    [void]$sGrid.Children.Add($hint)
+    [void]$sGrid.Children.Add($box)
+    [void]$root.Children.Add($sGrid)
 
     $list = [System.Windows.Controls.StackPanel]::new()
     $scroll = [System.Windows.Controls.ScrollViewer]::new()
-    $scroll.MaxHeight = 460
+    $scroll.MaxHeight = 480
     $scroll.VerticalScrollBarVisibility = 'Auto'
     $scroll.Content = $list
     [void]$root.Children.Add($scroll)
 
-    foreach ($e in (Get-SIPresetCatalog)) {
-        $row = [System.Windows.Controls.Border]::new()
-        $row.Background = Get-SIBrush $c.PanelAlt
-        $row.CornerRadius = [System.Windows.CornerRadius]::new(4)
-        $row.Padding = [System.Windows.Thickness]::new(10, 8, 10, 8)
-        $row.Margin = [System.Windows.Thickness]::new(0, 0, 0, 6)
-        $dock = [System.Windows.Controls.DockPanel]::new()
-        $btn = New-SIStyleButton -Text (Get-SICommunityText 'PresetApply') -StyleKey 'AccentButton' -Window $w -Width 80
-        $btn.Height = 26
-        $btn.VerticalAlignment = 'Center'
-        [System.Windows.Controls.DockPanel]::SetDock($btn, 'Right')
-        $captured = $e
-        $null = $btn.Add_Click({ Invoke-SIGamePreset -Entry $captured }.GetNewClosure())
-        [void]$dock.Children.Add($btn)
-        $txt = [System.Windows.Controls.StackPanel]::new()
-        $t1 = [System.Windows.Controls.TextBlock]::new()
-        $t1.Text = "$($e.Title)  -  $($e.Game)"
-        $t1.FontWeight = 'SemiBold'
-        $t1.Foreground = Get-SIBrush $c.Text
-        $t1.TextWrapping = 'Wrap'
-        [void]$txt.Children.Add($t1)
-        $found = Test-SIPresetDetected -Entry $e
-        $t2 = [System.Windows.Controls.TextBlock]::new()
-        $t2.Text = if ($found) { (Get-SICommunityText 'PresetFound') } else { (Get-SICommunityText 'PresetNotFound') }
-        $t2.Foreground = if ($found) { Get-SIBrush $c.Ok } else { Get-SIBrush $c.Off }
-        $t2.FontSize = 10.5
-        [void]$txt.Children.Add($t2)
-        $t3 = [System.Windows.Controls.TextBlock]::new()
-        $t3.Text = (Get-SIPresetText -Entry $e)
-        $t3.Foreground = Get-SIBrush $c.Muted
-        $t3.FontSize = 10.5
-        $t3.TextWrapping = 'Wrap'
-        $t3.Margin = [System.Windows.Thickness]::new(0, 3, 8, 0)
-        [void]$txt.Children.Add($t3)
-        [void]$dock.Children.Add($txt)
-        $row.Child = $dock
-        [void]$list.Children.Add($row)
-    }
+    # found once per window (folder checks), the games of this PC first, then A-Z
+    $all = @(foreach ($e in (Get-SIPresetCatalog)) { [pscustomobject]@{ Entry = $e; Found = (Test-SIPresetFound -Entry $e) } })
+    $all = @($all | Sort-Object -Property @{ Expression = { -not $_.Found } }, @{ Expression = { [string]$_.Entry.Game } })
+    $script:SIPresetsRows = $all
+    $script:SIPresetsList = $list
+    $script:SIPresetsWin = $w
 
-    $bar = [System.Windows.Controls.StackPanel]::new()
-    $bar.Orientation = 'Horizontal'
+    $fill = {
+        param([string]$Query)
+        $c = $script:SIColors
+        $list = $script:SIPresetsList
+        $list.Children.Clear()
+        $applied = @()
+        try { $applied = @((Get-SICommunityState).Applied.PSObject.Properties.Name) } catch { }
+        $shown = 0
+        foreach ($item in $script:SIPresetsRows) {
+            $e = $item.Entry
+            if ($Query -and ("$($e.Title) $($e.Game)" -notlike "*$Query*")) { continue }
+            $shown++
+            $isOn = ($applied -contains [string]$e.Id)
+            $row = [System.Windows.Controls.Border]::new()
+            $row.Background = Get-SIBrush $c.PanelAlt
+            $row.CornerRadius = [System.Windows.CornerRadius]::new(4)
+            $row.Padding = [System.Windows.Thickness]::new(10, 8, 10, 8)
+            $row.Margin = [System.Windows.Thickness]::new(0, 0, 0, 6)
+            if ($isOn) { $row.BorderBrush = Get-SIBrush $c.Ok; $row.BorderThickness = [System.Windows.Thickness]::new(1) }
+            $dock = [System.Windows.Controls.DockPanel]::new()
+            $btn = New-SIStyleButton -Text (Get-SICommunityText 'PresetApply') -StyleKey 'AccentButton' -Window $script:SIPresetsWin -Width 96
+            $btn.Height = 28
+            $btn.VerticalAlignment = 'Center'
+            [System.Windows.Controls.DockPanel]::SetDock($btn, 'Right')
+            $captured = $e
+            $null = $btn.Add_Click({
+                Invoke-SIGamePreset -Entry $captured
+                & $script:SIPresetsFill $script:SIPresetsQuery
+            }.GetNewClosure())
+            [void]$dock.Children.Add($btn)
+            $txt = [System.Windows.Controls.StackPanel]::new()
+            $head = [System.Windows.Controls.WrapPanel]::new()
+            $t1 = [System.Windows.Controls.TextBlock]::new()
+            $t1.Text = "$($e.Title)  -  $($e.Game)"
+            $t1.FontWeight = 'SemiBold'
+            $t1.Foreground = Get-SIBrush $c.Text
+            $t1.TextWrapping = 'Wrap'
+            [void]$head.Children.Add($t1)
+            if ($isOn) {
+                $badge = [System.Windows.Controls.Border]::new()
+                $badge.Background = Get-SIBrush $c.Ok
+                $badge.CornerRadius = [System.Windows.CornerRadius]::new(3)
+                $badge.Padding = [System.Windows.Thickness]::new(5, 0, 5, 0)
+                $badge.Margin = [System.Windows.Thickness]::new(8, 1, 0, 0)
+                $bt = [System.Windows.Controls.TextBlock]::new()
+                $bt.Text = (Get-SICommunityText 'PresetApplied')
+                $bt.FontSize = 10
+                $bt.FontWeight = 'Bold'
+                $bt.Foreground = [System.Windows.Media.Brushes]::Black
+                $badge.Child = $bt
+                [void]$head.Children.Add($badge)
+            }
+            [void]$txt.Children.Add($head)
+            $t2 = [System.Windows.Controls.TextBlock]::new()
+            $t2.Text = if ($item.Found) { (Get-SICommunityText 'PresetFound') } else { (Get-SICommunityText 'PresetNotFound') }
+            $t2.Foreground = if ($item.Found) { Get-SIBrush $c.Ok } else { Get-SIBrush $c.Off }
+            $t2.FontSize = 10.5
+            [void]$txt.Children.Add($t2)
+            $t3 = [System.Windows.Controls.TextBlock]::new()
+            $t3.Text = (Get-SIPresetText -Entry $e)
+            $t3.Foreground = Get-SIBrush $c.Muted
+            $t3.FontSize = 10.5
+            $t3.TextWrapping = 'Wrap'
+            $t3.Margin = [System.Windows.Thickness]::new(0, 3, 8, 0)
+            [void]$txt.Children.Add($t3)
+            [void]$dock.Children.Add($txt)
+            $row.Child = $dock
+            [void]$list.Children.Add($row)
+        }
+        if ($shown -eq 0) {
+            $none = [System.Windows.Controls.TextBlock]::new()
+            $none.Text = (Get-SICommunityText 'PresetsNone')
+            $none.Foreground = Get-SIBrush $c.Muted
+            $none.Margin = [System.Windows.Thickness]::new(4, 6, 0, 6)
+            [void]$list.Children.Add($none)
+        }
+    }
+    $script:SIPresetsFill = $fill
+    $script:SIPresetsQuery = ''
+    & $fill ''
+    $null = $box.Add_TextChanged({
+        param($s, $ev)
+        $q = ([string]$s.Text).Trim()
+        $script:SIPresetsQuery = $q
+        $hint.Visibility = if ($s.Text) { 'Collapsed' } else { 'Visible' }
+        & $script:SIPresetsFill $q
+    }.GetNewClosure())
+
+    $bar = [System.Windows.Controls.WrapPanel]::new()
     $bar.Margin = [System.Windows.Thickness]::new(0, 10, 0, 0)
     $bUpd = New-SIStyleButton -Text (Get-SICommunityText 'PresetsUpdate') -StyleKey 'GhostButton' -Window $w
-    $bUpd.Height = 26
+    $bUpd.Height = 28
+    $bUpd.Padding = [System.Windows.Thickness]::new(10, 0, 10, 0)
     $null = $bUpd.Add_Click({ param($s, $ev) [System.Windows.Window]::GetWindow($s).Close(); Update-SIPresetLibrary })
     [void]$bar.Children.Add($bUpd)
     $bReq = New-SIStyleButton -Text (Get-SICommunityText 'BtnFeedback') -StyleKey 'GhostButton' -Window $w
-    $bReq.Height = 26
+    $bReq.Height = 28
+    $bReq.Padding = [System.Windows.Thickness]::new(10, 0, 10, 0)
     $bReq.Margin = [System.Windows.Thickness]::new(8, 0, 0, 0)
     $null = $bReq.Add_Click({ param($s, $ev) [System.Windows.Window]::GetWindow($s).Close(); Invoke-SIRequestGame })
     [void]$bar.Children.Add($bReq)
     [void]$root.Children.Add($bar)
 
     $w.Content = $root
+    $null = $w.Add_ContentRendered({ $box.Focus() | Out-Null }.GetNewClosure())
+    if ($NoShow) { return $w }
     [void]$w.ShowDialog()
 }
 

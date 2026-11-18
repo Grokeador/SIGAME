@@ -849,18 +849,23 @@ function Invoke-SIAddCustomGameDialog {
     #>
     try {
         $dlg = New-Object Microsoft.Win32.OpenFileDialog
-        $dlg.Title  = 'Select the game executable (.exe) to add'
+        $dlg.Title  = (Get-SICommunityText 'AddTitle')
         $dlg.Filter = 'Game executables (*.exe)|*.exe'
         $dlg.Multiselect = $false
         $res = $dlg.ShowDialog($script:SIWindow)
         if ($res -eq $true -and $dlg.FileName -and [System.IO.File]::Exists($dlg.FileName)) {
             $exe = [string]$dlg.FileName
+            # 18/11 stats: players added Battle.net / COD / REDprelauncher instead of the game
+            if (Test-SILauncherExe -Path $exe) {
+                $ln = [System.IO.Path]::GetFileName($exe)
+                if (-not (Show-SIMessage -Window $script:SIWindow -Title 'SIGAME' -Text ((Get-SICommunityText 'AddLauncher') -f $ln))) { return }
+            }
             [void](Add-SIAutoBoostGame -Path $exe)
             Send-SICustomGameTelemetry -ExePath $exe
             $script:SIGameLibrary = @(Get-SIExtendedGames)
             Update-SIAutoDashboard
             $gName = [System.IO.Path]::GetFileNameWithoutExtension($exe)
-            Set-SIStatusText -Text "Game added to the list: $gName. Press OPTIMIZE or PLAY to optimize it."
+            Set-SIStatusText -Text ((Get-SICommunityText 'AddDone') -f $gName)
             $added = @($script:SIGameLibrary | Where-Object { [string]$_.Exe -ieq $exe }) | Select-Object -First 1
             if ($added -and -not (Find-SIGamePreset -Game $added)) {
                 if (Show-SIMessage -Window $script:SIWindow -Title 'SI PRESET' -Text ((Get-SICommunityText 'AskAfterAdd') -f $gName)) {
@@ -869,8 +874,15 @@ function Invoke-SIAddCustomGameDialog {
             }
         }
     } catch {
-        Set-SIStatusText -Text "The game could not be added: $($_.Exception.Message)"
+        Set-SIStatusText -Text ((Get-SICommunityText 'AddFail') -f $_.Exception.Message)
     }
+}
+
+function Test-SILauncherExe {
+    <# True when the chosen exe is a store launcher or a game's pre-launcher, not the game. #>
+    param([string]$Path)
+    $n = [System.IO.Path]::GetFileName([string]$Path)
+    return ($n -match '(?i)(launcher|^battle\.net|^steam\.exe$|^steamwebhelper|galaxyclient|^upc\.exe$|ubisoftconnect|^eadesktop|^origin\.exe$|riotclient|bootstrap|^setup|^unins)')
 }
 
 function Set-SITimerResolution05ms {
@@ -2769,6 +2781,40 @@ function Remove-SIGameFoldersFromDefenderExclusion {
     } catch { }
 }
 
+function Convert-SIHealthLang {
+    <#
+    .SYNOPSIS
+        The Gaming health line was built with Italian words on every Windows
+        (18/11: a pt-BR window showed "Salute Gaming ... Stabile ... Alza gli Hz").
+        The words are swapped here for the language of the window.
+    #>
+    param([string]$Text)
+    $lang = 'en'
+    try { $lang = Get-SISILanguage } catch { }
+    if ($lang -eq 'it') { return $Text }
+    $i = @{ 'en' = 0; 'pt-BR' = 1; 'es' = 2; 'de' = 3; 'fr' = 4 }[$lang]
+    if ($null -eq $i) { $i = 0 }
+    $words = @(
+        @('Salute Gaming', 'Gaming health', 'Saude Gamer', 'Salud Gaming', 'Gaming-Status', 'Sante Gaming'),
+        @(' mesi fa - AGGIORNA)', ' months old - UPDATE IT)', ' meses - ATUALIZE)', ' meses - ACTUALIZALO)', ' Monate alt - AKTUALISIEREN)', ' mois - METS-LE A JOUR)'),
+        @(' gg fa)', ' days old)', ' dias)', ' dias)', ' Tage alt)', ' jours)'),
+        @('Hz (Supporta ', 'Hz (supports ', 'Hz (suporta ', 'Hz (soporta ', 'Hz (kann ', 'Hz (supporte '),
+        @('Hz! Alza gli Hz)', 'Hz! Raise it)', 'Hz! Aumente)', 'Hz! Subelo)', 'Hz! Erhoehen)', 'Hz! Augmente-le)'),
+        @('OFF (Ottimale)', 'OFF (optimal)', 'OFF (ideal)', 'OFF (optimo)', 'OFF (optimal)', 'OFF (optimal)'),
+        @('Stabile (0 crash GPU)', 'Stable (0 GPU crashes)', 'Estavel (0 crashes de GPU)', 'Estable (0 crashes de GPU)', 'Stabil (0 GPU-Abstuerze)', 'Stable (0 crash GPU)'),
+        @('crash driver GPU (7gg)', 'GPU driver crashes (7 days)', 'crashes do driver GPU (7 dias)', 'crashes del driver GPU (7 dias)', 'GPU-Treiber-Abstuerze (7 Tage)', 'crash du pilote GPU (7 jours)'),
+        @('(1 banco)', '(1 stick)', '(1 pente)', '(1 modulo)', '(1 Riegel)', '(1 barrette)'),
+        @('(Verifica SSD!)', '(check the SSD!)', '(verifique o SSD!)', '(revisa el SSD!)', '(SSD pruefen!)', '(verifie le SSD!)'),
+        @('Instabile', 'Unstable', 'Instavel', 'Inestable', 'Instabil', 'Instable'),
+        @('Eccellente', 'Excellent', 'Excelente', 'Excelente', 'Ausgezeichnet', 'Excellent'),
+        @('Stabile', 'Stable', 'Estavel', 'Estable', 'Stabil', 'Stable'),
+        @('Disco:', 'Disk:', 'Disco:', 'Disco:', 'Laufwerk:', 'Disque:'),
+        @('Sconosciuto', 'Unknown', 'Desconhecido', 'Desconocido', 'Unbekannt', 'Inconnu')
+    )
+    foreach ($w in $words) { $Text = $Text.Replace($w[0], $w[$i + 1]) }
+    return $Text
+}
+
 function Get-SIGamingHealthCheck {
     <#
     .SYNOPSIS
@@ -2858,7 +2904,7 @@ function Get-SIGamingHealthCheck {
         PingText   = $netPing.Text
         PingWarn   = $netPing.Warn
         HasWarning = ($driverWarn -or $hzWarn -or ($vbsWarn -and -not $acGuard.RequiresVbs) -or $netPing.Warn -or $therm.Warn -or $stab.Warn -or $ramCh.Warn -or $smart.Warn)
-        Summary    = "Salute Gaming -> GPU: $driverText$hzSegment$rebarSegment$ramSegment$thermSegment$stabSegment$smartSegment  |  VBS: $vbsText  |  Ping: $($netPing.Text)$acSegment"
+        Summary    = (Convert-SIHealthLang ("Salute Gaming -> GPU: $driverText$hzSegment$rebarSegment$ramSegment$thermSegment$stabSegment$smartSegment  |  VBS: $vbsText  |  Ping: $($netPing.Text)$acSegment"))
     }
     return $script:SIGamingHealthCache
 }
@@ -4181,6 +4227,9 @@ function New-SIWindow {
     $btnUndo = New-SIStyleButton -Text (Get-SIHudText 'BtnUndo') -StyleKey 'GhostButton' -Window $window -Width 82
     $btnUndo.Height = 28
     $btnUndo.FontSize = 10
+    $btnUndo.MinWidth = $btnUndo.Width
+    $btnUndo.Width = [double]::NaN
+    $btnUndo.Padding = [System.Windows.Thickness]::new(8, 0, 8, 0)
     $btnUndo.Margin = [System.Windows.Thickness]::new(0, 0, 4, 0)
     $btnUndo.IsEnabled = $false
     $btnUndo.ToolTip = (Get-SIHudText 'UndoConfirmMsg')
@@ -4198,6 +4247,9 @@ function New-SIWindow {
     $btnInspect = New-SIStyleButton -Text (Get-SIHudText 'BtnInspect') -StyleKey 'GhostButton' -Window $window -Width 78
     $btnInspect.Height = 28
     $btnInspect.FontSize = 10
+    $btnInspect.MinWidth = $btnInspect.Width
+    $btnInspect.Width = [double]::NaN
+    $btnInspect.Padding = [System.Windows.Thickness]::new(8, 0, 8, 0)
     $btnInspect.Margin = [System.Windows.Thickness]::new(0, 0, 4, 0)
     $btnInspect.ToolTip = (Get-SIHudText 'TabInspect')
     $script:SINames['BtnInspect'] = $btnInspect
@@ -4206,6 +4258,9 @@ function New-SIWindow {
     $btnBench = New-SIStyleButton -Text (Get-SIHudText 'BtnTest') -StyleKey 'GhostButton' -Window $window -Width 46
     $btnBench.Height = 28
     $btnBench.FontSize = 10
+    $btnBench.MinWidth = $btnBench.Width
+    $btnBench.Width = [double]::NaN
+    $btnBench.Padding = [System.Windows.Thickness]::new(8, 0, 8, 0)
     $btnBench.Margin = [System.Windows.Thickness]::new(0, 0, 4, 0)
     $btnBench.ToolTip = (Get-SIHudText 'TabKernel')
     $script:SINames['BtnBench'] = $btnBench
@@ -4315,7 +4370,10 @@ function New-SIWindow {
     [void]$rightStack.Children.Add($modeWrap)
 
     $cbAutoStart = [System.Windows.Controls.CheckBox]::new()
-    $cbAutoStart.Content = (Get-SIHudText 'AutoStartWindows')
+    $cbAutoText = [System.Windows.Controls.TextBlock]::new()
+    $cbAutoText.Text = (Get-SIHudText 'AutoStartWindows')
+    $cbAutoText.TextWrapping = 'Wrap'
+    $cbAutoStart.Content = $cbAutoText
     $cbAutoStart.FontSize = 10.5
     $cbAutoStart.Foreground = Get-SIBrush $c.Muted
     $cbAutoStart.Margin = [System.Windows.Thickness]::new(0, 2, 0, 0)
@@ -4449,34 +4507,28 @@ function New-SIWindow {
     Add-SIGridRow -Grid $rightGrid -Type 'Star' -Value 1
     $rightCard.Child = $rightGrid
 
-    $gameHeaderDock = [System.Windows.Controls.DockPanel]::new()
-    $btnAddGame = New-SIStyleButton -Text (Get-SIHudText 'BtnAddGame') -StyleKey 'GhostButton' -Window $window
-    $btnAddGame.Height = 24
-    $btnAddGame.FontSize = 10.5
-    $btnAddGame.Margin = [System.Windows.Thickness]::new(8, 0, 0, 0)
-    [System.Windows.Controls.DockPanel]::SetDock($btnAddGame, 'Right')
-    [void]$gameHeaderDock.Children.Add($btnAddGame)
-    $btnRequestGame = New-SIStyleButton -Text (Get-SICommunityText 'BtnFeedback') -StyleKey 'GhostButton' -Window $window
-    $btnRequestGame.Height = 24
-    $btnRequestGame.FontSize = 10.5
-    $btnRequestGame.Margin = [System.Windows.Thickness]::new(8, 0, 0, 0)
-    [System.Windows.Controls.DockPanel]::SetDock($btnRequestGame, 'Right')
-    [void]$gameHeaderDock.Children.Add($btnRequestGame)
-    $btnPresets = New-SIStyleButton -Text (Get-SICommunityText 'BtnPresets') -StyleKey 'AccentButton' -Window $window
-    $btnPresets.Height = 24
-    $btnPresets.FontSize = 10.5
-    $btnPresets.Margin = [System.Windows.Thickness]::new(8, 0, 0, 0)
-    [System.Windows.Controls.DockPanel]::SetDock($btnPresets, 'Right')
-    [void]$gameHeaderDock.Children.Add($btnPresets)
-
+    $gameHeaderDock = [System.Windows.Controls.StackPanel]::new()
     $gamesTitle = [System.Windows.Controls.TextBlock]::new()
     $gamesTitle.Text = (Get-SIHudText 'Card2Title')
     $gamesTitle.FontSize = 12
     $gamesTitle.FontWeight = 'Bold'
     $gamesTitle.Foreground = Get-SIBrush $c.Accent
-    $gamesTitle.VerticalAlignment = 'Center'
+    $gamesTitle.TextWrapping = 'Wrap'
     $script:SINames['GamesCardTitle'] = $gamesTitle
     [void]$gameHeaderDock.Children.Add($gamesTitle)
+    $gameBtnRow = [System.Windows.Controls.WrapPanel]::new()
+    $gameBtnRow.Margin = [System.Windows.Thickness]::new(0, 6, 0, 0)
+    $btnPresets = New-SIStyleButton -Text (Get-SICommunityText 'BtnPresets') -StyleKey 'AccentButton' -Window $window
+    $btnRequestGame = New-SIStyleButton -Text (Get-SICommunityText 'BtnFeedback') -StyleKey 'GhostButton' -Window $window
+    $btnAddGame = New-SIStyleButton -Text (Get-SIHudText 'BtnAddGame') -StyleKey 'GhostButton' -Window $window
+    foreach ($hb in @($btnPresets, $btnRequestGame, $btnAddGame)) {
+        $hb.Height = 26
+        $hb.FontSize = 10.5
+        $hb.Padding = [System.Windows.Thickness]::new(10, 0, 10, 0)
+        $hb.Margin = [System.Windows.Thickness]::new(0, 0, 6, 4)
+        [void]$gameBtnRow.Children.Add($hb)
+    }
+    [void]$gameHeaderDock.Children.Add($gameBtnRow)
     [System.Windows.Controls.Grid]::SetRow($gameHeaderDock, 0)
     [void]$rightGrid.Children.Add($gameHeaderDock)
 
@@ -4494,6 +4546,12 @@ function New-SIWindow {
     $gameListPanel = [System.Windows.Controls.StackPanel]::new()
     $gameScroll.Content = $gameListPanel
     $script:SINames['GameLibrary'] = $gameListPanel
+    $scanText = [System.Windows.Controls.TextBlock]::new()
+    $scanText.Text = (Get-SICommunityText 'GamesScanning')
+    $scanText.FontSize = 12
+    $scanText.Foreground = Get-SIBrush $c.Muted
+    $scanText.Margin = [System.Windows.Thickness]::new(2, 8, 0, 0)
+    [void]$gameListPanel.Children.Add($scanText)
     [System.Windows.Controls.Grid]::SetRow($gameScroll, 2)
     [void]$rightGrid.Children.Add($gameScroll)
 
