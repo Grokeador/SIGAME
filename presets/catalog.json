@@ -40,7 +40,11 @@
         "es": "Fotorrealismo GRATIS para la update 2.5: nuestro propio preset ReShade (shaders SweetFX gratis, ajustado sobre el Nova LUT 4.0 gratis), path tracing con rayos/rebotes 3/3 por encima de los 2/2 del juego solo en RTX x080/x090 (user.ini), y las opciones del menu DLSS 4.5 para tu GPU. Copia de seguridad primero, DESHACER lo devuelve.",
         "de": "Fotorealismus GRATIS fuer Update 2.5: unser eigenes ReShade-Preset (kostenlose SweetFX-Shader, abgestimmt auf dem kostenlosen Nova LUT 4.0), Path Tracing mit Strahlen/Bounces 3/3 statt der 2/2 des Spiels nur auf RTX x080/x090 (user.ini), und die DLSS-4.5-Menueauswahl fuer deine GPU. Erst Backup, RUECKGAENGIG stellt es wieder her.",
         "fr": "Photorealisme GRATUIT pour la mise a jour 2.5 : notre propre preset ReShade (shaders SweetFX gratuits, regle par-dessus le Nova LUT 4.0 gratuit), path tracing rayons/rebonds 3/3 au-dela des 2/2 du jeu seulement sur RTX x080/x090 (user.ini), et les choix du menu DLSS 4.5 pour ton GPU. Sauvegarde d'abord, ANNULER remet tout."
-      }
+      },
+      "Saves": [
+        "<home>/Saved Games/CD Projekt Red/Cyberpunk 2077",
+        "<winLocalAppData>/Packages/CDPROJEKTSA.4d0e9834-20b1-4580-9bdc-4501ef2ffaac_0xkrdv0gjmk28/SystemAppData/wgs"
+      ]
     },
     {
       "Id": "cod4-si-ultra",
@@ -60,7 +64,10 @@
         "es": "Configura los configs de perfil del propio CoD4 (config.cfg + config_mp.cfg) con claves que el menu de opciones no tiene, dentro de los rangos que el juego registra: limite de FPS = Hz de tu monitor (por defecto 85), FOV 80 (el maximo del juego, por defecto 65), modelos y soldados con detalle total a lo lejos (LOD bias segun tu memoria de video), texturas forzadas a tamano completo en mapas de color/normal/specular/agua, anisotropico 16x, shadow maps en las 4 luces principales, anti-aliasing segun tu memoria de video. Cierra el juego antes. Copia de seguridad primero, DESHACER lo devuelve.",
         "de": "Konfiguriert die eigenen Profil-Configs von CoD4 (config.cfg + config_mp.cfg) mit Schluesseln, die das Optionsmenue nicht hat, innerhalb der Bereiche, die das Spiel selbst registriert: FPS-Limit = Hz deines Monitors (Standard 85), FOV 80 (das Maximum des Spiels, Standard 65), Modelle und Soldaten in voller Detailstufe auch in der Ferne (LOD-Bias nach deinem Grafikspeicher), Texturgroesse voll erzwungen bei Farb-/Normal-/Specular-/Wasser-Maps, 16x anisotrop, Shadow Maps an allen 4 Hauptlichtern, Anti-Aliasing nach deinem Grafikspeicher. Schliesse zuerst das Spiel. Erst Backup, RUECKGAENGIG stellt es wieder her.",
         "fr": "Configure les configs de profil de CoD4 (config.cfg + config_mp.cfg) avec des cles que le menu d'options n'a pas, dans les plages que le jeu enregistre lui-meme : limite de FPS = Hz de ton ecran (85 par defaut), FOV 80 (le maximum du jeu, 65 par defaut), modeles et soldats en detail complet au loin (LOD bias selon ta memoire video), taille de texture forcee au maximum sur les maps couleur/normal/specular/eau, anisotrope 16x, shadow maps sur les 4 lumieres principales, anti-aliasing selon ta memoire video. Ferme le jeu d'abord. Sauvegarde d'abord, ANNULER remet tout."
-      }
+      },
+      "Saves": [
+        "<base>/players/profiles"
+      ]
     },
     {
       "Id": "mw4-si-fps",
@@ -202,7 +209,11 @@
         "es": "Instala OptiScaler 0.9.4 (release oficial, 55 MB, SHA-256 comprobado) junto al exe del juego y lo configura para tu GPU: AMD RX 7000 de escritorio / RX 9000 = FSR4 en todas las API (+ arreglo para Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll. En el juego evita las entradas DLSS con path tracing en AMD/Intel (elige FSR o XeSS) y evita las entradas FSR-FG. Solo un jugador: rechaza carpetas con anti-cheat. Cierra el juego antes. Copia de seguridad primero, DESHACER lo quita.",
         "de": "Installiert OptiScaler 0.9.4 (offizielles Release, 55 MB, SHA-256 geprueft) neben die exe des Spiels und stellt es fuer deine GPU ein: AMD RX 7000 Desktop / RX 9000 = FSR4 in jeder API (+ Windows-10-Fix), Intel Arc = XeSS. Wiki: dxgi.dll. Im Spiel auf AMD/Intel mit Path Tracing keine DLSS-Eingaben nutzen (FSR oder XeSS waehlen) und keine FSR-FG-Eingaben. Nur Einzelspieler: Ordner mit Anti-Cheat werden abgelehnt. Schliesse zuerst das Spiel. Erst Backup, RUECKGAENGIG entfernt es.",
         "fr": "Installe OptiScaler 0.9.4 (version officielle, 55 Mo, SHA-256 verifie) a cote de l'exe du jeu et le regle pour ton GPU : AMD RX 7000 desktop / RX 9000 = FSR4 dans toutes les API (+ correctif Windows 10), Intel Arc = XeSS. Wiki : dxgi.dll. Dans le jeu evite les entrees DLSS avec path tracing sur AMD/Intel (choisis FSR ou XeSS) et evite les entrees FSR-FG. Solo uniquement : refuse les dossiers avec anti-cheat. Ferme le jeu d'abord. Sauvegarde d'abord, ANNULER le retire."
-      }
+      },
+      "Saves": [
+        "<home>/Saved Games/CD Projekt Red/Cyberpunk 2077",
+        "<winLocalAppData>/Packages/CDPROJEKTSA.4d0e9834-20b1-4580-9bdc-4501ef2ffaac_0xkrdv0gjmk28/SystemAppData/wgs"
+      ]
     },
     {
       "Id": "e33-si-opti",
@@ -224,7 +235,11 @@
         "es": "Instala OptiScaler 0.9.4 (release oficial, 55 MB, SHA-256 comprobado) junto al exe del juego y lo configura para tu GPU: AMD RX 7000 de escritorio / RX 9000 = FSR4 en todas las API (+ arreglo para Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll junto a Sandfall\\Binaries\\Win64; los archivos XeSS/XeLL de OptiScaler se dejan fuera para que el FSR FG y el Anti-Lag 2 del propio juego (parche 1.5) sigan visibles. Evita el preset Ultra Quality (parpadeo/cierres). Solo un jugador: rechaza carpetas con anti-cheat. Cierra el juego antes. Copia de seguridad primero, DESHACER lo quita.",
         "de": "Installiert OptiScaler 0.9.4 (offizielles Release, 55 MB, SHA-256 geprueft) neben die exe des Spiels und stellt es fuer deine GPU ein: AMD RX 7000 Desktop / RX 9000 = FSR4 in jeder API (+ Windows-10-Fix), Intel Arc = XeSS. Wiki: dxgi.dll neben Sandfall\\Binaries\\Win64; die XeSS/XeLL-Dateien von OptiScaler bleiben weg, damit das spieleigene FSR FG und Anti-Lag 2 (Patch 1.5) sichtbar bleiben. Meide das Preset Ultra Quality (Flackern/Abstuerze). Nur Einzelspieler: Ordner mit Anti-Cheat werden abgelehnt. Schliesse zuerst das Spiel. Erst Backup, RUECKGAENGIG entfernt es.",
         "fr": "Installe OptiScaler 0.9.4 (version officielle, 55 Mo, SHA-256 verifie) a cote de l'exe du jeu et le regle pour ton GPU : AMD RX 7000 desktop / RX 9000 = FSR4 dans toutes les API (+ correctif Windows 10), Intel Arc = XeSS. Wiki : dxgi.dll a cote de Sandfall\\Binaries\\Win64 ; les fichiers XeSS/XeLL d'OptiScaler sont laisses de cote pour que le FSR FG et l'Anti-Lag 2 du jeu (patch 1.5) restent visibles. Evite le preset Ultra Quality (scintillement/plantages). Solo uniquement : refuse les dossiers avec anti-cheat. Ferme le jeu d'abord. Sauvegarde d'abord, ANNULER le retire."
-      }
+      },
+      "Saves": [
+        "<winLocalAppData>/Packages/KeplerInteractive.Expedition33_ymj30pw7xe604/SystemAppData/wgs",
+        "<winLocalAppData>/Sandfall/Saved/SaveGames/<storeUserId>/*.sav"
+      ]
     },
     {
       "Id": "wukong-si-opti",
@@ -246,7 +261,11 @@
         "es": "Instala OptiScaler 0.9.4 (release oficial, 55 MB, SHA-256 comprobado) junto al exe del juego y lo configura para tu GPU: AMD RX 7000 de escritorio / RX 9000 = FSR4 en todas las API (+ arreglo para Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll junto a b1\\Binaries\\Win64 y Dxgi=false: el spoofing de GPU causa texturas azules corruptas en este juego. Solo un jugador: rechaza carpetas con anti-cheat. Cierra el juego antes. Copia de seguridad primero, DESHACER lo quita.",
         "de": "Installiert OptiScaler 0.9.4 (offizielles Release, 55 MB, SHA-256 geprueft) neben die exe des Spiels und stellt es fuer deine GPU ein: AMD RX 7000 Desktop / RX 9000 = FSR4 in jeder API (+ Windows-10-Fix), Intel Arc = XeSS. Wiki: dxgi.dll neben b1\\Binaries\\Win64 und Dxgi=false: GPU-Spoofing verursacht in diesem Spiel blaue, kaputte Texturen. Nur Einzelspieler: Ordner mit Anti-Cheat werden abgelehnt. Schliesse zuerst das Spiel. Erst Backup, RUECKGAENGIG entfernt es.",
         "fr": "Installe OptiScaler 0.9.4 (version officielle, 55 Mo, SHA-256 verifie) a cote de l'exe du jeu et le regle pour ton GPU : AMD RX 7000 desktop / RX 9000 = FSR4 dans toutes les API (+ correctif Windows 10), Intel Arc = XeSS. Wiki : dxgi.dll a cote de b1\\Binaries\\Win64 et Dxgi=false : le spoofing GPU cause des textures bleues corrompues dans ce jeu. Solo uniquement : refuse les dossiers avec anti-cheat. Ferme le jeu d'abord. Sauvegarde d'abord, ANNULER le retire."
-      }
+      },
+      "Saves": [
+        "<base>/b1/Saved/SaveGames/<storeUserId>/*.sav",
+        "<base>/b1/Saved/SaveGamesBackup"
+      ]
     },
     {
       "Id": "got-si-opti",
@@ -268,7 +287,10 @@
         "es": "Instala OptiScaler 0.9.4 (release oficial, 55 MB, SHA-256 comprobado) junto al exe del juego y lo configura para tu GPU: AMD RX 7000 de escritorio / RX 9000 = FSR4 en todas las API (+ arreglo para Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll; en AMD/Intel Dxgi=false (no hace falta spoofing, DLSS-FG desbloqueado sin el): usa las entradas FSR o XeSS en el juego. Solo un jugador: rechaza carpetas con anti-cheat. Cierra el juego antes. Copia de seguridad primero, DESHACER lo quita.",
         "de": "Installiert OptiScaler 0.9.4 (offizielles Release, 55 MB, SHA-256 geprueft) neben die exe des Spiels und stellt es fuer deine GPU ein: AMD RX 7000 Desktop / RX 9000 = FSR4 in jeder API (+ Windows-10-Fix), Intel Arc = XeSS. Wiki: dxgi.dll; auf AMD/Intel Dxgi=false (Spoofing nicht noetig, DLSS-FG ohne es freigeschaltet): nutze im Spiel FSR- oder XeSS-Eingaben. Nur Einzelspieler: Ordner mit Anti-Cheat werden abgelehnt. Schliesse zuerst das Spiel. Erst Backup, RUECKGAENGIG entfernt es.",
         "fr": "Installe OptiScaler 0.9.4 (version officielle, 55 Mo, SHA-256 verifie) a cote de l'exe du jeu et le regle pour ton GPU : AMD RX 7000 desktop / RX 9000 = FSR4 dans toutes les API (+ correctif Windows 10), Intel Arc = XeSS. Wiki : dxgi.dll ; sur AMD/Intel Dxgi=false (spoofing inutile, DLSS-FG debloque sans lui) : utilise les entrees FSR ou XeSS dans le jeu. Solo uniquement : refuse les dossiers avec anti-cheat. Ferme le jeu d'abord. Sauvegarde d'abord, ANNULER le retire."
-      }
+      },
+      "Saves": [
+        "<winDocuments>/Ghost of Tsushima DIRECTOR'S CUT/<storeUserId>"
+      ]
     },
     {
       "Id": "hfw-si-opti",
@@ -290,7 +312,10 @@
         "es": "Instala OptiScaler 0.9.4 (release oficial, 55 MB, SHA-256 comprobado) junto al exe del juego y lo configura para tu GPU: AMD RX 7000 de escritorio / RX 9000 = FSR4 en todas las API (+ arreglo para Windows 10), Intel Arc = XeSS. Wiki: dxgi.dll; en AMD/Intel Dxgi=false (no hace falta spoofing): usa las entradas FSR o XeSS. Desactiva el motion blur (ghosting alrededor del personaje). Solo un jugador: rechaza carpetas con anti-cheat. Cierra el juego antes. Copia de seguridad primero, DESHACER lo quita.",
         "de": "Installiert OptiScaler 0.9.4 (offizielles Release, 55 MB, SHA-256 geprueft) neben die exe des Spiels und stellt es fuer deine GPU ein: AMD RX 7000 Desktop / RX 9000 = FSR4 in jeder API (+ Windows-10-Fix), Intel Arc = XeSS. Wiki: dxgi.dll; auf AMD/Intel Dxgi=false (Spoofing nicht noetig): nutze FSR- oder XeSS-Eingaben. Schalte Motion Blur aus (Ghosting um die Figur). Nur Einzelspieler: Ordner mit Anti-Cheat werden abgelehnt. Schliesse zuerst das Spiel. Erst Backup, RUECKGAENGIG entfernt es.",
         "fr": "Installe OptiScaler 0.9.4 (version officielle, 55 Mo, SHA-256 verifie) a cote de l'exe du jeu et le regle pour ton GPU : AMD RX 7000 desktop / RX 9000 = FSR4 dans toutes les API (+ correctif Windows 10), Intel Arc = XeSS. Wiki : dxgi.dll ; sur AMD/Intel Dxgi=false (spoofing inutile) : utilise les entrees FSR ou XeSS. Desactive le flou de mouvement (ghosting autour du personnage). Solo uniquement : refuse les dossiers avec anti-cheat. Ferme le jeu d'abord. Sauvegarde d'abord, ANNULER le retire."
-      }
+      },
+      "Saves": [
+        "<winDocuments>/Horizon Forbidden West Complete Edition/<storeUserId>"
+      ]
     },
     {
       "Id": "minecraft-si-fps",
@@ -310,7 +335,10 @@
         "es": "Optimiza el options.txt de Minecraft Java y escribe flags JVM G1GC modernas sin tirones. Copia de seguridad primero, DESHACER lo devuelve.",
         "de": "Optimiert die options.txt von Minecraft Java und schreibt moderne G1GC-JVM-Flags ohne Ruckler. Erst Backup, RUECKGAENGIG stellt es wieder her.",
         "fr": "Optimise l'options.txt de Minecraft Java et ecrit des flags JVM G1GC modernes sans saccades. Sauvegarde d'abord, ANNULER remet tout."
-      }
+      },
+      "Saves": [
+        "<winAppData>/.minecraft/saves"
+      ]
     },
     {
       "Id": "mk64-si-ultra",
@@ -370,7 +398,10 @@
         "es": "Pone el juego en Vulkan (los dos mods lo necesitan), escribe las claves de frame generation que el menu del mod oculta (limite de salida a los Hz de tu monitor menos 3, Reflex On + Boost, present pacing, 2x) y configura Parley con la IA gratis Player2 sin clave de pago. Los mods no instalados se saltan. Copia de seguridad primero, DESHACER lo devuelve.",
         "de": "Stellt das Spiel auf Vulkan (beide Mods brauchen es), schreibt die Frame-Generation-Schluessel, die das Mod-Menue versteckt (Ausgabe-Limit bei den Hz deines Monitors minus 3, Reflex On + Boost, Present Pacing, 2x) und stellt Parley auf die kostenlose KI Player2 ohne bezahlten Schluessel. Nicht installierte Mods werden uebersprungen. Erst Backup, RUECKGAENGIG stellt es wieder her.",
         "fr": "Passe le jeu en Vulkan (les deux mods en ont besoin), ecrit les cles de frame generation que le menu du mod cache (limite de sortie aux Hz de ton ecran moins 3, Reflex On + Boost, present pacing, 2x) et regle Parley sur l'IA gratuite Player2 sans cle payante. Les mods non installes sont ignores. Sauvegarde d'abord, ANNULER remet tout."
-      }
+      },
+      "Saves": [
+        "<winDocuments>/Rockstar Games/Red Dead Redemption 2/Profiles/<storeUserId>"
+      ]
     },
     {
       "Id": "totk-si-ultra",
@@ -390,7 +421,9 @@
         "es": "Lee tu monitor y escribe las claves de totk.ini que el menu F1 del port no guarda: escala de render 3D para tu GPU: la escena de 4096 pixeles del port en RTX x080/x090 y RX x800/x900 (213% en un monitor 1080p; el menu se detiene en 200%), 150% en RTX x060/x070, RX x600/x700 y Arc, 100% en las demas tarjetas, graficos integrados tambien 1080p y 60 fps, la mayor resolucion 16:9 del juego para tu pantalla (5K y 8K tambien; el menu se detiene en 3840x2160), limite de frames a la frecuencia de tu monitor con las claves de alto frame rate del port, y prewarm de shaders en todos los hilos de la CPU. Cierra el juego antes. Copia de seguridad primero, DESHACER lo devuelve.",
         "de": "Liest deinen Monitor und schreibt die totk.ini-Schluessel, die das F1-Menue des Ports nicht halten kann: 3D-Render-Skalierung fuer deine GPU: die 4096-Pixel-Szene des Ports auf RTX x080/x090 und RX x800/x900 (213% auf einem 1080p-Monitor; das Menue endet bei 200%), 150% auf RTX x060/x070, RX x600/x700 und Arc, 100% auf anderen Karten, integrierte Grafik auch 1080p und 60 fps, die groesste 16:9-Spielaufloesung fuer deinen Bildschirm (auch 5K und 8K; das Menue endet bei 3840x2160), Frame-Limit bei deiner Bildwiederholrate mit den High-Frame-Rate-Schluesseln des Ports und Shader-Prewarm auf allen CPU-Threads. Schliesse zuerst das Spiel. Erst Backup, RUECKGAENGIG stellt es wieder her.",
         "fr": "Lit ton ecran et ecrit les cles de totk.ini que le menu F1 du port ne garde pas : echelle de rendu 3D pour ton GPU : la scene de 4096 pixels du port sur RTX x080/x090 et RX x800/x900 (213% sur un ecran 1080p ; le menu s'arrete a 200%), 150% sur RTX x060/x070, RX x600/x700 et Arc, 100% sur les autres cartes, graphismes integres aussi en 1080p et 60 fps, la plus grande resolution 16:9 du jeu pour ton ecran (5K et 8K aussi ; le menu s'arrete a 3840x2160), limite d'images a la frequence de ton ecran avec les cles haut framerate du port, et prewarm des shaders sur tous les threads du CPU. Ferme le jeu d'abord. Sauvegarde d'abord, ANNULER remet tout."
-      }
+      },
+      "Group": "totk-ini",
+      "Variant": "16:9 quality"
     },
     {
       "Id": "totk-si-ultrawide",
@@ -410,7 +443,9 @@
         "es": "Para el port v0.2.1+ (ultrawide). Lee tu monitor y pone el juego en su forma y tamano, 21:9, 32:9, 16:10 o 16:9, con la camara y el HUD en esa forma. Cuando tu tamano no es una de las diez formas del menu F1 del port (un 7680x2160 de 57 pulgadas, por ejemplo), crea el layout del HUD con la herramienta del propio port desde la carpeta TotK-Setup descomprimida. Ademas: una escena para tu GPU (la mayor del port, 4096 px, en RTX x080/x090 y RX x800/x900; 150% en RTX x060/x070, RX x600/x700 y Arc; 100% en las demas tarjetas), limite de frames a tu frecuencia con las claves de alto frame rate del port, prewarm de shaders en todos los hilos de la CPU. Cierra el juego antes. Copia de seguridad primero, DESHACER lo devuelve.",
         "de": "Fuer Port v0.2.1+ (Ultrawide). Liest deinen Monitor und stellt das Spiel auf seine Form und Groesse, 21:9, 32:9, 16:10 oder 16:9, mit Kamera und HUD in dieser Form. Wenn deine Groesse keine der zehn Formen im F1-Menue des Ports ist (zum Beispiel ein 57-Zoll mit 7680x2160), baut es das HUD-Layout mit dem eigenen Tool des Ports aus dem entpackten TotK-Setup-Ordner. Ausserdem: eine Szene fuer deine GPU (die groesste des Ports, 4096 px, auf RTX x080/x090 und RX x800/x900; 150% auf RTX x060/x070, RX x600/x700 und Arc; 100% auf anderen Karten), Frame-Limit bei deiner Bildwiederholrate mit den High-Frame-Rate-Schluesseln des Ports, Shader-Prewarm auf allen CPU-Threads. Schliesse zuerst das Spiel. Erst Backup, RUECKGAENGIG stellt es wieder her.",
         "fr": "Pour le port v0.2.1+ (ultrawide). Lit ton ecran et met le jeu a sa forme et sa taille, 21:9, 32:9, 16:10 ou 16:9, avec la camera et le HUD dans cette forme. Quand ta taille n'est pas l'une des dix formes du menu F1 du port (un 57 pouces 7680x2160, par exemple), il construit la disposition du HUD avec l'outil du port depuis le dossier TotK-Setup decompresse. Aussi : une scene pour ton GPU (la plus grande du port, 4096 px, sur RTX x080/x090 et RX x800/x900 ; 150% sur RTX x060/x070, RX x600/x700 et Arc ; 100% sur les autres cartes), limite d'images a ta frequence avec les cles haut framerate du port, prewarm des shaders sur tous les threads du CPU. Ferme le jeu d'abord. Sauvegarde d'abord, ANNULER remet tout."
-      }
+      },
+      "Group": "totk-ini",
+      "Variant": "Ultrawide 21:9 / 32:9 / 16:10"
     },
     {
       "Id": "silksong-si-coop",
@@ -430,7 +465,11 @@
         "es": "Escribe las claves del mod co-op que su menu F10 no muestra: Preset = Custom (el Medium por defecto reescribe el tick rate a 30 en cada inicio), sincronizacion de red 60 Hz (el maximo del motor), revivir con mascara completa (el menu no tiene fila para ello, por defecto 50%), 10 segundos de inmunidad al dano tras revivir (por defecto 2.5) y 10 intentos de reconexion (por defecto 5). Cierra el juego antes. Copia de seguridad primero, DESHACER lo devuelve.",
         "de": "Schreibt die Koop-Mod-Schluessel, die sein F10-Menue nicht zeigt: Preset = Custom (das Standard-Medium setzt die Tickrate bei jedem Start auf 30 zurueck), 60 Hz Netzwerk-Sync (das Engine-Maximum), Wiederbeleben mit voller Maske (das Menue hat keine Zeile dafuer, Standard 50%), 10 Sekunden Schadensimmunitaet nach dem Wiederbeleben (Standard 2.5) und 10 Wiederverbindungsversuche (Standard 5). Schliesse zuerst das Spiel. Erst Backup, RUECKGAENGIG stellt es wieder her.",
         "fr": "Ecrit les cles du mod coop que son menu F10 ne montre pas : Preset = Custom (le Medium par defaut remet le tick rate a 30 a chaque lancement), synchro reseau 60 Hz (le maximum du moteur), reanimation avec masque plein (le menu n'a pas de ligne pour ca, 50% par defaut), 10 secondes d'immunite aux degats apres une reanimation (2.5 par defaut) et 10 tentatives de reconnexion (5 par defaut). Ferme le jeu d'abord. Sauvegarde d'abord, ANNULER remet tout."
-      }
+      },
+      "Saves": [
+        "<home>/AppData/LocalLow/Team Cherry/Hollow Knight Silksong",
+        "<winLocalAppData>/Packages/TeamCherry.HollowKnightSilksong_y4jvztpgccj42/SystemAppData/wgs"
+      ]
     },
     {
       "Id": "minecraft-si-realworld",
@@ -450,7 +489,10 @@
         "es": "Escribe las claves de RealWorldMC que su menu del mapa no muestra: mapRenderDistance 24000 (el plano lejano oculto de la camara, por defecto 8000, corta todo tile mas alla de 8000 bloques incluso con Far = 24000), falloff 1200 (tiles lejanos el doble de nitidos, por defecto 600) y viewportHeight = la altura de tu pantalla (el detalle se calculaba para 1080 lineas), mas Far 24000 y Max tiles 2400. Tus claves del mapa se mantienen. Cierra Minecraft antes. Copia de seguridad primero, DESHACER lo devuelve.",
         "de": "Schreibt die RealWorldMC-Schluessel, die sein Kartenmenue nicht zeigt: mapRenderDistance 24000 (die versteckte ferne Kameraebene, Standard 8000, schneidet jedes Tile hinter 8000 Bloecken ab, auch mit Far = 24000), falloff 1200 (ferne Tiles doppelt so scharf, Standard 600) und viewportHeight = deine Bildschirmhoehe (Details wurden fuer 1080 Zeilen berechnet), dazu Far 24000 und Max tiles 2400. Deine Kartenschluessel bleiben. Schliesse zuerst Minecraft. Erst Backup, RUECKGAENGIG stellt es wieder her.",
         "fr": "Ecrit les cles de RealWorldMC que son menu de carte n'affiche pas : mapRenderDistance 24000 (le plan lointain cache de la camera, 8000 par defaut, coupe toute tuile au-dela de 8000 blocs meme avec Far = 24000), falloff 1200 (tuiles lointaines deux fois plus nettes, 600 par defaut) et viewportHeight = la hauteur de ton ecran (le detail etait calcule pour 1080 lignes), plus Far 24000 et Max tiles 2400. Tes cles de carte sont gardees. Ferme Minecraft d'abord. Sauvegarde d'abord, ANNULER remet tout."
-      }
+      },
+      "Saves": [
+        "<winAppData>/.minecraft/saves"
+      ]
     },
     {
       "Id": "bt3-si-ultra",
@@ -490,7 +532,10 @@
         "es": "Escribe las claves de REFramework que viven fuera del menu del juego, elegidas para tu pantalla: vineta desactivada, campo de vision 90 en 16:9, o en 21:9 y mas ancho el fix ultrawide con el HUD en 16:9. Necesita REFramework (gratis, MIT) en la carpeta del juego. Copia de seguridad primero, DESHACER lo devuelve.",
         "de": "Schreibt die REFramework-Schluessel ausserhalb des Spielmenues, passend zu deinem Bildschirm: Vignette aus, Sichtfeld 90 bei 16:9, oder bei 21:9 und breiter der Ultrawide-Fix mit HUD in 16:9. Braucht REFramework (kostenlos, MIT) im Spielordner. Erst Backup, RUECKGAENGIG stellt es wieder her.",
         "fr": "Ecrit les cles de REFramework qui sont hors du menu du jeu, choisies pour ton ecran : vignette desactivee, champ de vision 90 en 16:9, ou en 21:9 et plus large le correctif ultrawide avec le HUD garde en 16:9. Necessite REFramework (gratuit, MIT) dans le dossier du jeu. Sauvegarde d'abord, ANNULER remet tout."
-      }
+      },
+      "Saves": [
+        "<root>/userdata/<storeUserId>/3764200/remote/win64_save"
+      ]
     },
     {
       "Id": "sn2-si-ultra",
@@ -510,7 +555,10 @@
         "es": "Va mas alla del nivel maximo del juego (Cinematic): escribe Engine.ini con filtrado de texturas mas alto, filtro de escalado, distancia del follaje y detalle de sombras del sol, mas un pool de texturas segun tu memoria de video. Pesado a proposito. Copia de seguridad primero, DESHACER lo devuelve.",
         "de": "Geht ueber die hoechste Stufe des Spiels (Cinematic) hinaus: schreibt die Engine.ini mit hoeherer Texturfilterung, Upscale-Filter, Vegetationsdistanz und Sonnenschatten-Detail, dazu einen Texturpool passend zu deinem Grafikspeicher. Absichtlich schwer. Erst Backup, RUECKGAENGIG stellt es wieder her.",
         "fr": "Va au-dela du niveau maximum du jeu (Cinematic) : ecrit l'Engine.ini avec un filtrage de textures plus eleve, filtre d'upscale, distance de la vegetation et detail des ombres du soleil, plus un pool de textures a la taille de ta memoire video. Lourd expres. Sauvegarde d'abord, ANNULER remet tout."
-      }
+      },
+      "Saves": [
+        "<winLocalAppData>/Subnautica2/Saved/SaveGames"
+      ]
     },
     {
       "Id": "fn-si-lock",
@@ -570,7 +618,10 @@
         "es": "Edita el hardware_settings_config.xml propio de F1 25, solo los valores que el autor de F1-25-RE-Optimization lista como no limitados por el preset grafico: algoritmo SSAO, reflejos screen space, nubes, distancia de la hierba, actualizaciones de reflejos del coche. Siempre mas ligero, sin DLL. Cambiaste una opcion grafica en el menu? APLICAR, No, Si. Nombres de ese repo MIT. DESHACER restaura tu archivo.",
         "de": "Bearbeitet die eigene hardware_settings_config.xml von F1 25, nur die Werte, die der Autor von F1-25-RE-Optimization als nicht vom Grafik-Preset begrenzt auflistet: SSAO-Algorithmus, Screen-Space-Reflexionen, Wolken, Grasdistanz, Auto-Reflexions-Updates. Immer nur sparsamer, keine DLL. Eine Grafikoption im Menue geaendert? ANWENDEN, Nein, Ja. Namen aus diesem MIT-Repo. RUECKGAENGIG stellt deine Datei wieder her.",
         "fr": "Modifie le hardware_settings_config.xml de F1 25, seulement les valeurs que l'auteur de F1-25-RE-Optimization liste comme non bridees par le preset graphique : algorithme SSAO, reflets screen space, nuages, distance de l'herbe, mises a jour des reflets de la voiture. Toujours plus leger, sans DLL. Tu as change une option graphique dans le menu ? APPLIQUER, Non, Oui. Noms tires de ce repo MIT. ANNULER restaure ton fichier."
-      }
+      },
+      "Saves": [
+        "<root>/userdata/<storeUserId>/3059520/remote"
+      ]
     },
     {
       "Id": "smr-si-ultra",
@@ -590,7 +641,10 @@
         "es": "Spider-Man Remastered no tiene archivo de configuracion: lee valores del registro de Windows. Ajusta los que documentan dos herramientas publicas: trazado de rayos, profundidad de campo y sincronizacion vertical apagados, nitidez al minimo, ventana del launcher apagada. Solo valores que tu juego ya guardo, siempre mas ligeros. UNDO vuelve a escribir tus numeros anteriores exactos.",
         "de": "Spider-Man Remastered hat keine Konfigurationsdatei: es liest Werte aus der Windows-Registry. Setzt die Werte, die zwei oeffentliche Tools dokumentieren: Raytracing, Tiefenschaerfe und vertikale Synchronisierung aus, Schaerfe auf Minimum, Launcher-Popup aus. Nur Werte, die dein Spiel schon gespeichert hat, immer nur leichter. UNDO schreibt deine exakten alten Zahlen zurueck.",
         "fr": "Spider-Man Remastered n'a pas de fichier de configuration : il lit des valeurs du registre Windows. Regle celles que deux outils publics documentent : ray tracing, profondeur de champ et synchronisation verticale desactives, nettete au minimum, popup du launcher desactive. Seulement les valeurs deja enregistrees par ton jeu, toujours plus legeres. UNDO reecrit tes anciens nombres exacts."
-      }
+      },
+      "Saves": [
+        "<winDocuments>/Marvel's Spider-Man Remastered/<storeUserId>/slot*.save"
+      ]
     },
     {
       "Id": "acc-si-ultra",
@@ -610,7 +664,10 @@
         "es": "Escribe diez lineas ocultas en el Engine.ini propio de Assetto Corsa Competizione, claves compartidas por jugadores de ACC: blur, reflejos, efectos de lente y translucidez, siempre mas ligero. Tus otras lineas se quedan. Salta las lineas que el menu de video ya controla. DESHACER restaura tu archivo exactamente. Mide con tu propio contador de FPS.",
         "de": "Schreibt zehn versteckte Zeilen in die eigene Engine.ini von Assetto Corsa Competizione, Schluessel, die ACC-Spieler teilen: Blur, Reflexionen, Linsen- und Transluzenz-Effekte, immer nur sparsamer. Deine anderen Zeilen bleiben. Ueberspringt die Zeilen, die das Videomenue schon steuert. RUECKGAENGIG stellt deine Datei exakt wieder her. Miss mit deinem eigenen FPS-Zaehler.",
         "fr": "Ecrit dix lignes cachees dans l'Engine.ini d'Assetto Corsa Competizione, des cles partagees par les joueurs d'ACC : flou, reflets, effets de lentille et de translucidite, toujours plus leger. Tes autres lignes restent. Saute les lignes que le menu video controle deja. ANNULER restaure ton fichier a l'identique. Mesure avec ton propre compteur de FPS."
-      }
+      },
+      "Saves": [
+        "<winDocuments>/Assetto Corsa Competizione/Savegames"
+      ]
     },
     {
       "Id": "lostskies-si-ultra",
@@ -650,7 +707,14 @@
         "es": "Escribe en el archivo propio del juego el bloque de Engine.ini que los jugadores de Hogwarts Legacy comparten en Steam, con el pool de texturas a la mitad de TU memoria de video en vez del numero de otra persona, y luego bloquea el archivo como solo lectura porque los jugadores reportan que el juego borra las lineas anadidas. Tus otras lineas se quedan. DESHACER restaura tu archivo exactamente. Mide con tu propio contador de FPS.",
         "de": "Schreibt den Engine.ini-Block, den Hogwarts-Legacy-Spieler auf Steam teilen, in die eigene Datei des Spiels, mit dem Texturpool auf der Haelfte DEINES Grafikspeichers statt der Zahl von jemand anderem, und sperrt die Datei dann schreibgeschuetzt, weil Spieler berichten, dass das Spiel hinzugefuegte Zeilen entfernt. Deine anderen Zeilen bleiben. RUECKGAENGIG stellt deine Datei exakt wieder her. Miss mit deinem eigenen FPS-Zaehler.",
         "fr": "Ecrit dans le fichier du jeu le bloc Engine.ini que les joueurs de Hogwarts Legacy partagent sur Steam, avec le pool de textures a la moitie de TA memoire video au lieu du chiffre de quelqu'un d'autre, puis verrouille le fichier en lecture seule car les joueurs signalent que le jeu supprime les lignes ajoutees. Tes autres lignes restent. ANNULER restaure ton fichier a l'identique. Mesure avec ton propre compteur de FPS."
-      }
+      },
+      "Saves": [
+        "<winLocalAppData>/Hogwarts Legacy/Saved/SaveGames/<storeUserId>",
+        "<winLocalAppData>/Hogwarts/Saved/SaveGames/<storeUserId>",
+        "<winLocalAppData>/HogwartsLegacy/Saved/SaveGames/<storeUserId>",
+        "<winLocalAppData>/Packages/WarnerBros.Interactive.PHX_ktmk1xygcecda/SystemAppData/wgs/<storeUserId>",
+        "<winLocalAppData>/Phoenix/Saved/SaveGames/<storeUserId>"
+      ]
     },
     {
       "Id": "mhw-si-ultra",
@@ -670,7 +734,10 @@
         "es": "Edita el config.ini propio de Monster Hunter Wilds, con lineas que los jugadores comparten en Steam y ResetEra: hilos de render segun tu CPU, prioridad del hilo de render, y un bias de texturas por encima del limite del menu desde 12 GB de VRAM. Devuelve la grafia original del motor si el famoso arreglo del typo toco tu archivo. Abrir las opciones graficas del juego reescribe el archivo: APLICA otra vez. DESHACER restaura tu archivo exactamente. Mide con tu propio contador de FPS.",
         "de": "Bearbeitet die eigene config.ini von Monster Hunter Wilds, mit Zeilen, die Spieler auf Steam und ResetEra teilen: Render-Threads passend zu deiner CPU, Prioritaet des Render-Threads und ein Textur-Bias ueber der Menuegrenze ab 12 GB VRAM. Stellt die Original-Schreibweise der Engine wieder her, wenn der beruehmte Tippfehler-Fix deine Datei veraendert hat. Das Oeffnen der Grafikoptionen im Spiel schreibt die Datei neu: dann erneut ANWENDEN. RUECKGAENGIG stellt deine Datei exakt wieder her. Miss mit deinem eigenen FPS-Zaehler.",
         "fr": "Modifie le config.ini de Monster Hunter Wilds, avec des lignes que les joueurs partagent sur Steam et ResetEra : threads de rendu selon ton CPU, priorite du thread de rendu, et un bias de textures au-dela de la limite du menu a partir de 12 Go de VRAM. Remet l'orthographe d'origine du moteur si la fameuse correction de faute de frappe a touche ton fichier. Ouvrir les options graphiques du jeu reecrit le fichier : APPLIQUE a nouveau. ANNULER restaure ton fichier a l'identique. Mesure avec ton propre compteur de FPS."
-      }
+      },
+      "Saves": [
+        "<root>/userdata/<storeUserId>/2246340/remote/win64_save"
+      ]
     },
     {
       "Id": "kcd2-si-ultra",
@@ -691,7 +758,10 @@
         "de": "Schreibt die user.cfg von Kingdom Come: Deliverance II mit Sichtweiten-Zeilen aus veroeffentlichten Spieler-Configs, ueber die Experimental-Standardwerte hinaus, die ein Nexus-Kommentar auflistet. Ab 12 GB VRAM fuenf Zeilen, ab 8 GB zwei, unter 8 GB nichts. Braucht die Steam-Startoption +exec user.cfg. Spieler berichten, dass das Grafikmenue diese Werte bis zum naechsten Start ersetzt. UNDO stellt deine Datei exakt wieder her oder entfernt die neu erstellte. Miss mit deinem eigenen FPS-Zaehler.",
         "fr": "Ecrit le user.cfg de Kingdom Come: Deliverance II avec des lignes de distance tirees de configs publiees par des joueurs, au-dela des valeurs Experimental qu'un commentaire Nexus liste. Des 12 Go de VRAM cinq lignes, des 8 Go deux, sous 8 Go rien. Necessite l'option de lancement Steam +exec user.cfg. Des joueurs signalent que le menu graphique remplace ces valeurs jusqu'au prochain demarrage. UNDO restaure ton fichier exact, ou supprime celui qu'il a cree. Mesure avec ton propre compteur de FPS."
       },
-      "LaunchOptions": "+exec user.cfg"
+      "LaunchOptions": "+exec user.cfg",
+      "Saves": [
+        "<home>/Saved Games/kingdomcome2/saves"
+      ]
     },
     {
       "Id": "sf-si-ultra",
@@ -711,7 +781,12 @@
         "es": "Escribe lineas que el menu de Starfield no tiene como deslizador en el archivo de sobrescritura del propio juego, StarfieldCustom.ini, elegidas segun TU escala de renderizado, memoria de video e hilos, con nombres de claves de la lista extraida del ejecutable del juego y valores de posts de jugadores. Tus otras lineas se quedan. UNDO restaura tu archivo exacto, o borra el que creo. Mide con tu propio contador de FPS.",
         "de": "Schreibt Zeilen, fuer die das Starfield-Menue keinen Regler hat, in die eigene Override-Datei des Spiels, StarfieldCustom.ini, ausgewaehlt nach DEINER Renderskalierung, deinem Videospeicher und deinen Threads, mit Schluesselnamen aus der Liste, die aus der Spiel-EXE ausgelesen wurde, und Werten aus Spieler-Posts. Deine anderen Zeilen bleiben. UNDO stellt deine Datei exakt wieder her oder entfernt die neu erstellte. Miss mit deinem eigenen FPS-Zaehler.",
         "fr": "Ecrit des lignes sans curseur dans le menu de Starfield dans le fichier de surcharge du jeu lui-meme, StarfieldCustom.ini, choisies selon TON echelle de rendu, ta memoire video et tes threads, avec des noms de cles tires de la liste extraite de l'executable du jeu et des valeurs de posts de joueurs. Tes autres lignes restent. UNDO restaure ton fichier exact, ou supprime celui qu'il a cree. Mesure avec ton propre compteur de FPS."
-      }
+      },
+      "Saves": [
+        "<root>/userdata/<storeUserId>/1716740/remote",
+        "<winDocuments>/My Games/Starfield/Saves",
+        "<winLocalAppData>/Packages/BethesdaSoftworks.ProjectGold_3275kfvn8vcwc/SystemAppData/wgs/<storeUserId>"
+      ]
     },
     {
       "Id": "witcher3-si-ultra",
@@ -731,7 +806,11 @@
         "es": "Para el mod AMDLSS5 1.6.1 en una AMD RX 9070 o RX 9070 XT: vuelve a escribir las claves de estructura, estilo y filtro del perfil Witcher 3 del propio mod en dlssnr_on_amd.ini, que el Restore defaults de su menu reemplaza. En la RX 9070, que el autor no probo, tambien pone la resolucion de la red al 75 por ciento, nuestro limite. En cualquier otra tarjeta no escribe nada. Lo ejecutamos en una carpeta de prueba, no en el juego. UNDO restaura tu archivo exacto.",
         "de": "Fuer die Mod AMDLSS5 1.6.1 auf einer AMD RX 9070 oder RX 9070 XT: schreibt die Struktur-, Stil- und Filter-Schluessel des mod-eigenen Witcher-3-Profils in dlssnr_on_amd.ini zurueck, die Restore defaults in ihrem Menue ersetzt. Auf der RX 9070, die der Autor nicht getestet hat, setzt es ausserdem die Netzaufloesung auf 75 Prozent, unser Limit. Auf jeder anderen Karte schreibt es nichts. Wir haben es in einem Testordner ausgefuehrt, nicht im Spiel. UNDO stellt deine exakte Datei wieder her.",
         "fr": "Pour le mod AMDLSS5 1.6.1 sur une AMD RX 9070 ou RX 9070 XT : reecrit les cles de structure, de style et de filtre du profil Witcher 3 du mod dans dlssnr_on_amd.ini, que Restore defaults de son menu remplace. Sur la RX 9070, que l'auteur n'a pas testee, regle aussi la resolution du reseau a 75 pour cent, notre limite. Sur toute autre carte il n'ecrit rien. Nous l'avons lance sur un dossier de test, pas dans le jeu. UNDO restaure ton fichier exact."
-      }
+      },
+      "Saves": [
+        "<winDocuments>/The Witcher 3/gamesaves/*.png",
+        "<winDocuments>/The Witcher 3/gamesaves/*.sav"
+      ]
     },
     {
       "Id": "tekken8-si-ue",
@@ -753,7 +832,10 @@
         "es": "Escribe cinco lineas del motor de Epic en el Engine.ini propio de TEKKEN 8 (tu carpeta de usuario, [SystemSettings]): motion blur, profundidad de campo, aberracion cromatica y film grain desactivados, solo cosas mas ligeras. La carpeta de config se encuentra desde el propio exe Unreal del juego; no se toca nada en la carpeta del juego. Los juegos online pueden ignorar estas lineas. Cierra el juego antes. Copia de seguridad primero, DESHACER restaura tu archivo exactamente. Mide con tu propio contador de FPS.",
         "de": "Schreibt fuenf Epic-Engine-Zeilen in die eigene Engine.ini von TEKKEN 8 (dein Benutzerordner, [SystemSettings]): Motion Blur, Tiefenschaerfe, chromatische Aberration und Film Grain aus, nur sparsamer. Der Config-Ordner wird ueber die Unreal-exe des Spiels gefunden; im Spielordner wird nichts angefasst. Online-Spiele koennen diese Zeilen ignorieren. Schliesse zuerst das Spiel. Erst Backup, RUECKGAENGIG stellt deine Datei exakt wieder her. Miss mit deinem eigenen FPS-Zaehler.",
         "fr": "Ecrit cinq lignes du moteur Epic dans l'Engine.ini propre a TEKKEN 8 (ton dossier utilisateur, [SystemSettings]) : flou de mouvement, profondeur de champ, aberration chromatique et grain de film desactives, seulement plus leger. Le dossier de config est trouve via l'exe Unreal du jeu ; rien n'est touche dans le dossier du jeu. Les jeux en ligne peuvent ignorer ces lignes. Ferme le jeu d'abord. Sauvegarde d'abord, ANNULER restaure ton fichier a l'identique. Mesure avec ton propre compteur de FPS."
-      }
+      },
+      "Saves": [
+        "<winLocalAppData>/TEKKEN 8/Saved/SaveGames"
+      ]
     },
     {
       "Id": "hinokami-si-ue",
@@ -775,7 +857,10 @@
         "es": "Escribe cinco lineas del motor de Epic en el Engine.ini propio de The Hinokami Chronicles (tu carpeta de usuario, [SystemSettings]): motion blur, profundidad de campo, aberracion cromatica y film grain desactivados, solo cosas mas ligeras. La carpeta de config se encuentra desde el propio exe Unreal del juego; no se toca nada en la carpeta del juego. Los juegos online pueden ignorar estas lineas. Cierra el juego antes. Copia de seguridad primero, DESHACER restaura tu archivo exactamente. Mide con tu propio contador de FPS.",
         "de": "Schreibt fuenf Epic-Engine-Zeilen in die eigene Engine.ini von The Hinokami Chronicles (dein Benutzerordner, [SystemSettings]): Motion Blur, Tiefenschaerfe, chromatische Aberration und Film Grain aus, nur sparsamer. Der Config-Ordner wird ueber die Unreal-exe des Spiels gefunden; im Spielordner wird nichts angefasst. Online-Spiele koennen diese Zeilen ignorieren. Schliesse zuerst das Spiel. Erst Backup, RUECKGAENGIG stellt deine Datei exakt wieder her. Miss mit deinem eigenen FPS-Zaehler.",
         "fr": "Ecrit cinq lignes du moteur Epic dans l'Engine.ini propre a The Hinokami Chronicles (ton dossier utilisateur, [SystemSettings]) : flou de mouvement, profondeur de champ, aberration chromatique et grain de film desactives, seulement plus leger. Le dossier de config est trouve via l'exe Unreal du jeu ; rien n'est touche dans le dossier du jeu. Les jeux en ligne peuvent ignorer ces lignes. Ferme le jeu d'abord. Sauvegarde d'abord, ANNULER restaure ton fichier a l'identique. Mesure avec ton propre compteur de FPS."
-      }
+      },
+      "Saves": [
+        "<winLocalAppData>/APK/Saved/SaveGames"
+      ]
     },
     {
       "Id": "taxilife-si-ue",
@@ -819,7 +904,10 @@
         "es": "Escribe cinco lineas del motor de Epic en el Engine.ini propio de Chivalry 2 (tu carpeta de usuario, [SystemSettings]): motion blur, profundidad de campo, aberracion cromatica y film grain desactivados, solo cosas mas ligeras. La carpeta de config se encuentra desde el propio exe Unreal del juego; no se toca nada en la carpeta del juego. Los juegos online pueden ignorar estas lineas. Cierra el juego antes. Copia de seguridad primero, DESHACER restaura tu archivo exactamente. Mide con tu propio contador de FPS.",
         "de": "Schreibt fuenf Epic-Engine-Zeilen in die eigene Engine.ini von Chivalry 2 (dein Benutzerordner, [SystemSettings]): Motion Blur, Tiefenschaerfe, chromatische Aberration und Film Grain aus, nur sparsamer. Der Config-Ordner wird ueber die Unreal-exe des Spiels gefunden; im Spielordner wird nichts angefasst. Online-Spiele koennen diese Zeilen ignorieren. Schliesse zuerst das Spiel. Erst Backup, RUECKGAENGIG stellt deine Datei exakt wieder her. Miss mit deinem eigenen FPS-Zaehler.",
         "fr": "Ecrit cinq lignes du moteur Epic dans l'Engine.ini propre a Chivalry 2 (ton dossier utilisateur, [SystemSettings]) : flou de mouvement, profondeur de champ, aberration chromatique et grain de film desactives, seulement plus leger. Le dossier de config est trouve via l'exe Unreal du jeu ; rien n'est touche dans le dossier du jeu. Les jeux en ligne peuvent ignorer ces lignes. Ferme le jeu d'abord. Sauvegarde d'abord, ANNULER restaure ton fichier a l'identique. Mesure avec ton propre compteur de FPS."
-      }
+      },
+      "Saves": [
+        "<winLocalAppData>/Packages/TripwireInteractiveLLC.Chivalry2_237dqjpew1r3m/SystemAppData/wgs"
+      ]
     },
     {
       "Id": "sandstorm-si-ue",
@@ -841,7 +929,10 @@
         "es": "Escribe cinco lineas del motor de Epic en el Engine.ini propio de Insurgency: Sandstorm (tu carpeta de usuario, [SystemSettings]): motion blur, profundidad de campo, aberracion cromatica y film grain desactivados, solo cosas mas ligeras. La carpeta de config se encuentra desde el propio exe Unreal del juego; no se toca nada en la carpeta del juego. Los juegos online pueden ignorar estas lineas. Cierra el juego antes. Copia de seguridad primero, DESHACER restaura tu archivo exactamente. Mide con tu propio contador de FPS.",
         "de": "Schreibt fuenf Epic-Engine-Zeilen in die eigene Engine.ini von Insurgency: Sandstorm (dein Benutzerordner, [SystemSettings]): Motion Blur, Tiefenschaerfe, chromatische Aberration und Film Grain aus, nur sparsamer. Der Config-Ordner wird ueber die Unreal-exe des Spiels gefunden; im Spielordner wird nichts angefasst. Online-Spiele koennen diese Zeilen ignorieren. Schliesse zuerst das Spiel. Erst Backup, RUECKGAENGIG stellt deine Datei exakt wieder her. Miss mit deinem eigenen FPS-Zaehler.",
         "fr": "Ecrit cinq lignes du moteur Epic dans l'Engine.ini propre a Insurgency: Sandstorm (ton dossier utilisateur, [SystemSettings]) : flou de mouvement, profondeur de champ, aberration chromatique et grain de film desactives, seulement plus leger. Le dossier de config est trouve via l'exe Unreal du jeu ; rien n'est touche dans le dossier du jeu. Les jeux en ligne peuvent ignorer ces lignes. Ferme le jeu d'abord. Sauvegarde d'abord, ANNULER restaure ton fichier a l'identique. Mesure avec ton propre compteur de FPS."
-      }
+      },
+      "Saves": [
+        "<winLocalAppData>/Insurgency/Saved/SaveGames/Profile"
+      ]
     },
     {
       "Id": "townfall-si-ue",
@@ -863,7 +954,10 @@
         "es": "Escribe cinco lineas del motor de Epic en el Engine.ini propio de SILENT HILL: Townfall (tu carpeta de usuario, [SystemSettings]): motion blur, profundidad de campo, aberracion cromatica y film grain desactivados, solo cosas mas ligeras. La carpeta de config se encuentra desde el propio exe Unreal del juego; no se toca nada en la carpeta del juego. Los juegos online pueden ignorar estas lineas. Cierra el juego antes. Copia de seguridad primero, DESHACER restaura tu archivo exactamente. Mide con tu propio contador de FPS.",
         "de": "Schreibt fuenf Epic-Engine-Zeilen in die eigene Engine.ini von SILENT HILL: Townfall (dein Benutzerordner, [SystemSettings]): Motion Blur, Tiefenschaerfe, chromatische Aberration und Film Grain aus, nur sparsamer. Der Config-Ordner wird ueber die Unreal-exe des Spiels gefunden; im Spielordner wird nichts angefasst. Online-Spiele koennen diese Zeilen ignorieren. Schliesse zuerst das Spiel. Erst Backup, RUECKGAENGIG stellt deine Datei exakt wieder her. Miss mit deinem eigenen FPS-Zaehler.",
         "fr": "Ecrit cinq lignes du moteur Epic dans l'Engine.ini propre a SILENT HILL: Townfall (ton dossier utilisateur, [SystemSettings]) : flou de mouvement, profondeur de champ, aberration chromatique et grain de film desactives, seulement plus leger. Le dossier de config est trouve via l'exe Unreal du jeu ; rien n'est touche dans le dossier du jeu. Les jeux en ligne peuvent ignorer ces lignes. Ferme le jeu d'abord. Sauvegarde d'abord, ANNULER restaure ton fichier a l'identique. Mesure avec ton propre compteur de FPS."
-      }
+      },
+      "Saves": [
+        "<home>/AppData/Local/Townfall/Saved/SaveGames"
+      ]
     },
     {
       "Id": "tf2-si-comfig",
@@ -909,5 +1003,6 @@
         "fr": "Ecrit seulement des Fast Flags de l'allowlist officielle de Roblox dans le ClientAppSettings.json de Roblox : herbe desactivee et MSAA desactive ; avec des graphismes Intel seuls, aussi la qualite de textures la plus basse. Roblox dit que les flags hors de cette liste sont ignores et qu'aucune action n'est prise contre les utilisateurs. Tes autres flags restent. Ferme Roblox d'abord ; apres une mise a jour de Roblox APPLIQUE a nouveau. Utilisateurs de Bloxstrap : mettez les memes flags dans Bloxstrap. Sauvegarde d'abord, ANNULER restaure ton fichier a l'identique. Mesure avec ton propre compteur de FPS."
       }
     }
-  ]
+  ],
+  "SavesSource": "Ludusavi manifest (MIT, github.com/mtkennerly/ludusavi-manifest), data from PCGamingWiki"
 }

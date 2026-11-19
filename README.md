@@ -5,7 +5,8 @@
 SIGAME scans your PC, finds your games and applies gaming tweaks with one click.
 Every change is saved to a backup **before** it is made, and one button puts everything back.
 
-It is plain PowerShell: no `.exe`, nothing hidden. Read every line before you run it.
+It is plain PowerShell, nothing hidden. The only `.exe` is the optional `SIGAME.exe` in the release zip: a small
+launcher built from [launcher/SIGAME.cs](launcher/SIGAME.cs) that starts `SI-GAME-AUTO.ps1`. Read every line before you run it.
 
 Made for the **SI NEWS** YouTube channel ([@SINEWS-q5x](https://www.youtube.com/@SINEWS-q5x)):
 SIGAME was rebuilt with AI from our first version into a fully automatic tool:
@@ -24,6 +25,8 @@ high CPU priority, power throttling off and Auto-Boost.
 
 1. Download the repo (green **Code** button → **Download ZIP**) and extract it.
 2. Double-click `SI-GAME-AUTO.bat` and accept the administrator prompt.
+   Or download `SIGAME-<version>.zip` from [Releases](https://github.com/Grokeador/SIGAME/releases), extract it and
+   double-click `SIGAME.exe` (unsigned: SmartScreen may ask, **More info** → **Run anyway**).
 3. SIGAME creates a **System Restore point** first, then shows the state of your PC.
 4. Press **OTTIMIZZA**. Restart Windows when it asks.
 5. Want everything back? Press **Undo all** (it reads `SI-GAME-backup.json`) or use the restore point.
@@ -166,7 +169,8 @@ Offline, the check is skipped silently.
 `SI-GAME-measures.json` (before/after measures), `SI-GAME-fps.json` (your FPS measures),
 `SI-GAME-guard.json` (the tweaks active after the last optimize), `SI-GAME-boost.json` (your games),
 `SI-GAME-community.json` (stats on/off, the week of the last report, applied presets, last update check),
-`SI-GAME-update-backup` (the scripts replaced by an update).
+`SI-GAME-update-backup` (the scripts replaced by an update), `SI-GAME-history.jsonl` (your play sessions, only
+while AUTO-BOOST is on), `SI-GAME-saves` (save backups made before a SI PRESET, the newest 3 per game).
 
 ## Licence
 

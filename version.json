@@ -1,10 +1,10 @@
 {
-  "Version": "2026.11.18.10",
-  "Notes": "More tools: go back to the previous version, warning when a game was updated after its SI PRESET, games on an HDD, no Windows Update restarts and no notifications while playing (opt-in), overlay check, ping to the Valve servers, light/dark theme and text size; GitHub tests.",
+  "Version": "2026.11.18.11",
+  "Notes": "SIGAME.exe launcher (release zip), VC++/DirectX check with Microsoft links, Steam verify in 1 click, shader cache cleanup after a driver update, low free disk warning, hotkey Ctrl+Alt+B GAME BOOST / GAME OVER, play history, preset variants, notice of new SI PRESETS for your games, save backup before a preset with 1-click restore",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
-      "Sha256": "60fa9ab460b70c0f72eeb987337deaa4c8fbe51b06146a9a0afcb9f5db795129"
+      "Sha256": "f45c6d350db3af2daa95e016478a56923394e422686412d5dc35dacecf6001b6"
     },
     {
       "Path": "modules/00-core.ps1",
@@ -48,7 +48,7 @@
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "7ee8e3a681afd08401f63551361ccb5a55347826c5f070182050647ce07f4059"
+      "Sha256": "2bd897f4ef8a99e78998fb2cd85d703e3bfb99c2b2714d68fda5e5c752c47a82"
     },
     {
       "Path": "modules/11-fps.ps1",
@@ -72,14 +72,18 @@
     },
     {
       "Path": "modules/16-extra.ps1",
-      "Sha256": "c65c40a5e55b14130c6c7070d13971bde71ed1e44c9f0cda37e2f27b5b409cfe"
+      "Sha256": "49a8e0d770b9a837bbd95030e1a05071cc7ac49625c49d2536f37ac2e7c50bdc"
+    },
+    {
+      "Path": "modules/17-more.ps1",
+      "Sha256": "bbbb14f605f77c411387273e8ea0e756b233b4f5e9933310b6146a903fe95bb5"
     }
   ],
   "NotesLang": {
-    "it": "Altri strumenti: torna alla versione precedente, avviso se un gioco si aggiorna dopo il suo SI PRESET, giochi su HDD, niente riavvii di Windows Update e niente notifiche mentre giochi (a scelta), controllo overlay, ping ai server Valve, tema chiaro/scuro e dimensione testo.",
-    "pt-BR": "Mais ferramentas: voltar para a versao anterior, aviso quando um jogo atualiza depois do SI PRESET, jogos em HD, sem reinicio do Windows Update e sem notificacoes enquanto joga (opcional), verificacao de overlays, ping nos servidores da Valve, tema claro/escuro e tamanho do texto.",
-    "es": "Mas herramientas: volver a la version anterior, aviso cuando un juego se actualiza despues de su SI PRESET, juegos en HDD, sin reinicios de Windows Update ni notificaciones mientras juegas (opcional), revision de overlays, ping a los servidores de Valve, tema claro/oscuro y tamano del texto.",
-    "de": "Mehr Werkzeuge: zuruck zur vorherigen Version, Hinweis wenn ein Spiel nach seinem SI PRESET aktualisiert wurde, Spiele auf HDD, keine Windows-Update-Neustarts und keine Benachrichtigungen beim Spielen (optional), Overlay-Check, Ping zu den Valve-Servern, helles/dunkles Design und Textgrosse.",
-    "fr": "Plus d'outils : retour a la version precedente, alerte quand un jeu est mis a jour apres son SI PRESET, jeux sur HDD, pas de redemarrage Windows Update ni de notifications pendant le jeu (au choix), verification des overlays, ping vers les serveurs Valve, theme clair/sombre et taille du texte."
+    "it": "Launcher SIGAME.exe (zip della release), controllo VC++/DirectX con i link Microsoft, verifica Steam in 1 clic, pulizia cache shader dopo un aggiornamento driver, avviso disco quasi pieno, tasto rapido Ctrl+Alt+B GAME BOOST / GAME OVER, cronologia partite, varianti dei preset, avviso di nuovi SI PRESET per i tuoi giochi, backup dei salvataggi prima di un preset con ripristino in 1 clic",
+    "pt-BR": "Inicializador SIGAME.exe (zip da release), verificação de VC++/DirectX com links da Microsoft, verificar arquivos da Steam em 1 clique, limpeza do cache de shaders após atualizar o driver, aviso de disco quase cheio, atalho Ctrl+Alt+B GAME BOOST / GAME OVER, histórico de partidas, variantes de presets, aviso de novos SI PRESETS para seus jogos, backup dos saves antes de um preset com restauração em 1 clique",
+    "es": "Lanzador SIGAME.exe (zip de la release), comprobación de VC++/DirectX con enlaces de Microsoft, verificar archivos de Steam en 1 clic, limpieza de la caché de shaders tras actualizar el driver, aviso de disco casi lleno, atajo Ctrl+Alt+B GAME BOOST / GAME OVER, historial de partidas, variantes de presets, aviso de nuevos SI PRESETS para tus juegos, copia de las partidas guardadas antes de un preset con restauración en 1 clic",
+    "de": "Starter SIGAME.exe (Release-Zip), VC++/DirectX-Prüfung mit Microsoft-Links, Steam-Dateien mit 1 Klick prüfen, Shader-Cache nach Treiber-Update leeren, Warnung bei fast voller Festplatte, Hotkey Strg+Alt+B GAME BOOST / GAME OVER, Spielverlauf, Preset-Varianten, Hinweis auf neue SI PRESETS für deine Spiele, Spielstand-Backup vor einem Preset mit Wiederherstellung per 1 Klick",
+    "fr": "Lanceur SIGAME.exe (zip de la release), vérification VC++/DirectX avec les liens Microsoft, vérification Steam en 1 clic, nettoyage du cache des shaders après une mise à jour du pilote, alerte disque presque plein, raccourci Ctrl+Alt+B GAME BOOST / GAME OVER, historique des parties, variantes de presets, avis de nouveaux SI PRESETS pour tes jeux, sauvegarde des parties avant un preset avec restauration en 1 clic"
   }
 }

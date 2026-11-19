@@ -229,6 +229,7 @@ $script:SIModuleList = @(
     '14-pro.ps1'
     '15-lang.ps1'
     '16-extra.ps1'
+    '17-more.ps1'
 )
 
 foreach ($module in $script:SIModuleList) {

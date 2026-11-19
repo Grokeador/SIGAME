@@ -18,7 +18,7 @@
 #   - Sending never blocks the window and never shows an error to the player.
 # ===========================================================================
 
-$script:SIGameVersion     = '2026.11.18.10'
+$script:SIGameVersion     = '2026.11.18.11'
 $script:SIPresetsPath     = [System.IO.Path]::Combine($script:SIRoot, 'presets')
 $script:SICatalogPath     = [System.IO.Path]::Combine($script:SIPresetsPath, 'catalog.json')
 $script:SIFeedbackCfgPath = [System.IO.Path]::Combine($script:SIRoot, 'SI-GAME-feedback.json')
@@ -505,6 +505,11 @@ function Invoke-SIGamePreset {
     if ($top) { $win = $top }
     $state = Get-SICommunityState
     $already = ($state.Applied.PSObject.Properties.Name -contains [string]$Entry.Id)
+    # a variant of the same Group already applied: undo it first (17-more)
+    if (-not $already -and (Get-Command Test-SIPresetGroup -ErrorAction SilentlyContinue)) {
+        if (-not (Test-SIPresetGroup -Entry $Entry -Window $win)) { return }
+        $state = Get-SICommunityState
+    }
 
     $undo = $false
     if ($already -and $Entry.Undo) {
@@ -515,7 +520,13 @@ function Invoke-SIGamePreset {
         if (-not (Show-SIMessage -Window $win -Title 'SI PRESET' -Text $msg)) { return }
     }
 
+    # the saves of the game are copied first (17-more, folders from the Ludusavi manifest)
+    $bk = $null
+    if (-not $undo -and (Get-Command Backup-SIGameSaves -ErrorAction SilentlyContinue)) {
+        try { $bk = Backup-SIGameSaves -Entry $Entry } catch { Write-SILog -Level 'WARN' -Component 'Presets' -Message "saves backup: $($_.Exception.Message)" }
+    }
     $r = Invoke-SIPresetScript -Entry $Entry -Undo:$undo
+    if ($bk -and $bk.Text) { $r.Lines = @($r.Lines) + @('', [string]$bk.Text) }
     [void]$win.Activate()
     $last = (@($r.Lines | Where-Object { $_ }) | Select-Object -Last 1)
     if ($r.Ok) {
@@ -600,6 +611,7 @@ function Update-SIPresetLibrary {
         [void](Get-SIPresetCatalog -Reload)
         if ($Auto) { Set-SIStatusText -Text ((Get-SICommunityText 'PresetsAuto') -f (($todo | ForEach-Object { [string]$_.Game }) -join ', ')) }
         else { Set-SIStatusText -Text ((Get-SICommunityText 'PresetsGot') -f $todo.Count) }
+        if ($Auto -and (Get-Command Send-SINewPresetNotice -ErrorAction SilentlyContinue)) { try { Send-SINewPresetNotice -Entries $todo } catch { } }
         try { Update-SIAutoDashboard } catch { }
     } catch {
         if ($Auto) { Write-SILog -Level 'WARN' -Component 'Presets' -Message "Auto download: $($_.Exception.Message)"; return }
@@ -956,6 +968,7 @@ function Show-SIPresetsWindow {
             $head = [System.Windows.Controls.WrapPanel]::new()
             $t1 = [System.Windows.Controls.TextBlock]::new()
             $t1.Text = "$($e.Title)  -  $($e.Game)"
+            if ($e.PSObject.Properties.Name -contains 'Variant' -and $e.Variant) { $t1.Text = "$($e.Title) ($($e.Variant))  -  $($e.Game)" }
             $t1.FontWeight = 'SemiBold'
             $t1.Foreground = Get-SIBrush $c.Text
             $t1.TextWrapping = 'Wrap'

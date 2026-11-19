@@ -316,12 +316,14 @@ function Invoke-SIGameStartExtras {
         $exe = Get-SIGameExePath -Game $Game
         [void](Test-SIGameUpdatedSincePreset -Game $Game -Exe $exe)
         Set-SIGameQuiet -On
+        if (Get-Command Invoke-SIMoreGameStart -ErrorAction SilentlyContinue) { Invoke-SIMoreGameStart -Game $Game -Exe $exe }
     } catch { Write-SILog -Level 'WARN' -Component 'Extra' -Message "game start: $($_.Exception.Message)" }
 }
 
 function Invoke-SIGameEndExtras {
     param([string]$Game)
     try { Set-SIGameQuiet } catch { Write-SILog -Level 'WARN' -Component 'Extra' -Message "game end: $($_.Exception.Message)" }
+    try { if (Get-Command Invoke-SIMoreGameEnd -ErrorAction SilentlyContinue) { Invoke-SIMoreGameEnd -Game $Game } } catch { Write-SILog -Level 'WARN' -Component 'Extra' -Message "history: $($_.Exception.Message)" }
 }
 
 # ------------------------------- disks / overlays / ping -------------------
@@ -538,6 +540,9 @@ function Add-SIExtraSection {
     }.GetNewClosure())
     $null = $row3.Children.Add($tx)
     $null = $Panel.Children.Add($row3)
+    if (Get-Command Add-SIMoreSection -ErrorAction SilentlyContinue) {
+        try { Add-SIMoreSection -Panel $Panel -Window $Window } catch { Write-SILog -Level 'WARN' -Component 'Extra' -Message "more tools: $($_.Exception.Message)" }
+    }
 
     $scale = Get-SITextScale ([string]$s.TextSize)
     if ($scale -gt 1.0) {

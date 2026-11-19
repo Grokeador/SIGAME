@@ -1,13 +1,17 @@
 # SIGAME and winget
 
 winget installs only installer files (.exe, .msi, .msix, or a .zip with an .exe inside).
-SIGAME is a PowerShell script (SI-GAME-AUTO.bat + .ps1), so it cannot go into the
-microsoft/winget-pkgs catalog as it is.
+Since 2026.11.18.11 every GitHub Release of SIGAME has `SIGAME-<version>.zip`: the app files plus
+`SIGAME.exe`, a small launcher built from [launcher/SIGAME.cs](../launcher/SIGAME.cs) with
+[launcher/build.ps1](../launcher/build.ps1). It starts `SI-GAME-AUTO.ps1` from its own folder.
 
-What is needed first:
-1. A signed or unsigned .exe build of SIGAME attached to a GitHub Release.
-2. A manifest (Grokeador.SIGAME) pointing to that release asset and its SHA-256.
-3. A pull request to https://github.com/microsoft/winget-pkgs (needs the owner's OK).
+The manifests for that zip are in [manifests/g/Grokeador/SIGAME](manifests/g/Grokeador/SIGAME)
+(zip + portable SIGAME.exe, command `sigame`, SHA-256 of the release asset).
 
-Until then, install SIGAME from https://github.com/Grokeador/SIGAME (Code > Download ZIP,
-then double-click SI-GAME-AUTO.bat). SIGAME updates itself after that.
+Still to do (needs the owner's OK): a pull request with that folder to
+https://github.com/microsoft/winget-pkgs. Check it first with
+`winget validate --manifest winget\manifests\g\Grokeador\SIGAME\<version>` and
+`winget install --manifest winget\manifests\g\Grokeador\SIGAME\<version>`.
+
+Until it is accepted, install SIGAME from https://github.com/Grokeador/SIGAME/releases (extract the zip, then
+double-click SIGAME.exe) or Code > Download ZIP and SI-GAME-AUTO.bat. SIGAME updates its scripts itself after that.
