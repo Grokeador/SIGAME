@@ -8,6 +8,8 @@ jobs:
   test:
     runs-on: windows-latest
     steps:
+      - name: Keep the files byte for byte (the SHA-256 of version.json)
+        run: git config --global core.autocrlf false
       - uses: actions/checkout@v4
       - name: Every script parses (Windows PowerShell 5.1)
         shell: powershell
