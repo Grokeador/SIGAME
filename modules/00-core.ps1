@@ -901,7 +901,7 @@ function Get-SISILanguage {
         The language of the window, taken from the display language of Windows.
 
     .DESCRIPTION
-        Only en, pt-BR, es, it, de and fr are in the table of the texts. Every
+        en, pt-BR, es, it, de, fr, ja, ko, zh-Hans, ru and hi have texts. Every
         other language gets English. The result is kept, so that the language
         is read only once.
     #>
@@ -922,6 +922,11 @@ function Get-SISILanguage {
         elseif ($lower -eq 'de' -or $lower.StartsWith('de-')) { $script:SILanguage = 'de' }
         elseif ($lower -eq 'fr' -or $lower.StartsWith('fr-')) { $script:SILanguage = 'fr' }
         elseif ($lower -eq 'en' -or $lower.StartsWith('en-')) { $script:SILanguage = 'en' }
+        elseif ($lower -eq 'ja' -or $lower.StartsWith('ja-')) { $script:SILanguage = 'ja' }
+        elseif ($lower -eq 'ko' -or $lower.StartsWith('ko-')) { $script:SILanguage = 'ko' }
+        elseif ($lower -eq 'zh' -or $lower.StartsWith('zh-')) { $script:SILanguage = 'zh-Hans' }
+        elseif ($lower -eq 'ru' -or $lower.StartsWith('ru-')) { $script:SILanguage = 'ru' }
+        elseif ($lower -eq 'hi' -or $lower.StartsWith('hi-')) { $script:SILanguage = 'hi' }
     }
     return $script:SILanguage
 }

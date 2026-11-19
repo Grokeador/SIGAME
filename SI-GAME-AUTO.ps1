@@ -227,6 +227,7 @@ $script:SIModuleList = @(
     '12-guard.ps1'
     '13-tweaktext.ps1'
     '14-pro.ps1'
+    '15-lang.ps1'
 )
 
 foreach ($module in $script:SIModuleList) {
@@ -3669,6 +3670,7 @@ $script:SIHudText = @{
         ReadyStatusFmt     = 'Pret. Appuyez sur {0} pour optimiser automatiquement PC, Reseau et Jeux.'
     }
 }
+if ($script:SIHudTextMore) { foreach ($l in @($script:SIHudTextMore.Keys)) { $script:SIHudText[$l] = $script:SIHudTextMore[$l] } }
 
 function Get-SIHudText {
     param([Parameter(Mandatory = $true)][string]$Key)
