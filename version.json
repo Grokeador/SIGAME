@@ -1,10 +1,10 @@
 {
-  "Version": "2026.11.18.9",
-  "Notes": "SIGAME now speaks 11 languages: Japanese, Korean, Chinese, Russian and Hindi added (window, HUD, presets, FPS, PRO tools, tweak names).",
+  "Version": "2026.11.18.10",
+  "Notes": "More tools: go back to the previous version, warning when a game was updated after its SI PRESET, games on an HDD, no Windows Update restarts and no notifications while playing (opt-in), overlay check, ping to the Valve servers, light/dark theme and text size; GitHub tests.",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
-      "Sha256": "720b29e063ed73455511b60abd6b55ee30243a39d87e02e0351b1c9bb1c41deb"
+      "Sha256": "60fa9ab460b70c0f72eeb987337deaa4c8fbe51b06146a9a0afcb9f5db795129"
     },
     {
       "Path": "modules/00-core.ps1",
@@ -44,11 +44,11 @@
     },
     {
       "Path": "modules/09-autoboost.ps1",
-      "Sha256": "c84f84555836c37531717156ab2dc4bcd63dceab6462c695a1402e28c385731c"
+      "Sha256": "47ad61ef773ef2bd27eee9cde4b5b84956aa96ba5d3cf77b68d879cc54a77096"
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "4d296fcf70ce02bc8b5685c816ab39f8db84f633e5e6978dcd21aba4690d2c78"
+      "Sha256": "7ee8e3a681afd08401f63551361ccb5a55347826c5f070182050647ce07f4059"
     },
     {
       "Path": "modules/11-fps.ps1",
@@ -64,18 +64,22 @@
     },
     {
       "Path": "modules/14-pro.ps1",
-      "Sha256": "dce3fa9235bf330929c927c2346d11be4356754b14d6b10f3f4e4bc501313f74"
+      "Sha256": "175092e60d63756a5f89fb39dbb0f4231c2525e1f61400f52cccea34a6dca01f"
     },
     {
       "Path": "modules/15-lang.ps1",
       "Sha256": "8befaf64fdb6f10a85d6d210f2678460a7c62ef0d7239980bf1c01ab298005b2"
+    },
+    {
+      "Path": "modules/16-extra.ps1",
+      "Sha256": "c65c40a5e55b14130c6c7070d13971bde71ed1e44c9f0cda37e2f27b5b409cfe"
     }
   ],
   "NotesLang": {
-    "it": "SIGAME ora parla 11 lingue: aggiunti giapponese, coreano, cinese, russo e hindi (finestra, HUD, preset, FPS, strumenti PRO, nomi dei tweak).",
-    "pt-BR": "O SIGAME agora fala 11 idiomas: japones, coreano, chines, russo e hindi adicionados (janela, HUD, presets, FPS, ferramentas PRO, nomes dos ajustes).",
-    "es": "SIGAME ahora habla 11 idiomas: japones, coreano, chino, ruso e hindi anadidos (ventana, HUD, presets, FPS, herramientas PRO, nombres de los ajustes).",
-    "de": "SIGAME spricht jetzt 11 Sprachen: Japanisch, Koreanisch, Chinesisch, Russisch und Hindi neu (Fenster, HUD, Presets, FPS, PRO-Werkzeuge, Tweak-Namen).",
-    "fr": "SIGAME parle maintenant 11 langues : japonais, coreen, chinois, russe et hindi ajoutes (fenetre, HUD, presets, FPS, outils PRO, noms des reglages)."
+    "it": "Altri strumenti: torna alla versione precedente, avviso se un gioco si aggiorna dopo il suo SI PRESET, giochi su HDD, niente riavvii di Windows Update e niente notifiche mentre giochi (a scelta), controllo overlay, ping ai server Valve, tema chiaro/scuro e dimensione testo.",
+    "pt-BR": "Mais ferramentas: voltar para a versao anterior, aviso quando um jogo atualiza depois do SI PRESET, jogos em HD, sem reinicio do Windows Update e sem notificacoes enquanto joga (opcional), verificacao de overlays, ping nos servidores da Valve, tema claro/escuro e tamanho do texto.",
+    "es": "Mas herramientas: volver a la version anterior, aviso cuando un juego se actualiza despues de su SI PRESET, juegos en HDD, sin reinicios de Windows Update ni notificaciones mientras juegas (opcional), revision de overlays, ping a los servidores de Valve, tema claro/oscuro y tamano del texto.",
+    "de": "Mehr Werkzeuge: zuruck zur vorherigen Version, Hinweis wenn ein Spiel nach seinem SI PRESET aktualisiert wurde, Spiele auf HDD, keine Windows-Update-Neustarts und keine Benachrichtigungen beim Spielen (optional), Overlay-Check, Ping zu den Valve-Servern, helles/dunkles Design und Textgrosse.",
+    "fr": "Plus d'outils : retour a la version precedente, alerte quand un jeu est mis a jour apres son SI PRESET, jeux sur HDD, pas de redemarrage Windows Update ni de notifications pendant le jeu (au choix), verification des overlays, ping vers les serveurs Valve, theme clair/sombre et taille du texte."
   }
 }

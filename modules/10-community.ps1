@@ -18,7 +18,7 @@
 #   - Sending never blocks the window and never shows an error to the player.
 # ===========================================================================
 
-$script:SIGameVersion     = '2026.11.18.9'
+$script:SIGameVersion     = '2026.11.18.10'
 $script:SIPresetsPath     = [System.IO.Path]::Combine($script:SIRoot, 'presets')
 $script:SICatalogPath     = [System.IO.Path]::Combine($script:SIPresetsPath, 'catalog.json')
 $script:SIFeedbackCfgPath = [System.IO.Path]::Combine($script:SIRoot, 'SI-GAME-feedback.json')
@@ -718,6 +718,8 @@ function Invoke-SIUpdateOffer {
     $state = Get-SICommunityState
     $skipped = ''
     if ($state.PSObject.Properties.Name -contains 'UpdateSkipped') { $skipped = [string]$state.UpdateSkipped }
+    # after a rollback the version that was left is not installed again by itself (a newer one is)
+    if ($Quiet -and ($state.PSObject.Properties.Name -contains 'UpdateHold') -and [string]$state.UpdateHold -eq [string]$Manifest.Version) { return $false }
     # -Quiet = the start of SIGAME: installs by itself, no question (owner 18/11).
     # The button still asks. Every file is checked (SHA-256 + parse) before anything changes.
     $notes = Get-SIUpdateNotes -Manifest $Manifest

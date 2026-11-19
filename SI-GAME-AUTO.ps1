@@ -228,6 +228,7 @@ $script:SIModuleList = @(
     '13-tweaktext.ps1'
     '14-pro.ps1'
     '15-lang.ps1'
+    '16-extra.ps1'
 )
 
 foreach ($module in $script:SIModuleList) {

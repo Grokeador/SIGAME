@@ -509,6 +509,9 @@ function Add-SIProToolsSection {
     $null = $wn.Add_Click({ Show-SIWhatsNew })
     $null = $row2.Children.Add($wn)
     $null = $Panel.Children.Add($row2)
+    if (Get-Command Add-SIExtraSection -ErrorAction SilentlyContinue) {
+        try { Add-SIExtraSection -Panel $Panel -Window $Window } catch { Write-SILog -Level 'WARN' -Component 'Extra' -Message "MORE TOOLS: $($_.Exception.Message)" }
+    }
 }
 
 # ------------------------------- command line ------------------------------

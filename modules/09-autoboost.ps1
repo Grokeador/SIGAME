@@ -293,6 +293,7 @@ function Update-SIAutoBoost {
                 $script:SIAutoBoostLastSeen = $game
                 Write-SILog -Component 'AutoBoost' -Message "the game $game is running."
                 if (Get-Command Invoke-SIGameStartHints -ErrorAction SilentlyContinue) { Invoke-SIGameStartHints -Game $game }
+                if (Get-Command Invoke-SIGameStartExtras -ErrorAction SilentlyContinue) { Invoke-SIGameStartExtras -Game $game }
             }
 
             if ($script:SIBoostIsActive) {
@@ -328,6 +329,7 @@ function Update-SIAutoBoost {
 
         # No game is running. The GAME OVER runs only when the AUTO-BOOST
         # was the one that did the boost.
+        if ($script:SIAutoBoostLastSeen -and (Get-Command Invoke-SIGameEndExtras -ErrorAction SilentlyContinue)) { Invoke-SIGameEndExtras -Game $script:SIAutoBoostLastSeen }
         $script:SIAutoBoostLastSeen = ''
         $script:SIAutoBoostAttempted = ''
         if (-not $script:SIAutoBoostedGame) { return }

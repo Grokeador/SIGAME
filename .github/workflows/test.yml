@@ -1,0 +1,44 @@
+name: tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Every script parses (Windows PowerShell 5.1)
+        shell: powershell
+        run: |
+          $bad = 0
+          foreach ($f in @(Get-ChildItem modules\*.ps1, SI-GAME-AUTO.ps1, tests\*.ps1)) {
+            $t = $null; $e = $null
+            [void][System.Management.Automation.Language.Parser]::ParseFile($f.FullName, [ref]$t, [ref]$e)
+            foreach ($x in @($e)) { $bad++; Write-Host "::error file=$($f.Name),line=$($x.Extent.StartLineNumber)::$($x.Message)" }
+          }
+          if ($bad) { exit 1 }
+      - name: version.json and catalog.json are valid, every file of version.json matches its SHA-256
+        shell: powershell
+        run: |
+          $v = Get-Content version.json -Raw | ConvertFrom-Json
+          $c = Get-Content presets\catalog.json -Raw -Encoding UTF8 | ConvertFrom-Json
+          $sha = [System.Security.Cryptography.SHA256]::Create(); $bad = 0
+          foreach ($f in @($v.Files)) {
+            $h = ([System.BitConverter]::ToString($sha.ComputeHash([System.IO.File]::ReadAllBytes((Join-Path $PWD $f.Path))))).Replace('-', '')
+            if ($h -ine $f.Sha256) { $bad++; Write-Host "::error file=$($f.Path)::SHA-256 does not match version.json" }
+          }
+          "$(@($v.Files).Count) files, $(@($c.Presets).Count) presets"
+          if ($bad) { exit 1 }
+      - name: Unit tests
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File tests\test-pro.ps1
+      - name: PSScriptAnalyzer (errors only)
+        shell: powershell
+        continue-on-error: true
+        run: |
+          Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
+          $r = Invoke-ScriptAnalyzer -Path . -Recurse -Severity Error
+          $r | Format-Table RuleName, ScriptName, Line -AutoSize
+          if ($r) { exit 1 }
