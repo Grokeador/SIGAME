@@ -1,6 +1,6 @@
 {
-  "Version": "2026.11.18.11",
-  "Notes": "SIGAME.exe launcher (release zip), VC++/DirectX check with Microsoft links, Steam verify in 1 click, shader cache cleanup after a driver update, low free disk warning, hotkey Ctrl+Alt+B GAME BOOST / GAME OVER, play history, preset variants, notice of new SI PRESETS for your games, save backup before a preset with 1-click restore",
+  "Version": "2026.11.22.1",
+  "Notes": "When a preset cannot find its game, SIGAME asks for the game's .exe, adds it to your games and applies again; SI DLSS v2: latest DLSS DLLs with the preset the NVIDIA driver recommends for each quality level",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
@@ -48,7 +48,7 @@
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "2bd897f4ef8a99e78998fb2cd85d703e3bfb99c2b2714d68fda5e5c752c47a82"
+      "Sha256": "a81885fa9e35720d6a91b669860be12ccfec358ca1170cc8727ef44e7ec4343c"
     },
     {
       "Path": "modules/11-fps.ps1",
@@ -68,7 +68,7 @@
     },
     {
       "Path": "modules/15-lang.ps1",
-      "Sha256": "8befaf64fdb6f10a85d6d210f2678460a7c62ef0d7239980bf1c01ab298005b2"
+      "Sha256": "22d5579971e258b21a93590d63fa31c52aba2ce753d4ba8e23eda4a161b9861f"
     },
     {
       "Path": "modules/16-extra.ps1",
@@ -80,10 +80,10 @@
     }
   ],
   "NotesLang": {
-    "it": "Launcher SIGAME.exe (zip della release), controllo VC++/DirectX con i link Microsoft, verifica Steam in 1 clic, pulizia cache shader dopo un aggiornamento driver, avviso disco quasi pieno, tasto rapido Ctrl+Alt+B GAME BOOST / GAME OVER, cronologia partite, varianti dei preset, avviso di nuovi SI PRESET per i tuoi giochi, backup dei salvataggi prima di un preset con ripristino in 1 clic",
-    "pt-BR": "Inicializador SIGAME.exe (zip da release), verificação de VC++/DirectX com links da Microsoft, verificar arquivos da Steam em 1 clique, limpeza do cache de shaders após atualizar o driver, aviso de disco quase cheio, atalho Ctrl+Alt+B GAME BOOST / GAME OVER, histórico de partidas, variantes de presets, aviso de novos SI PRESETS para seus jogos, backup dos saves antes de um preset com restauração em 1 clique",
-    "es": "Lanzador SIGAME.exe (zip de la release), comprobación de VC++/DirectX con enlaces de Microsoft, verificar archivos de Steam en 1 clic, limpieza de la caché de shaders tras actualizar el driver, aviso de disco casi lleno, atajo Ctrl+Alt+B GAME BOOST / GAME OVER, historial de partidas, variantes de presets, aviso de nuevos SI PRESETS para tus juegos, copia de las partidas guardadas antes de un preset con restauración en 1 clic",
-    "de": "Starter SIGAME.exe (Release-Zip), VC++/DirectX-Prüfung mit Microsoft-Links, Steam-Dateien mit 1 Klick prüfen, Shader-Cache nach Treiber-Update leeren, Warnung bei fast voller Festplatte, Hotkey Strg+Alt+B GAME BOOST / GAME OVER, Spielverlauf, Preset-Varianten, Hinweis auf neue SI PRESETS für deine Spiele, Spielstand-Backup vor einem Preset mit Wiederherstellung per 1 Klick",
-    "fr": "Lanceur SIGAME.exe (zip de la release), vérification VC++/DirectX avec les liens Microsoft, vérification Steam en 1 clic, nettoyage du cache des shaders après une mise à jour du pilote, alerte disque presque plein, raccourci Ctrl+Alt+B GAME BOOST / GAME OVER, historique des parties, variantes de presets, avis de nouveaux SI PRESETS pour tes jeux, sauvegarde des parties avant un preset avec restauration en 1 clic"
+    "it": "Se un preset non trova il gioco, SIGAME chiede il .exe del gioco, lo aggiunge ai tuoi giochi e riapplica; SI DLSS v2: DLL DLSS piu' recenti con il preset che il driver NVIDIA consiglia per ogni livello di qualita'",
+    "pt-BR": "Quando um preset nao acha o jogo, o SIGAME pede o .exe do jogo, adiciona aos seus jogos e aplica de novo; SI DLSS v2: DLLs DLSS mais recentes com o preset que o driver NVIDIA recomenda para cada nivel de qualidade",
+    "es": "Si un preset no encuentra el juego, SIGAME pide el .exe del juego, lo agrega a tus juegos y aplica de nuevo; SI DLSS v2: DLL DLSS mas recientes con el preset que el driver NVIDIA recomienda para cada nivel de calidad",
+    "de": "Findet ein Preset das Spiel nicht, fragt SIGAME nach der .exe des Spiels, fuegt sie deinen Spielen hinzu und wendet erneut an; SI DLSS v2: neueste DLSS-DLLs mit dem Preset, das der NVIDIA-Treiber fuer jede Qualitaetsstufe empfiehlt",
+    "fr": "Si un preset ne trouve pas le jeu, SIGAME demande le .exe du jeu, l'ajoute a tes jeux et applique a nouveau ; SI DLSS v2 : DLL DLSS les plus recentes avec le preset que le pilote NVIDIA recommande pour chaque niveau de qualite"
   }
 }

@@ -3,10 +3,11 @@
 # profile, so every DLSS 2+ game whose own driver profile does not set them gets:
 #   - DLSS Super Resolution, Ray Reconstruction and Frame Generation swapped for the LATEST version the driver has
 #     installed (DLL override 0x10E41E01 / 0x10E41E02 / 0x10E41E03 = 1);
-#   - the model preset picked for YOUR card (Forced Model Preset Profile 0x00634291 = Custom, Forced Preset Letter
-#     0x10E41DF3). NVIDIA's DLSS Programming Guide (SDK 310.5.0+, section 3.12): preset M = "similar image quality
-#     improvements as Preset L but closer in speed to Presets J, K", "peak performant on RTX 40 series GPUs and
-#     above"; preset K = "less expensive performance wise". So RTX 40 and newer get M, RTX 20/30 get K.
+#   - the model preset left to the DRIVER for each quality level (Forced Model Preset Profile 0x00634291 =
+#     Recommended, Forced Preset Letter 0x10E41DF3 = "Use recommended preset" 0x00FFFFFF). Version 1 forced one
+#     letter (M or K) on every level; Profile Inspector itself says that override "may not be desirable on some
+#     levels", and all 4 real players who applied v1 undid it (SIGAME telemetry, 22/11/2026). So v2 keeps the latest
+#     DLLs and lets the driver pick the preset NVIDIA recommends per level.
 # Setting ids and values: NVIDIA Profile Inspector's CustomSettingNames.xml (github.com/Orbmu2k/nvidiaProfileInspector,
 # MIT). The NvAPI calls and struct layout follow its NvapiDrsWrapper.cs. Nothing is downloaded, no game file is touched.
 # The previous values are saved first (si-dlss.sigame.bak.json); -Undo puts them back. Needs admin (SIGAME has it).
@@ -183,8 +184,8 @@ $names = @{
     0x10E41E01 = 'DLSS Super Resolution: latest DLL the driver has'
     0x10E41E02 = 'DLSS Ray Reconstruction: latest DLL the driver has'
     0x10E41E03 = 'DLSS Frame Generation: latest DLL the driver has'
-    0x00634291 = 'DLSS model preset profile: custom'
-    0x10E41DF3 = 'DLSS model preset'
+    0x00634291 = 'DLSS model preset profile: recommended'
+    0x10E41DF3 = 'DLSS model preset: recommended by the driver for each quality level'
 }
 $order = @(0x10E41E01, 0x10E41E02, 0x10E41E03, 0x00634291, 0x10E41DF3)
 
@@ -209,7 +210,7 @@ if ($Undo) {
     exit 0
 }
 
-# --- Your GPU: RTX only, preset by generation ---
+# --- Your GPU: RTX only ---
 $gpuName = $MockGpu
 if (-not $gpuName) {
     $gpuName = (@(Get-CimInstance Win32_VideoController -ErrorAction SilentlyContinue |
@@ -219,11 +220,9 @@ if ($gpuName -notmatch 'RTX\s*(\d{2})\d{2}') {
     Write-Line "[FAIL] DLSS needs an NVIDIA GeForce RTX card$(if ($gpuName) { " (found: $gpuName)" })."
     exit 2
 }
-$gen = [int]$Matches[1]
-if ($gen -ge 40) { $preset = 0x0D; $letter = 'M' } else { $preset = 0x0B; $letter = 'K' }
-Write-Line "[PC]   $gpuName -> preset $letter"
+Write-Line "[PC]   $gpuName"
 
-$want = @{ 0x10E41E01 = 1; 0x10E41E02 = 1; 0x10E41E03 = 1; 0x00634291 = 2; 0x10E41DF3 = $preset }
+$want = @{ 0x10E41E01 = 1; 0x10E41E02 = 1; 0x10E41E03 = 1; 0x00634291 = 1; 0x10E41DF3 = 0x00FFFFFF }
 
 $r = [SIDrs]::Open($MockStore)
 if ($r -eq -2) { Write-Line '[FAIL] NVIDIA driver not found: install the GeForce driver, then apply again.'; exit 2 }
@@ -246,7 +245,7 @@ if (-not (Test-Path -LiteralPath $BackupPath)) {
 $ok = 0
 foreach ($id in $order) {
     $r = [SIDrs]::Set([uint32]$id, [uint32]$want[$id])
-    $label = $names[[int]$id]; if ($id -eq 0x10E41DF3) { $label += " $letter" }
+    $label = $names[[int]$id]
     if ($r -eq 0) { Write-Line "[SET]  $label"; $ok++ } else { Write-Line "[SKIP] $label (this driver says NvAPI $r)" }
 }
 $r = [SIDrs]::Commit(); [SIDrs]::Close()

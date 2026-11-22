@@ -18,7 +18,7 @@
 #   - Sending never blocks the window and never shows an error to the player.
 # ===========================================================================
 
-$script:SIGameVersion     = '2026.11.18.11'
+$script:SIGameVersion     = '2026.11.22.1'
 $script:SIPresetsPath     = [System.IO.Path]::Combine($script:SIRoot, 'presets')
 $script:SICatalogPath     = [System.IO.Path]::Combine($script:SIPresetsPath, 'catalog.json')
 $script:SIFeedbackCfgPath = [System.IO.Path]::Combine($script:SIRoot, 'SI-GAME-feedback.json')
@@ -55,6 +55,8 @@ $script:SICommunityText = @{
         PresetConfirm   = "{0} - {1}`n`n{2}`n`nApply it now?"
         PresetDone      = 'SI PRESET {0} applied. Details in SI-GAME.log.'
         PresetFail      = 'SI PRESET {0} did not apply: {1}'
+        PresetPickGame  = "{0} was not found on this PC.`n`n{1}`n`nYES = show SIGAME where the game's .exe is, then apply again`nNO = close"
+        PresetPickTitle = "Where is the .exe of {0}?"
         PresetUndoAsk   = "SI PRESET {0} is already applied.`n`nYES = put your original config back (Undo)`nNO = apply it again"
         PresetsTitle    = 'SI PRESETS'
         PresetsIntro    = 'Extreme configs made in the SI NEWS videos. Found = the game is on this PC.'
@@ -105,6 +107,8 @@ $script:SICommunityText = @{
         PresetConfirm   = "{0} - {1}`n`n{2}`n`nApplicarlo adesso?"
         PresetDone      = 'SI PRESET {0} applicato. Dettagli in SI-GAME.log.'
         PresetFail      = 'SI PRESET {0} non applicato: {1}'
+        PresetPickGame  = "{0} non trovato su questo PC.`n`n{1}`n`nSI = indica a SIGAME dov'e' il .exe del gioco e riprova`nNO = chiudi"
+        PresetPickTitle = "Dov'e' il .exe di {0}?"
         PresetUndoAsk   = "Il SI PRESET {0} e gia applicato.`n`nSI = rimetti la tua configurazione originale (Undo)`nNO = applicalo di nuovo"
         PresetsTitle    = 'SI PRESETS'
         PresetsIntro    = 'Configurazioni estreme create nei video di SI NEWS. Trovato = il gioco e su questo PC.'
@@ -159,6 +163,8 @@ $script:SICommunityText['pt-BR'] = @{
     PresetConfirm   = "{0} - {1}`n`n{2}`n`nAplicar agora?"
     PresetDone      = 'SI PRESET {0} aplicado. Detalhes em SI-GAME.log.'
     PresetFail      = 'SI PRESET {0} nao foi aplicado: {1}'
+    PresetPickGame  = "{0} nao foi encontrado neste PC.`n`n{1}`n`nSIM = mostre ao SIGAME onde esta o .exe do jogo e aplique de novo`nNAO = fechar"
+    PresetPickTitle = "Onde esta o .exe de {0}?"
     PresetUndoAsk   = "O SI PRESET {0} ja esta aplicado.`n`nSIM = volta a sua configuracao original (Desfazer)`nNAO = aplica de novo"
     PresetsTitle    = 'SI PRESETS'
     PresetsIntro    = 'Configuracoes extremas feitas nos videos do SI NEWS. Encontrado = o jogo esta neste PC.'
@@ -212,6 +218,8 @@ $script:SICommunityText['es'] = @{
     PresetConfirm   = "{0} - {1}`n`n{2}`n`nAplicarlo ahora?"
     PresetDone      = 'SI PRESET {0} aplicado. Detalles en SI-GAME.log.'
     PresetFail      = 'SI PRESET {0} no se aplico: {1}'
+    PresetPickGame  = "{0} no se encontro en este PC.`n`n{1}`n`nSI = indica a SIGAME donde esta el .exe del juego y aplica de nuevo`nNO = cerrar"
+    PresetPickTitle = "Donde esta el .exe de {0}?"
     PresetUndoAsk   = "El SI PRESET {0} ya esta aplicado.`n`nSI = vuelve tu configuracion original (Deshacer)`nNO = aplicarlo de nuevo"
     PresetsTitle    = 'SI PRESETS'
     PresetsIntro    = 'Configuraciones extremas hechas en los videos de SI NEWS. Encontrado = el juego esta en este PC.'
@@ -265,6 +273,8 @@ $script:SICommunityText['de'] = @{
     PresetConfirm   = "{0} - {1}`n`n{2}`n`nJetzt anwenden?"
     PresetDone      = 'SI PRESET {0} angewendet. Details in SI-GAME.log.'
     PresetFail      = 'SI PRESET {0} wurde nicht angewendet: {1}'
+    PresetPickGame  = "{0} wurde auf diesem PC nicht gefunden.`n`n{1}`n`nJA = zeig SIGAME, wo die .exe des Spiels liegt, und wende erneut an`nNEIN = schliessen"
+    PresetPickTitle = "Wo ist die .exe von {0}?"
     PresetUndoAsk   = "SI PRESET {0} ist schon angewendet.`n`nJA = deine Original-Konfiguration zurueck (Rueckgaengig)`nNEIN = erneut anwenden"
     PresetsTitle    = 'SI PRESETS'
     PresetsIntro    = 'Extreme Konfigurationen aus den SI NEWS Videos. Gefunden = das Spiel ist auf diesem PC.'
@@ -318,6 +328,8 @@ $script:SICommunityText['fr'] = @{
     PresetConfirm   = "{0} - {1}`n`n{2}`n`nL'appliquer maintenant?"
     PresetDone      = 'SI PRESET {0} applique. Details dans SI-GAME.log.'
     PresetFail      = "SI PRESET {0} n'a pas ete applique: {1}"
+    PresetPickGame  = "{0} est introuvable sur ce PC.`n`n{1}`n`nOUI = montre a SIGAME ou est le .exe du jeu, puis applique a nouveau`nNON = fermer"
+    PresetPickTitle = "Ou est le .exe de {0} ?"
     PresetUndoAsk   = "Le SI PRESET {0} est deja applique.`n`nOUI = remettre ta configuration d'origine (Annuler)`nNON = l'appliquer de nouveau"
     PresetsTitle    = 'SI PRESETS'
     PresetsIntro    = 'Configurations extremes faites dans les videos SI NEWS. Trouve = le jeu est sur ce PC.'
@@ -468,7 +480,7 @@ function Find-SIGamePreset {
 }
 
 function Invoke-SIPresetScript {
-    param($Entry, [switch]$Undo)
+    param($Entry, [switch]$Undo, [string]$GameExe = '')
     $script = [System.IO.Path]::Combine($script:SIPresetsPath, [string]$Entry.Script)
     if (-not [System.IO.File]::Exists($script)) { return @{ Ok = $false; Lines = @("missing $($Entry.Script)") } }
     $out = [System.IO.Path]::GetTempFileName()
@@ -477,7 +489,8 @@ function Invoke-SIPresetScript {
     # Catalog extras (SIGAME 2026.10.27.2+): fixed arguments, and the exe of the game card for presets that install
     # into the game folder (SI OPTI).
     if ($Entry.PSObject.Properties.Name -contains 'Args' -and $Entry.Args) { $argLine += ' ' + [string]$Entry.Args }
-    if ($Entry.PSObject.Properties.Name -contains 'NeedsGame' -and $Entry.NeedsGame) {
+    if ($GameExe) { $argLine += " -GameExe `"$GameExe`"" }
+    elseif ($Entry.PSObject.Properties.Name -contains 'NeedsGame' -and $Entry.NeedsGame) {
         foreach ($g in @($script:SIGameLibrary)) {
             # the entry's own Match: Find-SIGamePreset gives only the FIRST preset of a game with several
             $hay = @([string]$g.Name, [System.IO.Path]::GetFileName([string]$g.Exe),
@@ -495,6 +508,46 @@ function Invoke-SIPresetScript {
     try { [System.IO.File]::Delete($out) } catch { }
     foreach ($l in $lines) { if ($l) { Write-SILog -Component "Preset $($Entry.Id)" -Message $l } }
     return @{ Ok = ($p.ExitCode -eq 0); Lines = $lines }
+}
+
+function Get-SIPresetPickMode {
+    <#
+    .SYNOPSIS
+        How a preset can use a game exe the player picks: 'param' (the script takes -GameExe), 'list' (it reads the
+        games added to SIGAME, SI-GAME-boost.json) or '' (picking an exe would not help).
+    #>
+    param($Entry)
+    $file = [System.IO.Path]::Combine($script:SIPresetsPath, [string]$Entry.Script)
+    try { $code = [System.IO.File]::ReadAllText($file) } catch { return '' }
+    if ($code -match '\[string\]\$GameExe') { return 'param' }
+    if ($code -match 'SI-GAME-boost\.json') { return 'list' }
+    return ''
+}
+
+function Invoke-SIPresetPickRetry {
+    <#
+    .SYNOPSIS
+        RSI 22/11/2026: the top preset_failed reason was "Cyberpunk 2077 not found". When a preset cannot find its
+        game, SIGAME asks for the game's .exe, adds it to the game list (the place the presets read) and runs the
+        preset again. Returns the new result, or $null when the player says no or the preset cannot use an exe.
+    #>
+    param($Entry, $Window, [string]$Last)
+    if ($Last -notmatch '(?i)not found') { return $null }
+    $mode = Get-SIPresetPickMode -Entry $Entry
+    if (-not $mode) { return $null }
+    $ask = (Get-SICommunityText 'PresetPickGame') -f $Entry.Game, $Last
+    if (-not (Show-SIMessage -Window $Window -Title "SI PRESET $($Entry.Title)" -Text $ask)) { return $null }
+    $dlg = New-Object Microsoft.Win32.OpenFileDialog
+    $dlg.Title = (Get-SICommunityText 'PresetPickTitle') -f $Entry.Game
+    $dlg.Filter = 'Programs (*.exe)|*.exe|All files (*.*)|*.*'
+    if ($dlg.ShowDialog($Window) -ne $true) { return $null }
+    $exe = $dlg.FileName
+    if (Get-Command Add-SIAutoBoostGame -ErrorAction SilentlyContinue) {
+        try { [void](Add-SIAutoBoostGame -Path $exe) } catch { Write-SILog -Level 'WARN' -Component 'Presets' -Message "add game: $($_.Exception.Message)" }
+    }
+    Write-SILog -Component "Preset $($Entry.Id)" -Message "player picked $exe ($mode), applying again"
+    if ($mode -eq 'param') { return (Invoke-SIPresetScript -Entry $Entry -GameExe $exe) }
+    return (Invoke-SIPresetScript -Entry $Entry)
 }
 
 function Invoke-SIGamePreset {
@@ -526,6 +579,12 @@ function Invoke-SIGamePreset {
         try { $bk = Backup-SIGameSaves -Entry $Entry } catch { Write-SILog -Level 'WARN' -Component 'Presets' -Message "saves backup: $($_.Exception.Message)" }
     }
     $r = Invoke-SIPresetScript -Entry $Entry -Undo:$undo
+    $picked = ''
+    if (-not $r.Ok -and -not $undo) {
+        $first = (@($r.Lines | Where-Object { $_ }) | Select-Object -Last 1)
+        $r2 = Invoke-SIPresetPickRetry -Entry $Entry -Window $win -Last ([string]$first)
+        if ($r2) { $r = $r2; $picked = 'after exe pick' }
+    }
     if ($bk -and $bk.Text) { $r.Lines = @($r.Lines) + @('', [string]$bk.Text) }
     [void]$win.Activate()
     $last = (@($r.Lines | Where-Object { $_ }) | Select-Object -Last 1)
@@ -546,7 +605,7 @@ function Invoke-SIGamePreset {
         [void][System.Windows.MessageBox]::Show($win, (@($r.Lines) -join "`n"), "SI PRESET $($Entry.Title)")
         if (-not $undo -and (Get-Command Show-SILaunchOptionsHint -ErrorAction SilentlyContinue)) { Show-SILaunchOptionsHint -Entry $Entry -Window $win }
         $kind = if ($undo) { 'preset_undo' } else { 'preset_applied' }
-        Send-SITelemetry -Event (New-SITelemetryEvent -Kind $kind -Preset ([string]$Entry.Id) -Message $undoNote)
+        Send-SITelemetry -Event (New-SITelemetryEvent -Kind $kind -Preset ([string]$Entry.Id) -Message ((@($undoNote, $picked) | Where-Object { $_ }) -join ', '))
     } else {
         Set-SIStatusText -Text ((Get-SICommunityText 'PresetFail') -f $Entry.Title, $last)
         [void][System.Windows.MessageBox]::Show($win, (@($r.Lines) -join "`n"), "SI PRESET $($Entry.Title)")
