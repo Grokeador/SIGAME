@@ -18,7 +18,7 @@
 #   - Sending never blocks the window and never shows an error to the player.
 # ===========================================================================
 
-$script:SIGameVersion     = '2026.11.22.1'
+$script:SIGameVersion     = '2026.11.22.2'
 $script:SIPresetsPath     = [System.IO.Path]::Combine($script:SIRoot, 'presets')
 $script:SICatalogPath     = [System.IO.Path]::Combine($script:SIPresetsPath, 'catalog.json')
 $script:SIFeedbackCfgPath = [System.IO.Path]::Combine($script:SIRoot, 'SI-GAME-feedback.json')
@@ -57,6 +57,7 @@ $script:SICommunityText = @{
         PresetFail      = 'SI PRESET {0} did not apply: {1}'
         PresetPickGame  = "{0} was not found on this PC.`n`n{1}`n`nYES = show SIGAME where the game's .exe is, then apply again`nNO = close"
         PresetPickTitle = "Where is the .exe of {0}?"
+        PresetRunning   = "{0} is open.`n`n{1}`n`nClose the game now, then:`nYES = apply again`nNO = cancel"
         PresetUndoAsk   = "SI PRESET {0} is already applied.`n`nYES = put your original config back (Undo)`nNO = apply it again"
         PresetsTitle    = 'SI PRESETS'
         PresetsIntro    = 'Extreme configs made in the SI NEWS videos. Found = the game is on this PC.'
@@ -109,6 +110,7 @@ $script:SICommunityText = @{
         PresetFail      = 'SI PRESET {0} non applicato: {1}'
         PresetPickGame  = "{0} non trovato su questo PC.`n`n{1}`n`nSI = indica a SIGAME dov'e' il .exe del gioco e riprova`nNO = chiudi"
         PresetPickTitle = "Dov'e' il .exe di {0}?"
+        PresetRunning   = "{0} e' aperto.`n`n{1}`n`nChiudi il gioco adesso, poi:`nSI = applica di nuovo`nNO = annulla"
         PresetUndoAsk   = "Il SI PRESET {0} e gia applicato.`n`nSI = rimetti la tua configurazione originale (Undo)`nNO = applicalo di nuovo"
         PresetsTitle    = 'SI PRESETS'
         PresetsIntro    = 'Configurazioni estreme create nei video di SI NEWS. Trovato = il gioco e su questo PC.'
@@ -165,6 +167,7 @@ $script:SICommunityText['pt-BR'] = @{
     PresetFail      = 'SI PRESET {0} nao foi aplicado: {1}'
     PresetPickGame  = "{0} nao foi encontrado neste PC.`n`n{1}`n`nSIM = mostre ao SIGAME onde esta o .exe do jogo e aplique de novo`nNAO = fechar"
     PresetPickTitle = "Onde esta o .exe de {0}?"
+    PresetRunning   = "{0} esta aberto.`n`n{1}`n`nFeche o jogo agora, depois:`nSIM = aplicar de novo`nNAO = cancelar"
     PresetUndoAsk   = "O SI PRESET {0} ja esta aplicado.`n`nSIM = volta a sua configuracao original (Desfazer)`nNAO = aplica de novo"
     PresetsTitle    = 'SI PRESETS'
     PresetsIntro    = 'Configuracoes extremas feitas nos videos do SI NEWS. Encontrado = o jogo esta neste PC.'
@@ -220,6 +223,7 @@ $script:SICommunityText['es'] = @{
     PresetFail      = 'SI PRESET {0} no se aplico: {1}'
     PresetPickGame  = "{0} no se encontro en este PC.`n`n{1}`n`nSI = indica a SIGAME donde esta el .exe del juego y aplica de nuevo`nNO = cerrar"
     PresetPickTitle = "Donde esta el .exe de {0}?"
+    PresetRunning   = "{0} esta abierto.`n`n{1}`n`nCierra el juego ahora, luego:`nSI = aplicar de nuevo`nNO = cancelar"
     PresetUndoAsk   = "El SI PRESET {0} ya esta aplicado.`n`nSI = vuelve tu configuracion original (Deshacer)`nNO = aplicarlo de nuevo"
     PresetsTitle    = 'SI PRESETS'
     PresetsIntro    = 'Configuraciones extremas hechas en los videos de SI NEWS. Encontrado = el juego esta en este PC.'
@@ -275,6 +279,7 @@ $script:SICommunityText['de'] = @{
     PresetFail      = 'SI PRESET {0} wurde nicht angewendet: {1}'
     PresetPickGame  = "{0} wurde auf diesem PC nicht gefunden.`n`n{1}`n`nJA = zeig SIGAME, wo die .exe des Spiels liegt, und wende erneut an`nNEIN = schliessen"
     PresetPickTitle = "Wo ist die .exe von {0}?"
+    PresetRunning   = "{0} ist geoeffnet.`n`n{1}`n`nSchliesse das Spiel jetzt, dann:`nJA = erneut anwenden`nNEIN = abbrechen"
     PresetUndoAsk   = "SI PRESET {0} ist schon angewendet.`n`nJA = deine Original-Konfiguration zurueck (Rueckgaengig)`nNEIN = erneut anwenden"
     PresetsTitle    = 'SI PRESETS'
     PresetsIntro    = 'Extreme Konfigurationen aus den SI NEWS Videos. Gefunden = das Spiel ist auf diesem PC.'
@@ -330,6 +335,7 @@ $script:SICommunityText['fr'] = @{
     PresetFail      = "SI PRESET {0} n'a pas ete applique: {1}"
     PresetPickGame  = "{0} est introuvable sur ce PC.`n`n{1}`n`nOUI = montre a SIGAME ou est le .exe du jeu, puis applique a nouveau`nNON = fermer"
     PresetPickTitle = "Ou est le .exe de {0} ?"
+    PresetRunning   = "{0} est ouvert.`n`n{1}`n`nFerme le jeu maintenant, puis :`nOUI = appliquer a nouveau`nNON = annuler"
     PresetUndoAsk   = "Le SI PRESET {0} est deja applique.`n`nOUI = remettre ta configuration d'origine (Annuler)`nNON = l'appliquer de nouveau"
     PresetsTitle    = 'SI PRESETS'
     PresetsIntro    = 'Configurations extremes faites dans les videos SI NEWS. Trouve = le jeu est sur ce PC.'
@@ -584,6 +590,13 @@ function Invoke-SIGamePreset {
         $first = (@($r.Lines | Where-Object { $_ }) | Select-Object -Last 1)
         $r2 = Invoke-SIPresetPickRetry -Entry $Entry -Window $win -Last ([string]$first)
         if ($r2) { $r = $r2; $picked = 'after exe pick' }
+        elseif ([string]$first -match '(?i)is running') {
+            # 15 presets stop when their game is open (it writes its config when it closes): close it and retry here
+            $ask = (Get-SICommunityText 'PresetRunning') -f $Entry.Game, $first
+            if (Show-SIMessage -Window $win -Title "SI PRESET $($Entry.Title)" -Text $ask) {
+                $r = Invoke-SIPresetScript -Entry $Entry; $picked = 'after closing the game'
+            }
+        }
     }
     if ($bk -and $bk.Text) { $r.Lines = @($r.Lines) + @('', [string]$bk.Text) }
     [void]$win.Activate()

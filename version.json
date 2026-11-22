@@ -1,6 +1,6 @@
 {
-  "Version": "2026.11.22.1",
-  "Notes": "When a preset cannot find its game, SIGAME asks for the game's .exe, adds it to your games and applies again; SI DLSS v2: latest DLSS DLLs with the preset the NVIDIA driver recommends for each quality level",
+  "Version": "2026.11.22.2",
+  "Notes": "When a preset stops because its game is open, SIGAME asks you to close the game and applies again in 1 click (no need to find the preset again)",
   "Files": [
     {
       "Path": "SI-GAME-AUTO.ps1",
@@ -48,7 +48,7 @@
     },
     {
       "Path": "modules/10-community.ps1",
-      "Sha256": "a81885fa9e35720d6a91b669860be12ccfec358ca1170cc8727ef44e7ec4343c"
+      "Sha256": "52d0223ab247f235b75c42876c1d98d93e5bc6fb2a5e0ce65c2a7151cd325c33"
     },
     {
       "Path": "modules/11-fps.ps1",
@@ -68,7 +68,7 @@
     },
     {
       "Path": "modules/15-lang.ps1",
-      "Sha256": "22d5579971e258b21a93590d63fa31c52aba2ce753d4ba8e23eda4a161b9861f"
+      "Sha256": "78dc4e5074d2ac7dcea8e84b5d9a20be8754c741f006045ab7ff23a23ca9f6a9"
     },
     {
       "Path": "modules/16-extra.ps1",
@@ -80,10 +80,10 @@
     }
   ],
   "NotesLang": {
-    "it": "Se un preset non trova il gioco, SIGAME chiede il .exe del gioco, lo aggiunge ai tuoi giochi e riapplica; SI DLSS v2: DLL DLSS piu' recenti con il preset che il driver NVIDIA consiglia per ogni livello di qualita'",
-    "pt-BR": "Quando um preset nao acha o jogo, o SIGAME pede o .exe do jogo, adiciona aos seus jogos e aplica de novo; SI DLSS v2: DLLs DLSS mais recentes com o preset que o driver NVIDIA recomenda para cada nivel de qualidade",
-    "es": "Si un preset no encuentra el juego, SIGAME pide el .exe del juego, lo agrega a tus juegos y aplica de nuevo; SI DLSS v2: DLL DLSS mas recientes con el preset que el driver NVIDIA recomienda para cada nivel de calidad",
-    "de": "Findet ein Preset das Spiel nicht, fragt SIGAME nach der .exe des Spiels, fuegt sie deinen Spielen hinzu und wendet erneut an; SI DLSS v2: neueste DLSS-DLLs mit dem Preset, das der NVIDIA-Treiber fuer jede Qualitaetsstufe empfiehlt",
-    "fr": "Si un preset ne trouve pas le jeu, SIGAME demande le .exe du jeu, l'ajoute a tes jeux et applique a nouveau ; SI DLSS v2 : DLL DLSS les plus recentes avec le preset que le pilote NVIDIA recommande pour chaque niveau de qualite"
+    "it": "Se un preset si ferma perche' il gioco e' aperto, SIGAME ti chiede di chiudere il gioco e riapplica in 1 clic",
+    "pt-BR": "Quando um preset para porque o jogo esta aberto, o SIGAME pede para fechar o jogo e aplica de novo em 1 clique",
+    "es": "Si un preset se detiene porque el juego esta abierto, SIGAME te pide cerrar el juego y aplica de nuevo en 1 clic",
+    "de": "Stoppt ein Preset, weil das Spiel offen ist, bittet SIGAME dich, das Spiel zu schliessen, und wendet mit 1 Klick erneut an",
+    "fr": "Si un preset s'arrete parce que le jeu est ouvert, SIGAME te demande de fermer le jeu et applique a nouveau en 1 clic"
   }
 }
