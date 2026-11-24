@@ -1002,6 +1002,28 @@
         "de": "Schreibt nur Fast Flags aus Roblox' offizieller Allowlist in die eigene ClientAppSettings.json von Roblox: Gras aus und MSAA aus; bei reiner Intel-Grafik auch die niedrigste Texturqualitaet. Roblox sagt, Flags ausserhalb dieser Liste werden ignoriert und gegen Nutzer wird nichts unternommen. Deine anderen Flags bleiben. Schliesse zuerst Roblox; nach einem Roblox-Update erneut ANWENDEN. Bloxstrap-Nutzer: dieselben Flags in Bloxstrap setzen. Erst Backup, RUECKGAENGIG stellt deine Datei exakt wieder her. Miss mit deinem eigenen FPS-Zaehler.",
         "fr": "Ecrit seulement des Fast Flags de l'allowlist officielle de Roblox dans le ClientAppSettings.json de Roblox : herbe desactivee et MSAA desactive ; avec des graphismes Intel seuls, aussi la qualite de textures la plus basse. Roblox dit que les flags hors de cette liste sont ignores et qu'aucune action n'est prise contre les utilisateurs. Tes autres flags restent. Ferme Roblox d'abord ; apres une mise a jour de Roblox APPLIQUE a nouveau. Utilisateurs de Bloxstrap : mettez les memes flags dans Bloxstrap. Sauvegarde d'abord, ANNULER restaure ton fichier a l'identique. Mesure avec ton propre compteur de FPS."
       }
+    },
+    {
+      "Id": "tmnt-ps2-si-unlocker",
+      "Game": "Teenage Mutant Ninja Turtles 2003 PS2 (PCSX2)",
+      "Title": "SI UNLOCKER",
+      "Match": "(?i)tmnt|ninja turtles|pcsx2",
+      "DetectPath": "%USERPROFILE%\\Documents\\PCSX2",
+      "Script": "tmnt-ps2-si-unlocker.ps1",
+      "Version": 1,
+      "Undo": true,
+      "NeedsGame": false,
+      "Args": "",
+      "Source": "https://github.com/Grokeador/SIGAME",
+      "Video": "",
+      "Summary": {
+        "en": "Fixes the TMNT 2003 PS2 Story Mode character-disappearance bug and configures PCSX2 for crisp 4K 60 FPS widescreen: enables Cheats, Widescreen Patches, 16x AF, Texture Replacement, generates NTSC-U/PAL .pnach files, and writes the Stage-Safe RAM & ISO Asset Remap guide. Backup first, UNDO restores everything cleanly.",
+        "it": "Risolve il bug della scomparsa personaggi in Story Mode su TMNT 2003 PS2 e configura PCSX2 in 4K 60 FPS widescreen: abilita Cheats, Widescreen, AF 16x, Texture Replacement, genera i file .pnach NTSC-U/PAL e la guida Stage-Safe RAM & ISO Asset Remap. Backup prima, UNDO ripristina tutto.",
+        "pt-BR": "Resolve o bug de desaparecimento de personagens no Modo Historia de TMNT 2003 PS2 e configura o PCSX2 em 4K 60 FPS widescreen: ativa Cheats, Widescreen, AF 16x, Texture Replacement, gera arquivos .pnach NTSC-U/PAL e o guia Stage-Safe RAM & ISO Asset Remap. Backup primeiro, DESFAZER restaura tudo.",
+        "es": "Soluciona el bug de desaparicion de personajes en Modo Historia de TMNT 2003 PS2 y configura PCSX2 en 4K 60 FPS panoramico: activa Cheats, Widescreen, AF 16x, Texture Replacement, genera archivos .pnach NTSC-U/PAL y la guia Stage-Safe RAM & ISO Asset Remap. Backup primero, DESHACER restaura todo.",
+        "de": "Behebt den Story-Mode-Charakter-Verschwinden-Bug in TMNT 2003 PS2 und konfiguriert PCSX2 fuer 4K 60 FPS Widescreen: aktiviert Cheats, Widescreen, 16x AF, Texture Replacement, erzeugt NTSC-U/PAL-.pnach-Dateien und die Stage-Safe-Anleitung. Erst Backup, RUECKGAENGIG stellt alles wieder her.",
+        "fr": "Corrige le bug de disparition des personnages en Mode Histoire sur TMNT 2003 PS2 et configure PCSX2 en 4K 60 FPS 16:9 : active Cheats, Widescreen, AF 16x, Texture Replacement, genere les fichiers .pnach NTSC-U/PAL et le guide Stage-Safe. Sauvegarde d abord, ANNULER restaure tout."
+      }
     }
   ],
   "SavesSource": "Ludusavi manifest (MIT, github.com/mtkennerly/ludusavi-manifest), data from PCGamingWiki"
